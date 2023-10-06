@@ -1,20 +1,31 @@
 <header>
   <div class="navbar">
     <ul class="links">
-      <li><a routerLink="/">Home</a></li>
-      <li><a routerLink="/">Schedule</a></li>
-      <!-- <li><a routerLink="/">Student</a></li> -->
-      <div class="menu-container" clickOutside (ClickOutside)="clickedOutside()"> 
-        <div class="menu-toggler" (click)="toggleMenu()">Student</div>
-        <div class="menu" *ngIf="isMenuOpened">
-          <div class="menu-item">See all subjects</div>
-          <div class="menu-item">Add/Delete subjects</div>
+      <li><a routerLink="/subjects">Subjects</a></li>
+      <li><a routerLink="/schedule">Schedule</a></li>
+    </ul>
+
+    <ul class="links">
+      <li><div class="menu-container" clickOutside (ClickOutside)="clickedOutside1()">
+        <div class="menu-toggler" (click)="toggleMenu1()">Teacher</div>
+        <div class="menu" *ngIf="isMenuOpened1">
+          <div class="menu-item" routerLink="/set_free_time">Set free time</div>
+          <div class="menu-item" routerLink="/guaranteed_subjects">Guaranteed subjects</div>
         </div>
-      </div>
-      <li><a routerLink="/">Teacherr</a></li>
-      <li><a routerLink="/">Admin</a></li>
-      <li><a routerLink="/">Sign up</a></li>
-      <li><a routerLink="/">Sign in</a></li>
+      </div></li>
+
+      <li><div class="menu-container" clickOutside (ClickOutside)="clickedOutside2()">
+        <div class="menu-toggler" (click)="toggleMenu2()">Admin</div>
+        <div class="menu" *ngIf="isMenuOpened2">
+          <div class="menu-item" routerLink="/users">Users</div>
+          <div class="menu-item" routerLink="/rooms">Rooms</div>
+          <div class="menu-item" routerLink="/subjects_admin">Subjects</div>
+        </div>
+      </div></li>
+    </ul>
+
+    <ul class="links">
+      <li><a routerLink="/sign_in">Sign in</a></li>
     </ul>
   </div>
 </header>

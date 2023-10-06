@@ -7,13 +7,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent{
-  isMenuOpened: boolean = false;
+  isMenuOpened1: boolean = false;
+  isMenuOpened2: boolean = false;
 
-  toggleMenu(): void{
-    this.isMenuOpened = !this.isMenuOpened;
+  toggleMenu1(): void{
+    this.isMenuOpened1 = !this.isMenuOpened1;
   }
 
-  clickedOutside(): void{
-    this.isMenuOpened = false;
+  toggleMenu2(): void{
+    this.isMenuOpened2 = !this.isMenuOpened2;
   }
+
+  clickedOutside1(): void{
+    this.isMenuOpened1 = false;
+  }
+
+  clickedOutside2(): void{
+    this.isMenuOpened2 = false;
+  }
+
 }
