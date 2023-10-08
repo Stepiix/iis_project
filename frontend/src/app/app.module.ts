@@ -14,6 +14,7 @@ import { RoomsComponent } from './rooms/rooms.component';
 import { SubjectsAdminComponent } from './subjects-admin/subjects-admin.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule // Add FormsModule here
+    FormsModule, // Add FormsModule here,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

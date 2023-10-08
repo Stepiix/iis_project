@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -7,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UsersComponent {
   user: { name: string } = { name: '' };
-  
+
   constructor(private http: HttpClient) { }
 
   onSubmit() {
