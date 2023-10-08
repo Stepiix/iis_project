@@ -1,101 +1,97 @@
+DROP TABLE IF EXISTS Subject_Teacher CASCADE;
+DROP TABLE IF EXISTS Subject_Student CASCADE;
 DROP TABLE IF EXISTS Subject CASCADE;
-DROP TABLE IF EXISTS Activity CASCADE;
 DROP TABLE IF EXISTS User CASCADE;
-DROP TABLE IF EXISTS Teacher CASCADE;
+DROP TABLE IF EXISTS Actitivy CASCADE;
+DROP TABLE IF EXISTS Block CASCADE;
 
-
-/*CREATE TABLE Subject (
-    subject_code VARCHAR(10) NOT NULL PRIMARY KEY
+CREATE TABLE User (
+    user_id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    user_firstname VARCHAR(32) NOT NULL,
+    user_lastname VARCHAR(32) NOT NULL,
+    user_email VARCHAR(32) NOT NULL,
+    user_password VARCHAR(32) NOT NULL,
+    user_role VARCHAR(32) NOT NULL
 );
 
-/*CREATE TABLE Activity ();
-CREATE TABLE Person ();
-CREATE TABLE Subject_teacher ();
+CREATE TABLE Subject (
+    subject_code VARCHAR(32) NOT NULL PRIMARY KEY,
+    subject_name VARCHAR(64) NOT NULL,
+    subject_annotation TEXT,
+    subject_guarantor INTEGER NOT NULL,
 
-/*CREATE TABLE Client (
-                        client_pid INTEGER NOT NULL PRIMARY KEY,
-                        first_name VARCHAR(20) NOT NULL,
-                        last_name VARCHAR(20) NOT NULL,
-                        date_of_birth DATE NOT NULL,
-                        address VARCHAR(40) NOT NULL,
-                        phone_number VARCHAR(20) NOT NULL,
-                        email VARCHAR(30) NOT NULL
-                            CHECK(REGEXP_LIKE(
-                                    email, '^[a-z]+[a-z0-9\.-]*@[a-z0-9\.-]+\.[a-z]{2,4}$', 'i'
-                                )),
-                        password VARCHAR(30) NOT NULL
+    CONSTRAINT FK_subject_guarantor
+        FOREIGN KEY (subject_guarantor) REFERENCES User(user_id)
 );
 
-CREATE TABLE Bank_employee (
-                               employee_pid INTEGER NOT NULL PRIMARY KEY,
-                               max_amount_to_handle DECIMAL(10,2) NOT NULL,
+CREATE TABLE Subject_Teacher (
+    subject_code VARCHAR(32) NOT NULL,
+    user_id INTEGER NOT NULL,
 
-                               CONSTRAINT FK_bank_employee_pid
-                                   FOREIGN KEY (employee_pid) REFERENCES Client(client_pid)
+    PRIMARY KEY (subject_code, user_id),
+
+    CONSTRAINT FK_subject_code
+        FOREIGN KEY (subject_code) REFERENCES Subject(subject_code)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+
+    CONSTRAINT FK_user_id
+        FOREIGN KEY (user_id) REFERENCES User(user_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE Account (
-                         account_number VARCHAR(20) NOT NULL PRIMARY KEY
-                             CHECK(REGEXP_LIKE(
-                                     account_number, '^(?:([0-9]{1,6})-)?([0-9]{2,10})\/([0-9]{4})$'
-                                 )),
-                         balance DECIMAL(10,2) NOT NULL,
-                         date_of_creation DATE NOT NULL,
+CREATE TABLE Subject_Student (
+    subject_code VARCHAR(32) NOT NULL,
+    user_id INTEGER NOT NULL,
 
-                         owned_by INTEGER NOT NULL,
-                         created_by INTEGER NOT NULL,
+    PRIMARY KEY (subject_code, user_id),
 
-                         CONSTRAINT FK_account_owner
-                             FOREIGN KEY (owned_by) REFERENCES Client(client_pid),
+    CONSTRAINT FK_student_subject_code
+        FOREIGN KEY (subject_code) REFERENCES Subject(subject_code)
+        ON DELETE CASCADE ON UPDATE CASCADE,
 
-                         CONSTRAINT FK_account_creator
-                             FOREIGN KEY (created_by) REFERENCES Bank_employee(employee_pid)
+    CONSTRAINT FK_student
+        FOREIGN KEY (user_id) REFERENCES User(user_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE Savings_account (
-                                 account_number VARCHAR(20) NOT NULL PRIMARY KEY,
-                                 interest DECIMAL(10, 2) NOT NULL,
+CREATE TABLE Activity (
+    activity_id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    activity_type VARCHAR(32) NOT NULL,
+    activity_length TIME NOT NULL,
+    activity_week VARCHAR(32) NOT NULL,
+    activity_subject_code VARCHAR(32) NOT NULL,
+    activity_teacher INTEGER NOT NULL,
 
-                                 CONSTRAINT FK_savings_account_number
-                                     FOREIGN KEY (account_number) REFERENCES Account(account_number)
+    CONSTRAINT FK_activity_subject_code
+        FOREIGN KEY (activity_subject_code) REFERENCES Subject(subject_code)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+
+    CONSTRAINT FK_teacher
+        FOREIGN KEY (activity_teacher) REFERENCES User(user_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE Checking_account (
-                                  account_number VARCHAR(20) NOT NULL PRIMARY KEY,
-                                  daily_limit INTEGER NOT NULL,
+CREATE TABLE A_Block (
+    a_block_id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    a_block_day VARCHAR(32) NOT NULL,
+    a_block_begin TIME NOT NULL,
+    a_block_end TIME NOT NULL,
+    a_block_activity_id INTEGER NOT NULL,
+    a_block_confirmed BOOL NOT NULL,
 
-                                  CONSTRAINT FK_checking_account_number
-                                      FOREIGN KEY (account_number) REFERENCES Account(account_number)
+    CONSTRAINT FK_a_block_activity_id
+        FOREIGN KEY (a_block_activity_id) REFERENCES Activity(activity_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE Account_Clients (
-                                 account_number VARCHAR(20) NOT NULL,
-                                 client_pid INTEGER NOT NULL,
+CREATE TABLE T_Block (
+    t_block_id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    t_block_day VARCHAR(32) NOT NULL,
+    t_block_begin TIME NOT NULL,
+    t_block_end TIME NOT NULL,
+    t_block_user_id INTEGER NOT NULL,
 
-                                 PRIMARY KEY (account_number, client_pid),
-
-                                 CONSTRAINT FK_Account_Client_Account FOREIGN KEY (account_number) REFERENCES Account(account_number),
-
-                                 CONSTRAINT FK_Account_Client_Client FOREIGN KEY (client_pid) REFERENCES Client(client_pid)
+    CONSTRAINT FK_t_block_user_id
+        FOREIGN KEY (t_block_user_id) REFERENCES User(user_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-CREATE TABLE Transaction_ (
-                              transaction_id INTEGER GENERATED AS IDENTITY NOT NULL PRIMARY KEY,
-                              amount INTEGER NOT NULL,
-                              operation VARCHAR(20) NOT NULL
-                                  CHECK(operation IN ('withdrawal', 'deposit', 'payment')),
-                              date_of_transaction DATE NOT NULL,
-
-                              requested_by INTEGER NOT NULL,
-                              made_by INTEGER NOT NULL,
-                              on_account VARCHAR(20) NOT NULL,
-
-                              CONSTRAINT FK_requested_by
-                                  FOREIGN KEY (requested_by) REFERENCES Client(client_pid),
-
-                              CONSTRAINT FK_made_by
-                                  FOREIGN KEY (made_by) REFERENCES Bank_employee(employee_pid),
-
-                              CONSTRAINT FK_on_account
-                                  FOREIGN KEY (on_account) REFERENCES Account(account_number)
-);*/
