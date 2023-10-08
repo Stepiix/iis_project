@@ -13,6 +13,7 @@ import { UsersComponent } from './users/users.component';
 import { RoomsComponent } from './rooms/rooms.component';
 import { SubjectsAdminComponent } from './subjects-admin/subjects-admin.component';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { FormsModule } from '@angular/forms'; // Import FormsModule
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { SignInComponent } from './sign-in/sign-in.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule // Add FormsModule here
   ],
   providers: [],
   bootstrap: [AppComponent]
