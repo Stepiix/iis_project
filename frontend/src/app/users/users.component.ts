@@ -12,7 +12,7 @@ export class UsersComponent {
   constructor(private http: HttpClient) { }
 
   onSubmit() {
-    this.http.post('http://your-backend-url/api/save-user.php', this.user)
+    this.http.post('http://localhost/iis_project/backend/api/user/create.php', this.user)
       .subscribe(
         (response) => {
           // Handle a successful response from the server
