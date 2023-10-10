@@ -7,7 +7,19 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent {
-  user: { name: string } = { name: '' };
+  user: {
+    firstname: string;
+    lastname: string;
+    email: string;
+    password: string;
+    role: string;
+  } = { 
+    firstname: '',
+    lastname: '',
+    email: '',
+    password: '',
+    role: ''
+  };
 
   constructor(private http: HttpClient) { }
 
