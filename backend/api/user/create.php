@@ -6,7 +6,17 @@ include '../database.php';
 
 /** @var TYPE_NAME $db */
 
-$data = json_decode(file_get_contents("php://input"));
+$user = json_decode(file_get_contents("php://input"));
+
+if (isset($user)) {
+
+    $sql = "INSERT INTO User (user_firstname, user_lastname, user_email, user_password, user_role)
+            VALUES (?, ?, ?, ?, ?)";
+
+    $stmt = $db->prepare($sql);
+
+    $stmt->execute([$user->firstname, $user->lastname, $user->email, $user->password, $user->role]);
+}
 
 $response = array("message" => "Uživatel vytvořen");
 
