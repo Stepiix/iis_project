@@ -15,6 +15,9 @@ import { SubjectsAdminComponent } from './subjects-admin/subjects-admin.componen
 import { SignInComponent } from './sign-in/sign-in.component';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { HttpClientModule } from '@angular/common/http';
+import { UsersService } from './services/users.service';
+import {MatIconModule} from '@angular/material/icon';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -34,9 +37,11 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     FormsModule, // Add FormsModule here,
-    HttpClientModule
+    HttpClientModule,
+    MatIconModule,
+    BrowserAnimationsModule 
   ],
-  providers: [],
+  providers: [UsersService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
