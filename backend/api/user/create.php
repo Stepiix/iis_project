@@ -8,14 +8,21 @@ include '../database.php';
 
 $user = json_decode(file_get_contents("php://input"));
 
-if (isset($user)) {
 
+if (isset($user)) {
+    
+    $debug = array("message" => "Debug info");
+    header("Content-Type: application/json");
+    echo json_encode($debug);
+
+    $pwd = password_hash($user->password, PASSWORD_DEFAULT);
+//    $user->password = "nazdar";
     $sql = "INSERT INTO User (user_firstname, user_lastname, user_email, user_password, user_role)
             VALUES (?, ?, ?, ?, ?)";
 
     $stmt = $db->prepare($sql);
 
-    $stmt->execute([$user->firstname, $user->lastname, $user->email, $user->password, $user->role]);
+    $stmt->execute([$user->firstname, $user->lastname, $user->email, $pwd, $user->role]);
 }
 
 $response = array("message" => "Uživatel vytvořen");
@@ -23,4 +30,4 @@ $response = array("message" => "Uživatel vytvořen");
 http_response_code(200);
 header("Content-Type: application/json");
 
-echo json_encode($response);
+//echo json_encode($response);
