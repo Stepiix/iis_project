@@ -39,6 +39,7 @@ header {
 
 .menu-toggler:hover {
   color: orange;
+  cursor: pointer;
 }
 
 .menu-container {
@@ -57,4 +58,7 @@ header {
 }
 .menu-item:hover{
   color: orange;
+}
+.links:hover{
+  cursor: pointer;
 }

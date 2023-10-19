@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./subjects.component.css']
 })
 export class SubjectsComponent {
-
+  ngOnInit(): void {
+    console.log(sessionStorage);
+  }
 }

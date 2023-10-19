@@ -18,8 +18,9 @@ const routes: Routes = [
   { path: 'rooms', component: RoomsComponent },
   { path: 'subjects_admin', component: SubjectsAdminComponent },
   { path: 'sign_in', component: SignInComponent },
-
 ];
+
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

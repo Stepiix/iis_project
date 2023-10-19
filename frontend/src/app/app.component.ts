@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'iis_project';
+  userRole: string; // Vytvoření proměnné pro ukládání role uživatele
+
+  constructor() {
+    this.userRole = ''; // Inicializace proměnné
+  }
 }

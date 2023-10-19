@@ -10,10 +10,6 @@ $user = json_decode(file_get_contents("php://input"));
 
 
 if (isset($user)) {
-    
-    $debug = array("message" => "Debug info");
-    header("Content-Type: application/json");
-    echo json_encode($debug);
 
     $pwd = password_hash($user->password, PASSWORD_DEFAULT);
 //    $user->password = "nazdar";

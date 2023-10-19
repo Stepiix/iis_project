@@ -19,6 +19,11 @@ import { UsersService } from './services/users.service';
 import {MatIconModule} from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { AngularFireModule } from "@angular/fire/compat";
+import { AngularFireAuthModule } from "@angular/fire/compat/auth";
+import { environment } from '../environments/environment';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +44,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule, // Add FormsModule here,
     HttpClientModule,
     MatIconModule,
-    BrowserAnimationsModule 
+    BrowserAnimationsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
   ],
   providers: [UsersService],
   bootstrap: [AppComponent]
