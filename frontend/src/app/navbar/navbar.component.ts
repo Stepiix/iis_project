@@ -15,19 +15,42 @@ export class NavbarComponent {
     // Check user's login status when the component is created
   }
 
+  scheduleClick(): void {
+    const sessionData = sessionStorage.getItem('userSession');
+    if (sessionData) {
+      this.router.navigate(['/schedule']);
+    } else {
+      this.showUnauthorizedAlert();
+    }
+  }
   toggleMenu1(): void {
     const sessionData = sessionStorage.getItem('userSession');
     if (sessionData) {
       const userData = JSON.parse(sessionData);
       const userRole = userData.userRole;
-      if(userRole === "teacher" || userRole === "admin"){
+      if (userRole === "teacher" || userRole === "admin") {
         this.isMenuOpened1 = !this.isMenuOpened1;
-      } 
+      } else {
+        this.showUnauthorizedAlert();
+      }
+    } else {
+      this.showUnauthorizedAlert();
     }
   }
 
   toggleMenu2(): void {
-    this.isMenuOpened2 = !this.isMenuOpened2;
+    const sessionData = sessionStorage.getItem('userSession');
+    if (sessionData) {
+      const userData = JSON.parse(sessionData);
+      const userRole = userData.userRole;
+      if (userRole === "admin") {
+        this.isMenuOpened2 = !this.isMenuOpened2;
+      } else {
+        this.showUnauthorizedAlert();
+      }
+    } else {
+      this.showUnauthorizedAlert();
+    }
   }
 
 
@@ -55,6 +78,28 @@ export class NavbarComponent {
       // You can navigate to the login page or perform a login action here
       this.router.navigate(['/sign_in']);
     }
+  }
+
+  showUnauthorizedAlert() {
+    const welcomeAlert = document.createElement('div');
+    welcomeAlert.textContent = 'K tomuto nemáš přístup';
+    welcomeAlert.style.position = 'fixed';
+    welcomeAlert.style.top = '10%';
+    welcomeAlert.style.left = '50%';
+    welcomeAlert.style.transform = 'translate(-50%, -50%)';
+    welcomeAlert.style.padding = '15px';
+    welcomeAlert.style.width = '100%';
+    welcomeAlert.style.background = '#FF6666';
+    welcomeAlert.style.color = 'white';
+    welcomeAlert.style.borderRadius = '5px';
+    welcomeAlert.style.whiteSpace = 'nowrap';
+    welcomeAlert.style.textAlign = 'center';
+    document.body.appendChild(welcomeAlert);
+
+    // Automatické skrytí alertu po 2 sekundách (2000 ms)
+    window.setTimeout(() => {
+      welcomeAlert.style.display = 'none';
+    }, 2000);
   }
 
 

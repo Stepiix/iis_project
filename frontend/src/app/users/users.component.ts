@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UsersService } from '../services/users.service';
-
+import { AuthorizationService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -30,10 +31,16 @@ export class UsersComponent implements OnInit{
   showAllUsersButtonText: string = "See all users";
 
 
-  constructor(private http: HttpClient, private usersService: UsersService) {} // Inject UsersService
+  constructor(private http: HttpClient, private usersService: UsersService, private authService: AuthorizationService, private router: Router) {} // Inject UsersService
 
   ngOnInit(): void {
     this.loadUsers(); // Call a function to load users when the component initializes
+    if (this.authService.isAuthorized('admin')) {
+      console.log('ScheduleComponent initialized for authorized student.');
+    } else {
+      this.router.navigate(['/']);
+      this.authService.showUnauthorizedAlert();
+    }
   }
 
   loadUsers() {

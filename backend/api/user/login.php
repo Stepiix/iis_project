@@ -34,8 +34,6 @@ if (isset($user)) {
 
     if ($data && password_verify($password, $data['user_password'])) {
         // Přihlášení bylo úspěšné
-        session_start();
-        $_SESSION['user'] = $login;
         
         // Vrátit úspěch a roli uživatele
         $response = array(

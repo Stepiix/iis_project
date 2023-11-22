@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-sign-in',
@@ -20,6 +21,7 @@ export class SignInComponent {
     };
 
   users: any[] = [];
+  snackBar: any;
   constructor(private http: HttpClient, private router: Router, private auth: AuthService) { }
 
 
@@ -35,28 +37,24 @@ export class SignInComponent {
       const userID = response.userID;
 
       if (userRole === 'student') {
-        console.log("je to student");
-        console.log("ID studenta je " + userID);
-        // Uživatel je student
-        // Provádějte akce pro studenta
         this.startUserSession(userID, 'student');
       } else if (userRole === 'teacher') {
-        console.log("");
-        // Uživatel je učitel
-        // Provádějte akce pro učitele
         this.startUserSession(userID, 'teacher');
+      } else if(userRole === "admin") {
+        this.startUserSession(userID, 'admin');
       }
+      console.log("Je to " + userRole);
       this.router.navigate(['/']);
       this.auth.login();
+      this.showWelcomeAlert();
 
-      // Zde můžete provádět další kroky na základě response
     },
     error: (error: any) => {
       // Handle errors here
       console.log("Chyba při přihlášení:", error);
+      alert("Zadal jste špatné jméno nebo heslo");
     }
   });
-
   }
 
   startUserSession(userID: string, userRole: string) {
@@ -70,6 +68,25 @@ export class SignInComponent {
     sessionStorage.setItem('userSession', JSON.stringify(sessionData));
   
     // Další kroky, jako přesměrování na stránku po přihlášení atd.
+  }
+
+  showWelcomeAlert() {
+    const welcomeAlert = document.createElement('div');
+    welcomeAlert.textContent = 'Vítejte';
+    welcomeAlert.style.position = 'fixed';
+    welcomeAlert.style.top = '20%';
+    welcomeAlert.style.left = '50%';
+    welcomeAlert.style.transform = 'translate(-50%, -50%)';
+    welcomeAlert.style.padding = '15px 100%';
+    welcomeAlert.style.background = '#4CAF50';
+    welcomeAlert.style.color = 'white';
+    welcomeAlert.style.borderRadius = '5px';
+    document.body.appendChild(welcomeAlert);
+  
+    // Automatické skrytí alertu po 2 sekundách (2000 ms)
+    window.setTimeout(() => {
+      welcomeAlert.style.display = 'none';
+    }, 2000);
   }
 
 }
