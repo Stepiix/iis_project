@@ -16,6 +16,9 @@ export class UsersService {
     console.log("user id is ",userId);
     return this.http.delete(`${this.apiUrlUsers}/deleteuser.php?id=${userId}`);
   }
+  editUser(user: any){
+    return this.http.put(`${this.apiUrlUsers}/edituser.php`, user);
+  }
   getRooms() {
     return this.http.get(`${this.apiUrlRooms}/getAll.php`);
   }

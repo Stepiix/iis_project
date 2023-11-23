@@ -80,6 +80,7 @@ export class UsersComponent implements OnInit{
   }
   endEditUser(user: any) {
     // Ukončit režim editace pro daného uživatele
+    this.usersService.editUser(user);
     this.userInEditMode[user.user_id] = false;
   }
   toggleFormVisibility() {
