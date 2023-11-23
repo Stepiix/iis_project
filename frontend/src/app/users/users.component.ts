@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { UsersService } from '../services/users.service';
 import { AuthorizationService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-users',
@@ -31,7 +32,7 @@ export class UsersComponent implements OnInit{
   showAllUsersButtonText: string = "See all users";
 
 
-  constructor(private http: HttpClient, private usersService: UsersService, private authService: AuthorizationService, private router: Router) {} // Inject UsersService
+  constructor(private http: HttpClient, private usersService: UsersService, private authService: AuthorizationService, private router: Router, private auth: AuthService) {} // Inject UsersService
 
   ngOnInit(): void {
     this.loadUsers(); // Call a function to load users when the component initializes
@@ -50,7 +51,9 @@ export class UsersComponent implements OnInit{
   }
 
   onSubmit() {
-    console.log("studentova role je ",this.user.role);
+    this.isFormVisible = !this.isFormVisible;
+    this.addButtonText = "Add User";
+    this.showCreatedAlert();
     this.http.post('http://localhost/iis_project/backend/api/user/create.php', this.user)
       .subscribe(
         (response) => {
@@ -81,6 +84,9 @@ export class UsersComponent implements OnInit{
   endEditUser(user: any) {
     // Ukončit režim editace pro daného uživatele
     this.usersService.editUser(user);
+    console.log("------------");
+    console.log(user);
+    console.log("------------");
     this.userInEditMode[user.user_id] = false;
   }
   toggleFormVisibility() {
@@ -98,5 +104,26 @@ export class UsersComponent implements OnInit{
     } else {
       this.showAllUsersButtonText = "See all users";
     }
+  }
+  showCreatedAlert() {
+    const welcomeAlert = document.createElement('div');
+    welcomeAlert.textContent = 'User vytvořen';
+    welcomeAlert.style.position = 'fixed';
+    welcomeAlert.style.top = '10%';
+    welcomeAlert.style.left = '50%';
+    welcomeAlert.style.transform = 'translate(-50%, -50%)';
+    welcomeAlert.style.padding = '15px';
+    welcomeAlert.style.width = '100%';
+    welcomeAlert.style.background = '#00FF00';
+    welcomeAlert.style.color = 'white';
+    welcomeAlert.style.borderRadius = '5px';
+    welcomeAlert.style.whiteSpace = 'nowrap';
+    welcomeAlert.style.textAlign = 'center';
+    document.body.appendChild(welcomeAlert);
+
+    // Automatické skrytí alertu po 2 sekundách (2000 ms)
+    window.setTimeout(() => {
+      welcomeAlert.style.display = 'none';
+    }, 2000);
   }
 }
