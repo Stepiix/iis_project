@@ -18,7 +18,7 @@ export class SubjectsAdminComponent implements OnInit{
     code: '',
     name: '',
     annotation: '',
-    guarantor: 54,
+    guarantor: 0,
   };
   teachers: any[] = [];
   subjects: any[] = [];
@@ -62,6 +62,10 @@ export class SubjectsAdminComponent implements OnInit{
       this.teachers = data.records;
       console.log(this.teachers);
     });
+  }
+  getTeacherName(id: string) {
+    let teacher = this.teachers.find(t => t.user_id === id);
+    return teacher ? teacher.user_firstname + " " + teacher.user_lastname : 'undefined';
   }
   loadSubjects() {
     this.usersService.getSubjects().subscribe((data: any) => {
