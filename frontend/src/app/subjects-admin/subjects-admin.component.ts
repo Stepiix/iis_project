@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { AuthorizationService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -28,7 +28,7 @@ export class SubjectsAdminComponent implements OnInit{
   isFormVisible: boolean = false;
   addButtonText: string = "Add Subjects";
 
-  constructor(private authService: AuthorizationService, private router: Router, private http: HttpClient, private usersService: UsersService) {}
+  constructor(private authService: AuthorizationService, private router: Router, private http: HttpClient, private usersService: UsersService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.loadSubjects();
@@ -60,11 +60,11 @@ export class SubjectsAdminComponent implements OnInit{
   loadTeachers() {
     this.usersService.getTeachers().subscribe((data: any) => {
       this.teachers = data.records;
-      console.log(this.teachers);
     });
   }
   getTeacherName(id: string) {
-    let teacher = this.teachers.find(t => t.user_id === id);
+    console.log(id);
+    let teacher = this.teachers.find(t => t.user_id == id);
     return teacher ? teacher.user_firstname + " " + teacher.user_lastname : 'undefined';
   }
   loadSubjects() {
@@ -95,10 +95,12 @@ export class SubjectsAdminComponent implements OnInit{
   endEditSubject(subject: any) {
     // Ukončit režim editace pro daného uživatele
     this.subjectInEditMode[subject.subject_code] = false;
+    this.cdr.detectChanges();
   }
   editSubject(room: any) {
     console.log("editujeme ",room.subject_code)
     // Nastavit režim editace pro daného uživatele
     this.subjectInEditMode[room.subject_code] = true;
+    this.cdr.detectChanges();
   }
 }
