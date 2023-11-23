@@ -23,7 +23,7 @@ if (isset($user)) {
 
     $stmt = $db->prepare($sql);
 
-    $stmt->execute([$user->user_firstname, $user->user_lastname, $user->user_email, $user->user_role, $user->id]);
+    $stmt->execute([$user->firstname, $user->lastname, $user->email, $user->role, $user->id]);
 }
 
 $response = array("message" => "Uzivatel upraven");
