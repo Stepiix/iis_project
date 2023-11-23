@@ -83,7 +83,7 @@ export class UsersComponent implements OnInit{
   }
   endEditUser(user: any) {
     // Ukončit režim editace pro daného uživatele
-    this.usersService.editUser(user);
+    this.usersService.editUser(user).subscribe(() => this.loadUsers());
     console.log("------------");
     console.log(user);
     console.log("------------");
