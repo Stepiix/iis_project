@@ -9,21 +9,21 @@
         <label for="user_firstname">Subject code:</label>
         <input type="text" id="user_firstname" name="user_firstname" [(ngModel)]="subject.code" required>
       </div>
-    
+
       <div class="form-group">
         <label for="user_lastname">Subject name:</label>
         <input type="text" id="user_lastname" name="user_lastname" [(ngModel)]="subject.name" required>
       </div>
-    
+
       <div class="form-group">
         <label for="user_email">Subject annotation:</label>
         <input type="text" id="user_email" name="user_email" [(ngModel)]="subject.annotation" required>
       </div>
-    
+
       <div class="form-group">
-        <label for="user_role">Subject garantor:</label>
+        <label for="user_role">Subject guarantor:</label>
         <select id="user_role" name="user_role" [(ngModel)]="subject.guarantor" required>
-          <!-- <option *ngFor="let user of teacherUsers" [value]="user.id">{{ user.id }}</option> -->
+          <option *ngFor="let teacher of teachers" [value]="teacher.user_id">{{ teacher.user_firstname + " " + teacher.user_lastname }}</option>
         </select>
       </div>
       <button type="submit" class="login-button">Add subject</button>

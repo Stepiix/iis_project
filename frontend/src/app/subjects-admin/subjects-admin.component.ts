@@ -14,12 +14,13 @@ export class SubjectsAdminComponent implements OnInit{
     name: string;
     annotation: string;
     guarantor: number;
-  } = { 
+  } = {
     code: '',
     name: '',
     annotation: '',
     guarantor: 54,
   };
+  teachers: any[] = [];
   subjects: any[] = [];
   subjectInEditMode: boolean[] = [];
   showAllSubjectsTable: boolean = false;
@@ -32,6 +33,7 @@ export class SubjectsAdminComponent implements OnInit{
   ngOnInit(): void {
     if (this.authService.isAuthorized('admin')) {
       console.log('ScheduleComponent initialized for authorized student.');
+      this.loadTeachers();
     } else {
       this.router.navigate(['/']);
       this.authService.showUnauthorizedAlert();
@@ -52,6 +54,13 @@ export class SubjectsAdminComponent implements OnInit{
     } else {
       this.addButtonText = "Add Subject";
     }
+  }
+
+  loadTeachers() {
+    this.usersService.getTeachers().subscribe((data: any) => {
+      this.teachers = data.records;
+      console.log(this.teachers);
+    });
   }
   loadSubjects() {
     this.usersService.getSubjects().subscribe((data: any) => {

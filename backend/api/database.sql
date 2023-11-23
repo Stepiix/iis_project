@@ -1,9 +1,10 @@
-DROP TABLE IF EXISTS Subject_Teacher CASCADE;
-DROP TABLE IF EXISTS Subject_Student CASCADE;
-DROP TABLE IF EXISTS Subject CASCADE;
-DROP TABLE IF EXISTS User CASCADE;
+#DROP TABLE IF EXISTS Subject_Teacher CASCADE;
+#DROP TABLE IF EXISTS Subject_Student CASCADE;
+#DROP TABLE IF EXISTS Subject CASCADE;
+#DROP TABLE IF EXISTS User CASCADE;
 DROP TABLE IF EXISTS Actitivy CASCADE;
-DROP TABLE IF EXISTS Block CASCADE;
+#DROP TABLE IF EXISTS Block CASCADE;
+DROP TABLE IF EXISTS Room CASCADE;
 
 CREATE TABLE User (
     user_id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -60,6 +61,7 @@ CREATE TABLE Activity (
     activity_length TIME NOT NULL,
     activity_week VARCHAR(32) NOT NULL,
     activity_subject_code VARCHAR(32) NOT NULL,
+    activity_room_code VARCHAR(32) NOT NULL,
     activity_teacher INTEGER NOT NULL,
 
     CONSTRAINT FK_activity_subject_code
@@ -68,6 +70,10 @@ CREATE TABLE Activity (
 
     CONSTRAINT FK_teacher
         FOREIGN KEY (activity_teacher) REFERENCES User(user_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+
+    CONSTRAINT FK_activity_room
+        FOREIGN KEY (activity_room_code) REFERENCES Room(room_code)
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -94,4 +100,9 @@ CREATE TABLE T_Block (
     CONSTRAINT FK_t_block_user_id
         FOREIGN KEY (t_block_user_id) REFERENCES User(user_id)
         ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE Room (
+  room_code VARCHAR(32) NOT NULL PRIMARY KEY,
+  room_capacity INTEGER NOT NULL
 );

@@ -31,4 +31,8 @@ export class UsersService {
     return this.http.delete(`${this.apiUrlRooms}/delete.php?room_code=${roomCode}`);
   }
 
+  getTeachers() {
+    return this.http.get(`${this.apiUrlSubjects}/getTeachers.php`);
+  }
+
 }

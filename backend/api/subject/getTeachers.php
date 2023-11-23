@@ -7,7 +7,7 @@ include '../database.php';
 
 try {
   $sql = "SELECT user_id, user_firstname, user_lastname, user_email, user_role FROM User
-          WHERE user_role == 'teacher'";
+          WHERE user_role = 'teacher'";
   $stmt = $db->prepare($sql);
   $stmt->execute();
 
