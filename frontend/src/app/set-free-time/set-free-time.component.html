@@ -1,1 +1,16 @@
-<p>set-free-time works!</p>
+<div class="main-container">
+    <div *ngFor="let day of daysOfWeek; let dayIndex = index" class="day-container">
+        <h3>{{ day }}</h3>
+        <div class="hour-container">
+            <div
+                    *ngFor="let hour of getSelectableHours()"
+                    class="hour"
+                    (click)="toggleTime(dayIndex, hour)"
+                    [ngClass]="{'selected-hour': isSelected(dayIndex, hour) || isHourSelectedInTBlocks(day, hour)}"
+            >
+                {{ hour }}
+            </div>
+        </div>
+    </div>
+    <button (click)="onSave()">Save</button>
+</div>

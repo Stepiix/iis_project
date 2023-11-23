@@ -3,8 +3,8 @@
 #DROP TABLE IF EXISTS Subject CASCADE;
 #DROP TABLE IF EXISTS User CASCADE;
 DROP TABLE IF EXISTS Actitivy CASCADE;
-#DROP TABLE IF EXISTS Block CASCADE;
-DROP TABLE IF EXISTS Room CASCADE;
+DROP TABLE IF EXISTS T_Block CASCADE;
+#DROP TABLE IF EXISTS Room CASCADE;
 
 CREATE TABLE User (
     user_id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -80,8 +80,8 @@ CREATE TABLE Activity (
 CREATE TABLE A_Block (
     a_block_id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
     a_block_day VARCHAR(32) NOT NULL,
-    a_block_begin TIME NOT NULL,
-    a_block_end TIME NOT NULL,
+    a_block_begin INT NOT NULL,
+    a_block_end INT NOT NULL,
     a_block_activity_id INTEGER NOT NULL,
     a_block_confirmed BOOL NOT NULL,
 
@@ -93,8 +93,8 @@ CREATE TABLE A_Block (
 CREATE TABLE T_Block (
     t_block_id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
     t_block_day VARCHAR(32) NOT NULL,
-    t_block_begin TIME NOT NULL,
-    t_block_end TIME NOT NULL,
+    t_block_begin INT NOT NULL,
+    t_block_end INT NOT NULL,
     t_block_user_id INTEGER NOT NULL,
 
     CONSTRAINT FK_t_block_user_id
