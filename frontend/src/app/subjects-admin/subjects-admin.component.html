@@ -47,7 +47,7 @@
         <td *ngIf="!subjectInEditMode[subject.subject_code]">{{ subject.subject_name }}</td>
         <td *ngIf="!subjectInEditMode[subject.subject_code]">{{ subject.subject_annotation }}</td>
         <td *ngIf="!subjectInEditMode[subject.subject_code]">{{ getTeacherName(subject.subject_guarantor) }}</td>
-        <td *ngIf="subjectInEditMode[subject.subject_code]"><input [(ngModel)]="subject.subject_code"></td>
+        <td *ngIf="subjectInEditMode[subject.subject_code]">{{ subject.subject_code }}</td>
         <td *ngIf="subjectInEditMode[subject.subject_code]"><input [(ngModel)]="subject.subject_name"></td>
         <td *ngIf="subjectInEditMode[subject.subject_code]"><input [(ngModel)]="subject.subject_annotation"></td>
         <td *ngIf="subjectInEditMode[subject.subject_code]">

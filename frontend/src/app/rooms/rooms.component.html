@@ -31,7 +31,7 @@
       <tr *ngFor="let room of rooms">
         <td *ngIf="!roomInEditMode[room.room_code]">{{ room.room_code }}</td>
         <td *ngIf="!roomInEditMode[room.room_code]">{{ room.room_capacity }}</td>
-        <td *ngIf="roomInEditMode[room.room_code]"><input [(ngModel)]="room.room_code"></td>
+        <td *ngIf="roomInEditMode[room.room_code]">{{ room.room_code }}</td>
         <td *ngIf="roomInEditMode[room.room_code]"><input [(ngModel)]="room.room_capacity"></td>
         <td><button (click)="deleteRoom(room)" class="icon-button">
           <mat-icon>delete</mat-icon></button></td>

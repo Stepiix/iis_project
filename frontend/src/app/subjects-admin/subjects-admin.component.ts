@@ -42,6 +42,10 @@ export class SubjectsAdminComponent implements OnInit{
   }
   showAllSubjects(){
     this.showAllSubjectsTable = !this.showAllSubjectsTable;
+    if(this.isFormVisible){
+      this.isFormVisible = false;
+      this.addButtonText = "Add Subject"
+    }
     if(this.showAllSubjectsTable) {
       this.showAllSubjectsButtonText = "Cancel";
     } else {
@@ -50,6 +54,10 @@ export class SubjectsAdminComponent implements OnInit{
   }
   toggleFormVisibility() {
     this.isFormVisible = !this.isFormVisible;
+    if(this.showAllSubjectsTable){
+      this.showAllSubjectsTable = false;
+      this.showAllSubjectsButtonText = "See all subjects"
+    }
     if (this.isFormVisible) {
       this.addButtonText = "Cancel";
     } else {
@@ -97,8 +105,9 @@ export class SubjectsAdminComponent implements OnInit{
   }
   endEditSubject(subject: any) {
     // Ukončit režim editace pro daného uživatele
+    this.usersService.editSubject(subject).subscribe(() => this.loadSubjects());
     this.subjectInEditMode[subject.subject_code] = false;
-    this.cdr.detectChanges();
+//    this.cdr.detectChanges();
   }
   editSubject(room: any) {
     console.log("editujeme ",room.subject_code)
