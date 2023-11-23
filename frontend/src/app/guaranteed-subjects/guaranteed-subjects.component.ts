@@ -33,7 +33,10 @@ export class GuaranteedSubjectsComponent implements OnInit{
     }
   }
   loadMySubjects() {
-    this.usersService.getMySubjects().subscribe((data: any) => {
+    console.log("kokutek");
+    console.log(sessionStorage.getItem('userSession'))
+    console.log("-------------")
+    this.usersService.getMySubjects(sessionStorage.getItem('userSession')).subscribe((data: any) => {
       this.subjects = data.records;
     });
   }
