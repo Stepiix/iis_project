@@ -21,4 +21,6 @@ export class SetFreeTimeComponent {
       // Optionally, you can redirect to another route or show an unauthorized message.
     }
   }
+
+  
 }

@@ -84,13 +84,14 @@ export class UsersComponent implements OnInit{
   endEditUser(user: any) {
     // Ukončit režim editace pro daného uživatele
     this.usersService.editUser(user).subscribe(() => this.loadUsers());
-    console.log("------------");
-    console.log(user);
-    console.log("------------");
     this.userInEditMode[user.user_id] = false;
   }
   toggleFormVisibility() {
     this.isFormVisible = !this.isFormVisible;
+    if(this.showAllUsersTable){
+      this.showAllUsersTable = false;
+      this.showAllUsersButtonText = "See all users"
+    }
     if (this.isFormVisible) {
       this.addButtonText = "Cancel";
     } else {
@@ -99,6 +100,10 @@ export class UsersComponent implements OnInit{
   }
   showAllUsers(){
     this.showAllUsersTable = !this.showAllUsersTable;
+    if(this.isFormVisible){
+      this.isFormVisible = false;
+      this.addButtonText = "Add User"
+    }
     if(this.showAllUsersTable) {
       this.showAllUsersButtonText = "Cancel";
     } else {

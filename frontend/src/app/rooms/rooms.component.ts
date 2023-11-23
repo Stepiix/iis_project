@@ -60,6 +60,10 @@ export class RoomsComponent implements OnInit{
   }
   toggleFormVisibility() {
     this.isFormVisible = !this.isFormVisible;
+    if(this.showAllRoomsTable){
+      this.showAllRoomsTable = false;
+      this.showAllRoomsButtonText = "See all rooms"
+    }
     if (this.isFormVisible) {
       this.addButtonText = "Cancel";
     } else {
@@ -68,6 +72,10 @@ export class RoomsComponent implements OnInit{
   }
   showAllRooms(){
     this.showAllRoomsTable = !this.showAllRoomsTable;
+    if(this.isFormVisible){
+      this.isFormVisible = false;
+      this.addButtonText = "Add Room"
+    }
     if(this.showAllRoomsTable) {
       this.showAllRoomsButtonText = "Cancel";
     } else {

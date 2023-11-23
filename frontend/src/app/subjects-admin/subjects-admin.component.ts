@@ -42,6 +42,10 @@ export class SubjectsAdminComponent implements OnInit{
   }
   showAllSubjects(){
     this.showAllSubjectsTable = !this.showAllSubjectsTable;
+    if(this.isFormVisible){
+      this.isFormVisible = false;
+      this.addButtonText = "Add Subject"
+    }
     if(this.showAllSubjectsTable) {
       this.showAllSubjectsButtonText = "Cancel";
     } else {
@@ -50,6 +54,10 @@ export class SubjectsAdminComponent implements OnInit{
   }
   toggleFormVisibility() {
     this.isFormVisible = !this.isFormVisible;
+    if(this.showAllSubjectsTable){
+      this.showAllSubjectsTable = false;
+      this.showAllSubjectsButtonText = "See all subjects"
+    }
     if (this.isFormVisible) {
       this.addButtonText = "Cancel";
     } else {
