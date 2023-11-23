@@ -27,3 +27,4 @@ if (isset($_GET['subject_code'])) {
   // Pokud nebyl předán identifikátor uživatele
   http_response_code(400);
   echo json_encode(array("message" => "Chybi kod predmetu"));
+}
