@@ -20,10 +20,30 @@ export class UsersService {
     const url = `${this.apiUrlUsers}/edit.php`;
     const body = {
       id: user.user_id,
-      user_firstname: user.user_firstname,
-      user_lastname: user.user_lastname,
-      user_email: user.user_email,
-      user_role: user.user_role
+      firstname: user.user_firstname,
+      lastname: user.user_lastname,
+      email: user.user_email,
+      role: user.user_role
+    };
+
+    return this.http.put(url, body);
+  }
+  editRoom(room: any) {
+    const url = `${this.apiUrlRooms}/edit.php`;
+    const body = {
+      code: room.room_code,
+      capacity: room.room_capacity
+    };
+
+    return this.http.put(url, body);
+  }
+  editSubject(subject: any) {
+    const url = `${this.apiUrlSubjects}/edit.php`;
+    const body = {
+      code: subject.subject_code,
+      name: subject.subject_name,
+      annotation: subject.subject_annotation,
+      guarantor: subject.subject_guarantor
     };
 
     return this.http.put(url, body);

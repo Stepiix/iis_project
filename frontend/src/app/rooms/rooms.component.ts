@@ -90,6 +90,7 @@ export class RoomsComponent implements OnInit{
   }
   endEditRoom(room: any) {
     // Ukončit režim editace pro daného uživatele
+    this.usersService.editRoom(room).subscribe(() => this.loadRooms());
     this.roomInEditMode[room.room_code] = false;
   }
   editRoom(room: any) {

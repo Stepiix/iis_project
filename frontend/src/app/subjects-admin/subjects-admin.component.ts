@@ -105,8 +105,9 @@ export class SubjectsAdminComponent implements OnInit{
   }
   endEditSubject(subject: any) {
     // Ukončit režim editace pro daného uživatele
+    this.usersService.editSubject(subject).subscribe(() => this.loadSubjects());
     this.subjectInEditMode[subject.subject_code] = false;
-    this.cdr.detectChanges();
+//    this.cdr.detectChanges();
   }
   editSubject(room: any) {
     console.log("editujeme ",room.subject_code)
