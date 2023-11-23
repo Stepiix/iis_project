@@ -5,14 +5,22 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class UsersService {
-  private apiUrl = 'http://localhost/iis_project/backend/api/user'; // Změňte URL na vaši API
+  private apiUrlUsers = 'http://localhost/iis_project/backend/api/user';
+  private apiUrlRooms = 'http://localhost/iis_project/backend/api/room';
   constructor(private http: HttpClient) {}
   getUsers() {
-    return this.http.get(`${this.apiUrl}/getallusers.php`);
+    return this.http.get(`${this.apiUrlUsers}/getallusers.php`);
   }
   deleteUser(userId: number) {
     console.log("user id is ",userId);
-    return this.http.delete(`${this.apiUrl}/deleteuser.php?id=${userId}`);
+    return this.http.delete(`${this.apiUrlUsers}/deleteuser.php?id=${userId}`);
+  }
+  getRooms() {
+    return this.http.get(`${this.apiUrlRooms}/getAll.php`);
+  }
+  deleteRoom(roomCode: string){
+    console.log("room code je " + roomCode);
+    return this.http.delete(`${this.apiUrlRooms}/delete.php?room_code=${roomCode}`);
   }
 
 }

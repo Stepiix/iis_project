@@ -1,1 +1,43 @@
-<p>rooms works!</p>
+<div class="add-user-button-container">
+    <button class="see-all-users-button" (click)="showAllRooms()">{{ showAllRoomsButtonText }}</button>
+    <button class="add-user-button" (click)="toggleFormVisibility()">{{ addButtonText }}</button>
+</div>
+
+<div class="user-form" *ngIf="isFormVisible">
+    <form (submit)="onSubmit()" class="login-form">
+        <div class="form-group">
+            <label for="user_firstname">Room code:</label>
+            <input type="text" id="user_firstname" name="user_firstname" [(ngModel)]="room.code" required>
+        </div>
+
+        <div class="form-group">
+            <label for="user_lastname">Capacity:</label>
+            <input type="text" id="user_lastname" name="user_lastname" [(ngModel)]="room.capacity" required>
+        </div>
+        <button type="submit" class="login-button">Add user</button>
+    </form>
+</div>
+
+<table class="content-table" *ngIf="showAllRoomsTable">
+    <thead>
+      <tr>
+        <th>code</th>
+        <th>capacity</th>
+        <th>delete</th>
+        <th>edit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let room of rooms">
+        <td *ngIf="!roomInEditMode[room.room_code]">{{ room.room_code }}</td>
+        <td *ngIf="!roomInEditMode[room.room_code]">{{ room.room_capacity }}</td>
+        <td *ngIf="roomInEditMode[room.room_code]"><input [(ngModel)]="room.code"></td>
+        <td *ngIf="roomInEditMode[room.room_code]"><input [(ngModel)]="room.capacity"></td>
+        <td><button (click)="deleteRoom(room)" class="icon-button">
+          <mat-icon>delete</mat-icon></button></td>
+        <td><button (click)="roomInEditMode[room.room_code] ? endEditRoom(room) : editRoom(room)" class="icon-button">
+          <mat-icon>{{ roomInEditMode[room.room_code] ? 'done' : 'edit' }}</mat-icon></button></td>
+      </tr>
+    </tbody>
+  </table>
+

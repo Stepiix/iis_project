@@ -1,0 +1,163 @@
+.content-table{
+    border-collapse: collapse;
+    margin: 50px auto;
+    font-size: 0.9em;
+    min-width: 400px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.content-table thead tr {
+    background-color: #009879;
+    color: white;
+    text-align: left;
+    font-weight: bold;
+}
+
+.content-table th,
+.content-table td {
+    padding: 12px 15px;
+}
+
+.content-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+
+.content-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+
+  .icon-button {
+    background: none;
+    border: none;
+    padding: 0;
+    color: white;
+  }
+
+  /* tady zacina styl tlacitka */
+
+  .add-user-button-container { 
+    text-align: center; /* Zarovnání tlačítek na střed */
+    margin: 70px auto;
+    display: flex;
+    justify-content: space-between; /* Rozestup mezi tlačítky na šířku */
+    max-width: 400px; /* Maximální šířka kontejneru */
+  }
+  
+  .add-user-button {
+    background-color: #009879;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Plynulá změna barvy pozadí */
+  }
+  
+  .add-user-button:hover {
+    background-color: #004638;
+  }
+  
+  /* Druhé tlačítko nemění velikost, má pevnou šířku a větší odstup od prvního tlačítka */
+  .see-all-users-button {
+    background-color: #009879;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Plynulá změna barvy pozadí */
+    margin-left: 10px; /* Odstup od prvního tlačítka */
+    width: 140px; /* Pevná šířka tlačítka */
+  }
+  
+  .see-all-users-button:hover {
+    background-color: #004638;
+  }
+
+
+
+
+
+
+
+
+.login-form {
+  height: 520px;
+  width: 400px;
+  background-color: rgba(255, 255, 255, 0.13);
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+  padding: 50px 35px;
+}
+
+.login-form label,
+.login-form input,
+.login-form {
+  font-family: 'Poppins', sans-serif;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  outline: none;
+  border: none;
+}
+
+.login-form h3 {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 42px;
+  text-align: center;
+}
+
+.login-form label {
+  display: block;
+  margin-top: 30px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.login-form input {
+  display: block;
+  height: 50px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.07);
+  border-radius: 3px;
+  padding: 0 10px;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.login-form ::placeholder {
+  color: #e5e5e5;
+}
+
+.login-button {
+  margin-top: 50px;
+  width: 100%;
+  background-color: #ffffff;
+  color: #080710;
+  padding: 15px 0;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+}
+  
+  
+  
+
+/* .content-table tbody tr.active-row{
+    font-weight: bold;
+    color: #009879;
+} */
