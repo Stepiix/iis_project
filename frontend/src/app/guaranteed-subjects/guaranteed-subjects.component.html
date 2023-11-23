@@ -1,1 +1,16 @@
-<p>guaranteed-subjects works!</p>
+<table class="content-table">
+    <thead>
+      <tr>
+        <th>code</th>
+        <th>name</th>
+        <th>annotation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let subject of subjects">
+        <td>{{ subject.subject_code }}</td>
+        <td>{{ subject.subject_name }}</td>
+        <td>{{ subject.subject_annotation }}</td>
+      </tr>
+    </tbody>
+  </table>
