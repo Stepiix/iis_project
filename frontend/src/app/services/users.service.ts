@@ -24,11 +24,10 @@ export class UsersService {
     return this.http.delete(`${this.apiUrlRooms}/delete.php?room_code=${roomCode}`);
   }
   getSubjects() {
-    return this.http.get(`${this.apiUrlRooms}/getAll.php`);
+    return this.http.get(`${this.apiUrlSubjects}/getAll.php`);
   }
-  deleteSubject(roomCode: string){
-    console.log("room code je " + roomCode);
-    return this.http.delete(`${this.apiUrlRooms}/delete.php?room_code=${roomCode}`);
+  deleteSubject(subjectCode: string){
+    return this.http.delete(`${this.apiUrlSubjects}/delete.php?subject_code=${subjectCode}`);
   }
 
   getTeachers() {

@@ -31,6 +31,7 @@ export class SubjectsAdminComponent implements OnInit{
   constructor(private authService: AuthorizationService, private router: Router, private http: HttpClient, private usersService: UsersService) {}
 
   ngOnInit(): void {
+    this.loadSubjects();
     if (this.authService.isAuthorized('admin')) {
       console.log('ScheduleComponent initialized for authorized student.');
       this.loadTeachers();
@@ -81,11 +82,19 @@ export class SubjectsAdminComponent implements OnInit{
         }
       );
   }
-  deleteSubject(user: any) {
-    const confirmation = confirm(`Are you sure you want to delete ${user.user_firstname} ${user.user_lastname}?`);
+  deleteSubject(subject: any) {
+    const confirmation = confirm(`Are you sure you want to delete ${subject.subject_code}`);
     if (confirmation) {
-      console.log(user.user_id);
-      this.usersService.deleteUser(user.user_id).subscribe(() => this.loadSubjects());
+      this.usersService.deleteSubject(subject.subject_code).subscribe(() => this.loadSubjects());
     }
+  }
+  endEditSubject(subject: any) {
+    // Ukončit režim editace pro daného uživatele
+    this.subjectInEditMode[subject.subject_code] = false;
+  }
+  editSubject(room: any) {
+    console.log("editujeme ",room.subject_code)
+    // Nastavit režim editace pro daného uživatele
+    this.subjectInEditMode[room.subject_code] = true;
   }
 }
