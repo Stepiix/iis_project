@@ -10,17 +10,18 @@ import { UsersService } from '../services/users.service';
 })
 export class SubjectsAdminComponent implements OnInit{
   subject: {
-    subject_code: string;
-    subject_name: string;
-    subject_annotation: string;
-    subject_garantor: string;
+    code: string;
+    name: string;
+    annotation: string;
+    guarantor: number;
   } = { 
-    subject_code: '',
-    subject_name: '',
-    subject_annotation: '',
-    subject_garantor: '',
+    code: '',
+    name: '',
+    annotation: '',
+    guarantor: 54,
   };
   subjects: any[] = [];
+  subjectInEditMode: boolean[] = [];
   showAllSubjectsTable: boolean = false;
   showAllSubjectsButtonText: string = "See all subjects";
   isFormVisible: boolean = false;
@@ -70,5 +71,12 @@ export class SubjectsAdminComponent implements OnInit{
           console.error(error);
         }
       );
+  }
+  deleteSubject(user: any) {
+    const confirmation = confirm(`Are you sure you want to delete ${user.user_firstname} ${user.user_lastname}?`);
+    if (confirmation) {
+      console.log(user.user_id);
+      this.usersService.deleteUser(user.user_id).subscribe(() => this.loadSubjects());
+    }
   }
 }

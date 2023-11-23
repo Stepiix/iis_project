@@ -7,60 +7,59 @@
     <form (submit)="onSubmit()" class="login-form">
       <div class="form-group">
         <label for="user_firstname">Subject code:</label>
-        <input type="text" id="user_firstname" name="user_firstname" [(ngModel)]="subject.subject_code" required>
+        <input type="text" id="user_firstname" name="user_firstname" [(ngModel)]="subject.code" required>
       </div>
     
       <div class="form-group">
         <label for="user_lastname">Subject name:</label>
-        <input type="text" id="user_lastname" name="user_lastname" [(ngModel)]="subject.subject_name" required>
+        <input type="text" id="user_lastname" name="user_lastname" [(ngModel)]="subject.name" required>
       </div>
     
       <div class="form-group">
         <label for="user_email">Subject annotation:</label>
-        <input type="text" id="user_email" name="user_email" [(ngModel)]="subject.subject_annotation" required>
+        <input type="text" id="user_email" name="user_email" [(ngModel)]="subject.annotation" required>
       </div>
     
       <div class="form-group">
         <label for="user_role">Subject garantor:</label>
-        <select id="user_role" name="user_role" [(ngModel)]="subject.subject_garantor" required>
-          <option value="teacher">teacher</option>
-          <option value="student">student</option>
+        <select id="user_role" name="user_role" [(ngModel)]="subject.guarantor" required>
+          <!-- <option *ngFor="let user of teacherUsers" [value]="user.id">{{ user.id }}</option> -->
         </select>
       </div>
-      <button type="submit" class="login-button">Add user</button>
+      <button type="submit" class="login-button">Add subject</button>
     </form>
   </div>
 
   <table class="content-table" *ngIf="showAllSubjectsTable">
     <thead>
       <tr>
-        <th>firstname</th>
-        <th>lastname</th>
-        <th>email</th>
-        <th>role</th>
+        <th>code</th>
+        <th>name</th>
+        <th>annotation</th>
+        <th>guarantor</th>
         <th>delete</th>
         <th>edit</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of users">
-        <td *ngIf="!userInEditMode[user.user_id]">{{ user.user_firstname }}</td>
-        <td *ngIf="!userInEditMode[user.user_id]">{{ user.user_lastname }}</td>
-        <td *ngIf="!userInEditMode[user.user_id]">{{ user.user_email }}</td>
-        <td *ngIf="!userInEditMode[user.user_id]">{{ user.user_role }}</td>
-        <td *ngIf="userInEditMode[user.user_id]"><input [(ngModel)]="user.user_firstname"></td>
-        <td *ngIf="userInEditMode[user.user_id]"><input [(ngModel)]="user.user_lastname"></td>
-        <td *ngIf="userInEditMode[user.user_id]"><input [(ngModel)]="user.user_email"></td>
-        <td *ngIf="userInEditMode[user.user_id]">
-          <select [(ngModel)]="user.user_role">
-            <option value="teacher">Teacher</option>
-            <option value="student">Student</option>
+      <tr *ngFor="let subject of subjects">
+        <td *ngIf="!subjectInEditMode[subject.code]">{{ subject.code }}</td>
+        <td *ngIf="!subjectInEditMode[subject.code]">{{ subject.name }}</td>
+        <td *ngIf="!subjectInEditMode[subject.code]">{{ subject.annotation }}</td>
+        <td *ngIf="!subjectInEditMode[subject.code]">{{ subject.guarantor }}</td>
+        <td *ngIf="subjectInEditMode[subject.code]"><input [(ngModel)]="subject.code"></td>
+        <td *ngIf="subjectInEditMode[subject.code]"><input [(ngModel)]="subject.name"></td>
+        <td *ngIf="subjectInEditMode[subject.code]"><input [(ngModel)]="subject.annotation"></td>
+        <td *ngIf="subjectInEditMode[subject.code]">
+          <select [(ngModel)]="subject.user_role">
+            <option value="teacher">54</option>
+            <option value="student">36</option>
           </select>
         </td>
-        <td><button (click)="deleteUser(user)" class="icon-button">
+        <!-- <td><button (click)="deleteSubject(user)" class="icon-button">
           <mat-icon>delete</mat-icon></button></td>
         <td><button (click)="userInEditMode[user.user_id] ? endEditUser(user) : editUser(user)" class="icon-button">
-          <mat-icon>{{ userInEditMode[user.user_id] ? 'done' : 'edit' }}</mat-icon></button></td>
+          <mat-icon>{{ userInEditMode[user.user_id] ? 'done' : 'edit' }}</mat-icon></button></td> -->
       </tr>
     </tbody>
   </table>

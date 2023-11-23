@@ -77,13 +77,13 @@ export class RoomsComponent implements OnInit{
       this.usersService.deleteRoom(room.room_code).subscribe(() => this.loadRooms());
     }
   }
-  endEditRoom(user: any) {
+  endEditRoom(room: any) {
     // Ukončit režim editace pro daného uživatele
-    this.roomInEditMode[user.user_id] = false;
+    this.roomInEditMode[room.room_code] = false;
   }
-  editRoom(user: any) {
-    console.log("editujeme ",user.user_id)
+  editRoom(room: any) {
+    console.log("editujeme ",room.room_code)
     // Nastavit režim editace pro daného uživatele
-    this.roomInEditMode[user.user_id] = true;
+    this.roomInEditMode[room.room_code] = true;
   }
 }
