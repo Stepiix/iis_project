@@ -1,1 +1,66 @@
-<p>subjects-admin works!</p>
+<div class="add-user-button-container">
+  <button class="see-all-users-button" (click)="showAllSubjects()">{{ showAllSubjectsButtonText }}</button>
+  <button class="add-user-button" (click)="toggleFormVisibility()">{{ addButtonText }}</button>
+</div>
+
+<div class="user-form" *ngIf="isFormVisible">
+    <form (submit)="onSubmit()" class="login-form">
+      <div class="form-group">
+        <label for="user_firstname">Subject code:</label>
+        <input type="text" id="user_firstname" name="user_firstname" [(ngModel)]="subject.subject_code" required>
+      </div>
+    
+      <div class="form-group">
+        <label for="user_lastname">Subject name:</label>
+        <input type="text" id="user_lastname" name="user_lastname" [(ngModel)]="subject.subject_name" required>
+      </div>
+    
+      <div class="form-group">
+        <label for="user_email">Subject annotation:</label>
+        <input type="text" id="user_email" name="user_email" [(ngModel)]="subject.subject_annotation" required>
+      </div>
+    
+      <div class="form-group">
+        <label for="user_role">Subject garantor:</label>
+        <select id="user_role" name="user_role" [(ngModel)]="subject.subject_garantor" required>
+          <option value="teacher">teacher</option>
+          <option value="student">student</option>
+        </select>
+      </div>
+      <button type="submit" class="login-button">Add user</button>
+    </form>
+  </div>
+
+  <table class="content-table" *ngIf="showAllSubjectsTable">
+    <thead>
+      <tr>
+        <th>firstname</th>
+        <th>lastname</th>
+        <th>email</th>
+        <th>role</th>
+        <th>delete</th>
+        <th>edit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td *ngIf="!userInEditMode[user.user_id]">{{ user.user_firstname }}</td>
+        <td *ngIf="!userInEditMode[user.user_id]">{{ user.user_lastname }}</td>
+        <td *ngIf="!userInEditMode[user.user_id]">{{ user.user_email }}</td>
+        <td *ngIf="!userInEditMode[user.user_id]">{{ user.user_role }}</td>
+        <td *ngIf="userInEditMode[user.user_id]"><input [(ngModel)]="user.user_firstname"></td>
+        <td *ngIf="userInEditMode[user.user_id]"><input [(ngModel)]="user.user_lastname"></td>
+        <td *ngIf="userInEditMode[user.user_id]"><input [(ngModel)]="user.user_email"></td>
+        <td *ngIf="userInEditMode[user.user_id]">
+          <select [(ngModel)]="user.user_role">
+            <option value="teacher">Teacher</option>
+            <option value="student">Student</option>
+          </select>
+        </td>
+        <td><button (click)="deleteUser(user)" class="icon-button">
+          <mat-icon>delete</mat-icon></button></td>
+        <td><button (click)="userInEditMode[user.user_id] ? endEditUser(user) : editUser(user)" class="icon-button">
+          <mat-icon>{{ userInEditMode[user.user_id] ? 'done' : 'edit' }}</mat-icon></button></td>
+      </tr>
+    </tbody>
+  </table>

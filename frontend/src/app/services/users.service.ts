@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class UsersService {
   private apiUrlUsers = 'http://localhost/iis_project/backend/api/user';
   private apiUrlRooms = 'http://localhost/iis_project/backend/api/room';
+  private apiUrlSubjects = 'http://localhost/iis_project/backend/api/subject';
   constructor(private http: HttpClient) {}
   getUsers() {
     return this.http.get(`${this.apiUrlUsers}/getallusers.php`);
@@ -19,6 +20,13 @@ export class UsersService {
     return this.http.get(`${this.apiUrlRooms}/getAll.php`);
   }
   deleteRoom(roomCode: string){
+    console.log("room code je " + roomCode);
+    return this.http.delete(`${this.apiUrlRooms}/delete.php?room_code=${roomCode}`);
+  }
+  getSubjects() {
+    return this.http.get(`${this.apiUrlRooms}/getAll.php`);
+  }
+  deleteSubject(roomCode: string){
     console.log("room code je " + roomCode);
     return this.http.delete(`${this.apiUrlRooms}/delete.php?room_code=${roomCode}`);
   }
