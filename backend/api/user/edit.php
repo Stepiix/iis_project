@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 include '../database.php';
 
-/** @var TYPE_NAME $db */
+/** @var PDO $db */
 
 $user = json_decode(file_get_contents("php://input"));
 
