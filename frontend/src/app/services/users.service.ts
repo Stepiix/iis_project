@@ -67,10 +67,10 @@ export class UsersService {
     return this.http.get(`${this.apiUrlSubjects}/getTeachers.php`);
   }
   getMySubjects(user: any){
-    const userID = JSON.parse(user);
-    const userIDfinal = user.userID;
-    console.log(userIDfinal)
-    return this.http.get(`${this.apiUrlSubjects}/getGuarantedSubjectsFromID?id=${user.userID}`);
+    console.log("-------");
+    console.log(user);
+    console.log("-------");
+    return this.http.get(`${this.apiUrlSubjects}/getGuarantedSubjectsFromID?id=${user}`);
   }
 
   getTBlocks(user_id: number) {

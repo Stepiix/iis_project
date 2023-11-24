@@ -84,6 +84,8 @@ export class SubjectsAdminComponent implements OnInit{
     this.isFormVisible = !this.isFormVisible;
     this.addButtonText = "Add Subject"
     this.showCreatedAlert();
+    this.showAllSubjectsTable = true;
+    this.showAllSubjectsButtonText = "Cancel";
     this.http.post('http://localhost/iis_project/backend/api/subject/create.php', this.subject)
       .subscribe(
         (response) => {

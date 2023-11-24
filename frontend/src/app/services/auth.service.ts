@@ -22,6 +22,16 @@ export class AuthorizationService {
       return false;
     }
   }
+
+  getID(): string | null {
+    const sessionData = sessionStorage.getItem('userSession');
+    if (sessionData) {
+      const userData = JSON.parse(sessionData);
+      return userData.userID || null;
+    } else {
+      return null;
+    }
+  }
   showUnauthorizedAlert() {
     const welcomeAlert = document.createElement('div');
     welcomeAlert.textContent = 'K tomuto nemáš přístup';

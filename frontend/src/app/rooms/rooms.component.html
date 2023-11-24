@@ -6,7 +6,7 @@
 <div class="user-form" *ngIf="isFormVisible">
     <form (submit)="onSubmit()" class="login-form">
         <div class="form-group">
-            <label for="user_firstname">Room code:</label>
+            <label for="user_firstname">*Room code:</label>
             <input type="text" id="user_firstname" name="user_firstname" [(ngModel)]="room.code" required>
         </div>
 
@@ -14,7 +14,7 @@
             <label for="user_lastname">Capacity:</label>
             <input type="text" id="user_lastname" name="user_lastname" [(ngModel)]="room.capacity" required>
         </div>
-        <button type="submit" class="login-button">Add user</button>
+        <button type="submit" class="login-button">Add room</button>
     </form>
 </div>
 
