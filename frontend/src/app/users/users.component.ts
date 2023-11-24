@@ -51,9 +51,16 @@ export class UsersComponent implements OnInit{
   }
 
   onSubmit() {
+    if (!this.user.email || !this.user.password || !this.user.role) {
+    this.showCreatedAlert2();
+    return;
+    }
+
     this.isFormVisible = !this.isFormVisible;
     this.addButtonText = "Add User";
     this.showCreatedAlert();
+    this.showAllUsersTable = true;
+    this.showAllUsersButtonText = "Cancel";
     this.http.post('http://localhost/iis_project/backend/api/user/create.php', this.user)
       .subscribe(
         (response) => {
@@ -120,6 +127,27 @@ export class UsersComponent implements OnInit{
     welcomeAlert.style.padding = '15px';
     welcomeAlert.style.width = '100%';
     welcomeAlert.style.background = '#00FF00';
+    welcomeAlert.style.color = 'white';
+    welcomeAlert.style.borderRadius = '5px';
+    welcomeAlert.style.whiteSpace = 'nowrap';
+    welcomeAlert.style.textAlign = 'center';
+    document.body.appendChild(welcomeAlert);
+
+    // Automatické skrytí alertu po 2 sekundách (2000 ms)
+    window.setTimeout(() => {
+      welcomeAlert.style.display = 'none';
+    }, 2000);
+  }
+  showCreatedAlert2() {
+    const welcomeAlert = document.createElement('div');
+    welcomeAlert.textContent = 'Je nutné zadat email, password a roli';
+    welcomeAlert.style.position = 'fixed';
+    welcomeAlert.style.top = '10%';
+    welcomeAlert.style.left = '50%';
+    welcomeAlert.style.transform = 'translate(-50%, -50%)';
+    welcomeAlert.style.padding = '15px';
+    welcomeAlert.style.width = '100%';
+    welcomeAlert.style.background = '#FF0000';
     welcomeAlert.style.color = 'white';
     welcomeAlert.style.borderRadius = '5px';
     welcomeAlert.style.whiteSpace = 'nowrap';

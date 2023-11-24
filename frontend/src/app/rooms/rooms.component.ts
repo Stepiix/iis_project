@@ -45,6 +45,8 @@ export class RoomsComponent implements OnInit{
     this.isFormVisible = !this.isFormVisible;
     this.addButtonText = "Add Room";
     this.showCreatedAlert();
+    this.showAllRoomsTable = true;
+    this.showAllRoomsButtonText = "Cancel";
     this.http.post('http://localhost/iis_project/backend/api/room/create.php', this.room)
       .subscribe(
         (response) => {

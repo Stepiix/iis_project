@@ -15,7 +15,7 @@ try {
             WHERE subject_guarantor = ?";
  
    $stmt = $db->prepare($sql);
-   $stmt->execute();
+   $stmt->execute([$garant]);
   
     $subjects = $stmt->fetchAll(PDO::FETCH_ASSOC);
       
