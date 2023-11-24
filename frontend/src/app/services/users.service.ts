@@ -9,6 +9,7 @@ export class UsersService {
   private apiUrlRooms = 'http://localhost/iis_project/backend/api/room';
   private apiUrlSubjects = 'http://localhost/iis_project/backend/api/subject';
   private apiUrlTBlocks = 'http://localhost/iis_project/backend/api/t_block';
+  private apiUrlActivity = 'http://localhost/iis_project/backend/api/t_block';
   constructor(private http: HttpClient) { }
   getUsers() {
     return this.http.get(`${this.apiUrlUsers}/getallusers.php`);
@@ -75,5 +76,11 @@ export class UsersService {
 
   getTBlocks(user_id: number) {
     return this.http.post(`${this.apiUrlTBlocks}/getAllByUser.php`, {"user_id": user_id});
+  }
+  getActivities(){
+    return this.http.get(`${this.apiUrlActivity}/getAll.php`);
+  }
+  deleteActivity(subjectCode: string) {
+    return this.http.delete(`${this.apiUrlActivity}/delete.php?activity_id=${subjectCode}`);
   }
 }

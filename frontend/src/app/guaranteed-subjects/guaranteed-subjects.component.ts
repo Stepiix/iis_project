@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { UsersService } from '../services/users.service';
@@ -15,28 +15,27 @@ export class GuaranteedSubjectsComponent implements OnInit{
     length: number;
     week: string;
     subject_code: string;
-    teacher: string;
-    room: string;
   } = {
     id: '',
     type: '',
     length: 0,
     week: '',
     subject_code: '',
-    teacher: '',
-    room: '',
   };
+  activityInEditMode: boolean[] = [];
   rooms: any[] = [];
   teachers: any[] = [];
   subjects: any[] = [];
-  showAllSubjectsTable: boolean = false;
+  activities: any[] = [];
+
   isFormVisible: boolean = false;
   addButtonText: string = "Add Activity";
+  showAllSubjectsTable: boolean = false;
   showAllSubjectsButtonText: string = "See all my subjects";
-  showAllActivitiesButtonText: string = "See all activities"
   showAllActivitiesTable: boolean = false;
+  showAllActivitiesButtonText: string = "See all activities"
 
-  constructor(private authService: AuthorizationService, private router: Router, private usersService: UsersService,private http: HttpClient) {}
+  constructor(private authService: AuthorizationService, private router: Router, private usersService: UsersService,private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.loadMySubjects();
@@ -50,7 +49,10 @@ export class GuaranteedSubjectsComponent implements OnInit{
     }
   }
   onSubmit() {
-
+    if(!this.activity.length||!this.activity.subject_code||!this.activity.type||!this.activity.week){
+      this.showCreatedAlert2();
+      return;
+    }
     this.isFormVisible = !this.isFormVisible;
     this.addButtonText = "Add Activity";
     this.showCreatedAlert();
@@ -87,11 +89,21 @@ export class GuaranteedSubjectsComponent implements OnInit{
       this.subjects = data.records;
     });
   }
+  loadActivities(){
+    this.usersService.getActivities().subscribe((data: any) => {
+      this.activities = data.records;
+    });
+  }
+
   showAllSubjects(){
     this.showAllSubjectsTable = !this.showAllSubjectsTable;
     if(this.isFormVisible){
       this.isFormVisible = false;
       this.addButtonText = "Add User"
+    }
+    if(this.showAllActivitiesTable){
+      this.showAllActivitiesTable = false;
+      this.showAllActivitiesButtonText = "See all activities";
     }
     if(this.showAllSubjectsTable) {
       this.showAllSubjectsButtonText = "Cancel";
@@ -105,6 +117,10 @@ export class GuaranteedSubjectsComponent implements OnInit{
       this.showAllSubjectsTable = false;
       this.showAllSubjectsButtonText = "See all my subjects"
     }
+    if(this.showAllActivitiesTable){
+      this.showAllActivitiesTable = false;
+      this.showAllActivitiesButtonText = "See all activities";
+    }
     if (this.isFormVisible) {
       this.addButtonText = "Cancel";
     } else {
@@ -113,7 +129,38 @@ export class GuaranteedSubjectsComponent implements OnInit{
   }
   showAllActivities(){
     this.showAllActivitiesTable = !this.showAllActivitiesTable;
+    if(this.isFormVisible){
+      this.isFormVisible = false;
+      this.addButtonText = "Add Activity";
+    }
+    if(this.showAllSubjectsTable){
+      this.showAllSubjectsTable = false;
+      this.showAllSubjectsButtonText = "See all my subjects";
+    }
+    if(this.showAllActivitiesTable){
+      this.showAllActivitiesButtonText = "Cancel"
+    } else {
+      this.showAllActivitiesButtonText = "See all activities"
+    }
 
+  }
+  deleteActivity(activity: any) {
+    const confirmation = confirm(`Are you sure you want to delete activity you clicked on?`);
+    if (confirmation) {
+      this.usersService.deleteActivity(activity.activity_id).subscribe(() => this.loadActivities());
+    }
+  }
+  endEditActivity(activity: any) {
+    // Ukončit režim editace pro daného uživatele
+    this.usersService.editSubject(activity).subscribe(() => this.loadActivities());
+    this.activityInEditMode[activity.activity_id] = false;
+//    this.cdr.detectChanges();
+  }
+  editActivity(activity: any) {
+    console.log("editujeme ",activity.activity_id)
+    // Nastavit režim editace pro daného uživatele
+    this.activityInEditMode[activity.activity_id] = true;
+    this.cdr.detectChanges();
   }
   showCreatedAlert() {
     const welcomeAlert = document.createElement('div');
@@ -125,6 +172,27 @@ export class GuaranteedSubjectsComponent implements OnInit{
     welcomeAlert.style.padding = '15px';
     welcomeAlert.style.width = '100%';
     welcomeAlert.style.background = '#00FF00';
+    welcomeAlert.style.color = 'white';
+    welcomeAlert.style.borderRadius = '5px';
+    welcomeAlert.style.whiteSpace = 'nowrap';
+    welcomeAlert.style.textAlign = 'center';
+    document.body.appendChild(welcomeAlert);
+
+    // Automatické skrytí alertu po 2 sekundách (2000 ms)
+    window.setTimeout(() => {
+      welcomeAlert.style.display = 'none';
+    }, 2000);
+  }
+  showCreatedAlert2() {
+    const welcomeAlert = document.createElement('div');
+    welcomeAlert.textContent = 'Je nutné zadat druh, délku, opakování a předmět ke kterému aktivita patří';
+    welcomeAlert.style.position = 'fixed';
+    welcomeAlert.style.top = '10%';
+    welcomeAlert.style.left = '50%';
+    welcomeAlert.style.transform = 'translate(-50%, -50%)';
+    welcomeAlert.style.padding = '15px';
+    welcomeAlert.style.width = '100%';
+    welcomeAlert.style.background = '#FF0000';
     welcomeAlert.style.color = 'white';
     welcomeAlert.style.borderRadius = '5px';
     welcomeAlert.style.whiteSpace = 'nowrap';

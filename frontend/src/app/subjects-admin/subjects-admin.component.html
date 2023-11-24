@@ -6,7 +6,7 @@
 <div class="user-form" *ngIf="isFormVisible">
     <form (submit)="onSubmit()" class="login-form">
       <div class="form-group">
-        <label for="user_firstname">Subject code:</label>
+        <label for="user_firstname">*Subject code:</label>
         <input type="text" id="user_firstname" name="user_firstname" [(ngModel)]="subject.code" required>
       </div>
 
