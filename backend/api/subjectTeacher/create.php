@@ -15,7 +15,7 @@ if (isset($subTeach)) {
 
   $stmt = $db->prepare($sql);
 
-  $stmt->execute([$subTeach->subject_code, $subTeach->lenuser_id]);
+  $stmt->execute([$subTeach->subject_code, $subTeach->user_id]);
 }
 
 $response = array("message" => "Predmet prirazen uciteli");
