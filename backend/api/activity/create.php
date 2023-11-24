@@ -12,10 +12,10 @@ $activity = json_decode(file_get_contents("php://input"));
 if (isset($activity)) {
 
   $sql = "INSERT INTO Activity (activity_type, activity_length, activity_week, activity_subject_code, activity_teacher) VALUES (?, ?, ?, ?, ?)";
-
+//INSERT INTO Activity (activity_type, activity_length, activity_week, activity_subject_code, activity_teacher) VALUES ('neco', 2, 'sudy', 'SITE', 83)
   $stmt = $db->prepare($sql);
 
-  $stmt->execute([$activity->type, $activity->length, $activity->week, $activity->subject_code, $activity->activity_teacher]);
+  $stmt->execute([$activity->type, $activity->length, $activity->week, "SITE", $activity->activity_teacher]);
 }
 
 $response = array("message" => "Aktivita vytvorena");
