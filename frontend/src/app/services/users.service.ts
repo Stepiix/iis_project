@@ -66,10 +66,18 @@ export class UsersService {
     return this.http.get(`${this.apiUrlSubjects}/getTeachers.php`);
   }
   getMySubjects(user: any){
-    const userID = JSON.parse(user);
-    const userIDfinal = user.userID;
-    console.log(userIDfinal)
-    return this.http.get(`${this.apiUrlSubjects}/getGuarantedSubjectsFromID?id=${user.userID}`);
+    
+    const url = `${this.apiUrlSubjects}/getGuarantedSubjectsFromID.php`;
+    const body = {
+      id: user.userID
+    };
+    return;
+    // return this.http.get(url, body);
+    
+    // const userID = JSON.parse(user);
+    // const userIDfinal = user.userID;
+    // console.log(userIDfinal)
+    // return this.http.get(`${this.apiUrlSubjects}/getGuarantedSubjectsFromID?id=${user.userID}`);
   }
 
 }
