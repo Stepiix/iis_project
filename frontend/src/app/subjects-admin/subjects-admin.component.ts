@@ -71,7 +71,6 @@ export class SubjectsAdminComponent implements OnInit{
     });
   }
   getTeacherName(id: string) {
-    console.log(id);
     let teacher = this.teachers.find(t => t.user_id == id);
     return teacher ? teacher.user_id + " " + teacher.user_firstname + " " + teacher.user_lastname : 'undefined';
   }
@@ -90,11 +89,13 @@ export class SubjectsAdminComponent implements OnInit{
     this.showCreatedAlert();
     this.showAllSubjectsTable = true;
     this.showAllSubjectsButtonText = "Cancel";
+    console.log("----------");
+    console.log(this.subject);
+    console.log("----------");
     this.http.post('http://localhost/iis_project/backend/api/subject/create.php', this.subject)
       .subscribe(
         (response) => {
           // Handle a successful response from the server
-          console.log(response);
           this.loadSubjects(); // After user creation, refresh the user list
         },
         (error) => {
