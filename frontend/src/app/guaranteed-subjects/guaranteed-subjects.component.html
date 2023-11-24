@@ -9,39 +9,39 @@
     <div class="form-group">
       <label for="user_role">*Druh aktivity:</label>
       <select id="user_role" name="user_role" [(ngModel)]="activity.type" required>
-        <option value="teacher">přednáška</option>
-        <option value="student">cvičení</option>
+        <option>přednáška</option>
+        <option>cvičení</option>
       </select>
     </div>
   
     <div class="form-group">
       <label for="user_role">*Délka aktivity v hodinách:</label>
       <select id="user_role" name="user_role" [(ngModel)]="activity.length" required>
-        <option >1</option>
-        <option >2</option>
-        <option >3</option>
-        <option >4</option>
-        <option >5</option>
-        <option >6</option>
-        <option >7</option>
-        <option >8</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
       </select>
     </div>
   
     <div class="form-group">
       <label for="user_role">*Opakování:</label>
       <select id="user_role" name="user_role" [(ngModel)]="activity.week" required>
-        <option >každý týden</option>
-        <option >sudý</option>
-        <option >lichý</option>
-        <option >jednorázová</option>
+        <option>každý týden</option>
+        <option>sudý</option>
+        <option>lichý</option>
+        <option>jednorázová</option>
       </select>
     </div>
   
     <div class="form-group">
       <label for="user_role">*Předmět ke kterému aktivita patří:</label>
       <select id="user_role" name="user_role" [(ngModel)]="activity.subject_code" required>
-        <option *ngFor="let subject of subjects" [value]="subject.subject_id">{{ subject.subject_code}}</option>
+        <option *ngFor="let subject of subjects" [value]="subject.subject_code">{{ subject.subject_code}}</option>
       </select>
     </div>
 
@@ -55,6 +55,7 @@
         <th>code</th>
         <th>name</th>
         <th>annotation</th>
+        <th>add teacher</th>
       </tr>
     </thead>
     <tbody>
@@ -73,8 +74,6 @@
         <th>length</th>
         <th>week</th>
         <th>subject_code</th>
-        <th>teacher</th>
-        <th>room</th>
         <th>delete</th>
         <th>edit</th>
       </tr>
@@ -85,8 +84,6 @@
         <td>{{ activity.activity_length }}</td>
         <td>{{ activity.activity_week }}</td>
         <td>{{ activity.activity_subject_code }}</td>
-        <td>{{ activity.activity_teacher }}</td>
-        <td>{{ activity.activity_room }}</td>
         <td><button (click)="deleteActivity(activity)" class="icon-button">
           <mat-icon>delete</mat-icon></button></td>
         <td><button (click)="activityInEditMode[activity.activity_id] ? endEditActivity(activity) : editActivity(activity)" class="icon-button">
