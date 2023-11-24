@@ -6,7 +6,7 @@ include '../database.php';
 /** @var PDO $db */
 
 try {
-  $sql = "SELECT activity_id, activity_type, activity_length, activity_week, activity_subject_code, activity_teacher FROM Activity";
+  $sql = "SELECT activity_id, activity_type, activity_length, activity_week, activity_subject_code FROM Activity";
   $stmt = $db->prepare($sql);
   $stmt->execute();
 

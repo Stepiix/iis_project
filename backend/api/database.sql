@@ -66,14 +66,6 @@ CREATE TABLE Activity (
 
     CONSTRAINT FK_activity_subject_code
         FOREIGN KEY (activity_subject_code) REFERENCES Subject(subject_code)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-
-    CONSTRAINT FK_teacher
-        FOREIGN KEY (activity_teacher) REFERENCES User(user_id)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-
-    CONSTRAINT FK_activity_room
-        FOREIGN KEY (activity_room_code) REFERENCES Room(room_code)
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -84,9 +76,19 @@ CREATE TABLE A_Block (
     a_block_end INT NOT NULL,
     a_block_activity_id INTEGER NOT NULL,
     a_block_confirmed BOOL NOT NULL,
-
+    a_block_room_code VARCHAR(32) NOT NULL,
+    a_block_teacher INTEGER NOT NULL,
+    
     CONSTRAINT FK_a_block_activity_id
         FOREIGN KEY (a_block_activity_id) REFERENCES Activity(activity_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+	
+    CONSTRAINT FK_a_block_teacher
+        FOREIGN KEY (a_block_teacher) REFERENCES User(user_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+
+    CONSTRAINT FK_a_block_room_code
+        FOREIGN KEY (a_block_room_code) REFERENCES Room(room_code)
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 
