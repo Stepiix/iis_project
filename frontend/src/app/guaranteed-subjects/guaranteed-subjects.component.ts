@@ -22,11 +22,19 @@ export class GuaranteedSubjectsComponent implements OnInit{
     week: '',
     subject_code: '',
   };
+  aBlock:{
+    teacher: string;
+  } = {
+    teacher: '',
+  }
   activityInEditMode: boolean[] = [];
+  subjectInEditMode: boolean[] = [];
   rooms: any[] = [];
   teachers: any[] = [];
   subjects: any[] = [];
   activities: any[] = [];
+  subjectteachers: any[] = [];
+  showSelectColumn: boolean = false;
 
   isFormVisible: boolean = false;
   addButtonText: string = "Add Activity";
@@ -43,6 +51,7 @@ export class GuaranteedSubjectsComponent implements OnInit{
       console.log('ScheduleComponent initialized for authorized student.');
       this.loadTeachers();
       this.loadRooms();
+      this.loadActivities();
     } else {
       this.router.navigate(['/']);
       this.authService.showUnauthorizedAlert();
@@ -159,8 +168,25 @@ export class GuaranteedSubjectsComponent implements OnInit{
   editActivity(activity: any) {
     console.log("editujeme ",activity.activity_id)
     // Nastavit režim editace pro daného uživatele
+
     this.activityInEditMode[activity.activity_id] = true;
     this.cdr.detectChanges();
+  }
+  endEditSubject(subject: any) {
+    // Ukončit režim editace pro daného uživatele
+    console.log("ahoj");
+    this.usersService.addTeacher(subject.subject_code,this.aBlock.teacher).subscribe(() => this.loadMySubjects()); // zmenit aby se pridal teacher
+    this.subjectInEditMode[subject.subject_code] = false;
+  }
+  editSubject(subject: any) {
+    console.log("editujeme ",subject.subject_code)
+    // Nastavit režim editace pro daného uživatele
+    this.subjectInEditMode[subject.subject_code] = true;
+    this.showSelectColumn = true;
+    this.cdr.detectChanges();
+  }
+  addTeacher(){
+    return;
   }
   showCreatedAlert() {
     const welcomeAlert = document.createElement('div');

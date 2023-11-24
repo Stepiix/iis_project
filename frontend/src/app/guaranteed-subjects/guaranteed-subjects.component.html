@@ -55,7 +55,9 @@
         <th>code</th>
         <th>name</th>
         <th>annotation</th>
+        <th>teachers</th>
         <th>add teacher</th>
+        <th *ngIf="showSelectColumn"></th>
       </tr>
     </thead>
     <tbody>
@@ -63,6 +65,16 @@
         <td>{{ subject.subject_code }}</td>
         <td>{{ subject.subject_name }}</td>
         <td>{{ subject.subject_annotation }}</td>
+        <td>{{ subject.subject_annotation }}</td>
+        <td><button (click)="subjectInEditMode[subject.subject_code] ? endEditSubject(subject) : editSubject(subject)" class="icon-button">
+          <mat-icon>{{ subjectInEditMode[subject.subject_code] ? 'done' : 'person_add' }}</mat-icon></button></td>
+          <!-- New column for select element -->
+      <td *ngIf="showSelectColumn && subjectInEditMode[subject.subject_code]">
+        <!-- Add your select element here -->
+        <select id="user_role" name="user_role" [(ngModel)]="aBlock.teacher" required>
+          <option *ngFor="let teacher of teachers" [value]="teacher.user_id">{{ teacher.user_firstname + " " + teacher.user_lastname }}</option>
+        </select>
+      </td>
       </tr>
     </tbody>
   </table>
@@ -91,3 +103,4 @@
       </tr>
     </tbody>
   </table>
+  <!-- adding teacher -->

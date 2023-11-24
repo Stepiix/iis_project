@@ -9,7 +9,8 @@ export class UsersService {
   private apiUrlRooms = 'http://localhost/iis_project/backend/api/room';
   private apiUrlSubjects = 'http://localhost/iis_project/backend/api/subject';
   private apiUrlTBlocks = 'http://localhost/iis_project/backend/api/t_block';
-  private apiUrlActivity = 'http://localhost/iis_project/backend/api/t_block';
+  private apiUrlActivity = 'http://localhost/iis_project/backend/api/activity';
+  private apiUrlsubjectTeacher = 'http://localhost/iis_project/backend/api/subjectTeacher';
   constructor(private http: HttpClient) { }
   getUsers() {
     return this.http.get(`${this.apiUrlUsers}/getallusers.php`);
@@ -82,5 +83,23 @@ export class UsersService {
   }
   deleteActivity(subjectCode: string) {
     return this.http.delete(`${this.apiUrlActivity}/delete.php?activity_id=${subjectCode}`);
+  }
+  addTeacher(subject_code: string, teacher_user_id: string) {
+    console.log("----------");
+    console.log("subjectcode: " + subject_code + " a user_id je " + teacher_user_id);
+    console.log("----------");
+  
+    const params = {
+      subject_code: subject_code,
+      user_id: teacher_user_id
+    };
+  
+    return this.http.post(`${this.apiUrlsubjectTeacher}/create.php`, params);
+  }
+  getSubjectTeachers(subject_code: string){
+    console.log("----kokos--");
+    console.log(subject_code);
+    console.log("------");
+    return this.http.get(`${this.apiUrlsubjectTeacher}/getTeacherBySubject.php?subject_code=${subject_code}`);
   }
 }
