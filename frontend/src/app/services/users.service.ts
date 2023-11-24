@@ -70,7 +70,7 @@ export class UsersService {
     console.log("-------");
     console.log(user);
     console.log("-------");
-    return this.http.get(`${this.apiUrlSubjects}/getGuarantedSubjectsFromID?id=${user}`);
+    return this.http.get(`${this.apiUrlSubjects}/getGuarantedSubjectsFromID.php?id=${user}`);
   }
 
   getTBlocks(user_id: number) {
