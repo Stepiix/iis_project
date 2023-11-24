@@ -13,9 +13,9 @@ try {
  
         $stmt = $db->prepare($sql);
         $stmt->execute([$garant]);
-
+  
         $subjects = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+      
         echo json_encode(array("records" => $subjects));
     } else {
         // If 'id' parameter is not set, return a response indicating the issue
