@@ -68,17 +68,17 @@ export class UsersService {
   }
   getMySubjects(user: any){
     
-    const url = `${this.apiUrlSubjects}/getGuarantedSubjectsFromID.php`;
-    const body = {
-      id: user.userID
-    };
-    return;
+    // const url = `${this.apiUrlSubjects}/getGuarantedSubjectsFromID.php`;
+    // const body = {
+    //   id: user.userID
+    // };
+    // return;
     // return this.http.get(url, body);
     
-    // const userID = JSON.parse(user);
-    // const userIDfinal = user.userID;
-    // console.log(userIDfinal)
-    // return this.http.get(`${this.apiUrlSubjects}/getGuarantedSubjectsFromID?id=${user.userID}`);
+    const userID = JSON.parse(user);
+    const userIDfinal = user.userID;
+    console.log(userIDfinal)
+    return this.http.get(`${this.apiUrlSubjects}/getGuarantedSubjectsFromID?id=${user.userID}`);
   }
 
   getTBlocks(user_id: number) {
