@@ -33,12 +33,16 @@ export class AuthorizationService {
     }
   }
 
-  getUserRole(){
+  getUserRole() {
     const sessionData = sessionStorage.getItem('userSession');
-    if (sessionData) {
+  
+    if (sessionData !== null) {
       const userData = JSON.parse(sessionData);
       const userRole = userData.userRole;
       return userRole;
+    } else {
+      console.error("User session data is not available.");
+      // Handle the case when user session data is not available.
     }
   }
   showUnauthorizedAlert() {

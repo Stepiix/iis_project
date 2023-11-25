@@ -126,4 +126,17 @@ export class UsersService {
     console.log("------");
     return this.http.get(`${this.apiUrlsubjectTeacher}/getTeacherBySubject.php?subject_code=${subject_code}`);
   }
+  addSubjectToStudent(subject_code: string, student_id: string){
+    const requestBody = {
+      subject_code: subject_code,
+      user_id: student_id,
+    };
+    console.log(requestBody.subject_code)
+    console.log(requestBody.user_id)
+    return this.http.post(`${this.apiUrlSubjects}/addSubjecttoStudent.php`,requestBody);
+  }
+  giveMeMySubjects(userid: any) {
+    console.log(userid)
+    return this.http.get(`${this.apiUrlSubjects}/getSubjectsthatStudentHave.php?user_id=${userid}`);
+  }
 }

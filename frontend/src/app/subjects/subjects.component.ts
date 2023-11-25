@@ -23,13 +23,18 @@ export class SubjectsComponent implements OnInit{
   };
   teachers: any[] = [];
   subjects: any[] = [];
+  itIsStudent:boolean=false;
 
   constructor(private authService: AuthorizationService, private router: Router, private http: HttpClient, private usersService: UsersService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.loadSubjects();
     this.loadTeachers();
-    console.log(this.authService.getID());
+    if(this.authService.getUserRole() === "student"){
+      this.itIsStudent = true;
+      console.log("Student")
+    }
+    this.knowWhatSubjectDoIAlreadyHave(this.authService.getID());
   }
 
 
@@ -46,6 +51,22 @@ export class SubjectsComponent implements OnInit{
   loadSubjects() {
     this.usersService.getSubjects().subscribe((data: any) => {
       this.subjects = data.records;
+    });
+  }
+  addSubject(subject: any) {
+    const studentId = this.authService.getID();
+  
+    if (studentId !== null) {
+      this.usersService.addSubjectToStudent(subject, studentId).subscribe((data: any) => {
+        // Handle the response data if needed
+      });
+    } else {
+      console.error("Student ID is null");
+      // Handle the case when student ID is null, depending on your requirements
+    }
+  }
+  knowWhatSubjectDoIAlreadyHave(id: any){
+    this.usersService.giveMeMySubjects(id).subscribe((data: any) => {
     });
   }
 
