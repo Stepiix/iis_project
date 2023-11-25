@@ -147,6 +147,6 @@ export class UsersService {
     return this.http.delete(`${this.apiUrlSubjects}/deleteSubjectFromStudent.php?subject_code=${subject_code}&user_id=${student_id}`);
   }
   loadAblocks(){
-    return this.http.get(`${this.apiUrlSubjects}/getAll.php`);//TODO
+    return this.http.get(`${this.apiUrlABlocks}/getAll.php`);
   }
 }
