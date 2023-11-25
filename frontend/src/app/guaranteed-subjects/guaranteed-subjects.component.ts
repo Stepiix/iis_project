@@ -42,7 +42,10 @@ export class GuaranteedSubjectsComponent implements OnInit{
   };
   currentActivityTeachers: any[] = [];
   tblocks: any[] = [];
+  ablocks: any[] = [];
   teacher_id: number =  0;
+  possiblePositions: any[] = [];
+  selected_a_blocks: any[] = [];
 
   activityInEditMode: boolean[] = [];
   subjectInEditMode: boolean[] = [];
@@ -186,12 +189,158 @@ export class GuaranteedSubjectsComponent implements OnInit{
   }
 
   onTeacherChange(teacher: any) {
-    console.log("tady je teacher name")
-    console.log(teacher)
-    console.log("tady je teacher name")
+    this.teacher_id = teacher;
+    console.log(this.teacher_id);
+
+
+
+    this.usersService.getTBlocks(this.teacher_id).subscribe((tdata: any) => {
+      this.tblocks = tdata.records;
+      console.log(this.tblocks);
+
+      this.usersService.getABlocks(this.teacher_id).subscribe((adata: any) => {
+        this.ablocks = adata.records;
+        console.log(this.ablocks);
+
+        // Pre-populate selected_a_blocks based on ablocks
+        this.selected_a_blocks = this.ablocks.map((ablock) => {
+          return {
+            a_block_day: ablock.a_block_day,
+            a_block_begin: ablock.a_block_begin,
+            a_block_end: ablock.a_block_end,
+            a_block_user_id: ablock.a_block_teacher, // Adjust this based on your data
+            a_block_activity_id: ablock.a_block_activity_id,
+          };
+        });
+      });
+
+      // Calculate possible activity positions
+      const activityLength = this.currentActivity.length; // Replace with your actual activity length
+      this.possiblePositions = this.calculatePossiblePositions(this.tblocks, activityLength);
+
+
+
+      // Now `possiblePositions` contains an array of objects representing the possible activity positions
+      console.log("Possible Positions:", this.possiblePositions);
+
+      this.cdr.detectChanges();
+    });
+  }
+
+  calculatePossiblePositions(tBlocks: any[], activityLength: number): any[] {
+    const possiblePositions: any[] = [];
+
+    // Sort time blocks by day and begin time
+    tBlocks.sort((a, b) => a.t_block_day.localeCompare(b.t_block_day) || a.t_block_begin - b.t_block_begin);
+
+    // Iterate through time blocks to find possible positions for the activity
+    for (let i = 0; i < tBlocks.length; i++) {
+      let totalLength = 0;
+      let endIndex = i;
+
+      // Keep extending the length until it's greater than or equal to the activity length
+      while (totalLength < activityLength && endIndex < tBlocks.length) {
+        totalLength += tBlocks[endIndex].t_block_end - tBlocks[endIndex].t_block_begin;
+        endIndex++;
+      }
+
+      // Check if the activity can fit within the calculated position
+      if (totalLength >= activityLength) {
+        const block1 = tBlocks[i];
+        const block2 = tBlocks[endIndex - 1];
+
+        // Calculate the possible position for the activity between block1 and block2
+        const possiblePosition = {
+          a_block_day: block1.t_block_day,
+          a_block_begin: block1.t_block_begin,
+          a_block_end: tBlocks[endIndex - 1].t_block_end,
+          a_block_user_id: block1.t_block_user_id,
+          a_block_activity_id: this.currentActivity.id,
+        };
+
+        // Check if the activity fits exactly within the calculated position
+        if (possiblePosition.a_block_end - possiblePosition.a_block_begin == activityLength) {
+          // Add the activity position to the result array
+          possiblePositions.push(possiblePosition);
+        }
+      }
+    }
+
+    // Sort the result array by day (Monday to Friday) and then by start time
+    possiblePositions.sort((a, b) => {
+      const daysOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+      const dayComparison = daysOrder.indexOf(a.a_block_day) - daysOrder.indexOf(b.a_block_day);
+
+      // If days are different, use the day comparison result
+      if (dayComparison !== 0) {
+        return dayComparison;
+      }
+
+      // If days are the same, compare by start time
+      return a.a_block_begin - b.a_block_begin;
+    });
+
+    return possiblePositions;
+  }
+
+  toggleBlockSelection(position: any) {
+    const index = this.selected_a_blocks.findIndex(
+        (selectedBlock) =>
+            selectedBlock.a_block_day === position.a_block_day &&
+            selectedBlock.a_block_begin === position.a_block_begin &&
+            selectedBlock.a_block_end === position.a_block_end &&
+            selectedBlock.a_block_user_id === position.a_block_user_id &&
+            selectedBlock.a_block_activity_id === position.a_block_activity_id
+    );
+
+    if (index === -1) {
+      // Block is not selected, add it to the array
+      this.selected_a_blocks.push(position);
+    } else {
+      // Block is selected, remove it from the array
+      this.selected_a_blocks.splice(index, 1);
+    }
   }
 
 
+// Method to check if a block is selected
+  isBlockSelected(position: any): boolean {
+    const index = this.selected_a_blocks.findIndex(
+        (selectedBlock) =>
+            selectedBlock.a_block_day === position.a_block_day &&
+            selectedBlock.a_block_begin === position.a_block_begin &&
+            selectedBlock.a_block_end === position.a_block_end &&
+            selectedBlock.a_block_user_id === position.a_block_user_id &&
+            selectedBlock.a_block_activity_id === position.a_block_activity_id
+    );
+
+    return index !== -1;
+  }
+
+  saveSelectedBlocks() {
+    console.log(this.selected_a_blocks);
+
+    const postData = this.selected_a_blocks.length > 0 ? this.selected_a_blocks : { user_id: this.teacher_id };
+
+    this.http.post('http://localhost/iis_project/backend/api/a_block/create-update.php', postData)
+        .subscribe(
+            (response) => {
+              // Handle a successful response from the server
+              console.log(response);
+              this.loadSelectedABlocks(); // After user creation, refresh the user list
+            },
+            (error) => {
+              // Handle errors here
+              console.error(error);
+            }
+        );
+  }
+
+  loadSelectedABlocks() {
+    this.usersService.getABlocks(this.teacher_id).subscribe((data: any) => {
+      this.ablocks = data.records;
+    });
+  }
 
   showAllSubjects(){
     this.showAllSubjectsTable = !this.showAllSubjectsTable;

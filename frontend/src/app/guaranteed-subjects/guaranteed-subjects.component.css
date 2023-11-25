@@ -39,14 +39,14 @@
 
   /* tady zacina styl tlacitka */
 
-  .add-user-button-container { 
+  .add-user-button-container {
     text-align: center; /* Zarovnání tlačítek na střed */
     margin: 70px auto;
     display: flex;
     justify-content: space-between; /* Rozestup mezi tlačítky na šířku */
     max-width: 400px; /* Maximální šířka kontejneru */
   }
-  
+
   .add-user-button {
     background-color: #009879;
     color: #fff;
@@ -57,11 +57,11 @@
     cursor: pointer;
     transition: background-color 0.3s; /* Plynulá změna barvy pozadí */
   }
-  
+
   .add-user-button:hover {
     background-color: #004638;
   }
-  
+
   /* Druhé tlačítko nemění velikost, má pevnou šířku a větší odstup od prvního tlačítka */
   .see-all-users-button {
     background-color: #009879;
@@ -75,7 +75,7 @@
     margin-left: 10px; /* Odstup od prvního tlačítka */
     width: 140px; /* Pevná šířka tlačítka */
   }
-  
+
   .see-all-users-button:hover {
     background-color: #004638;
   }
@@ -148,11 +148,48 @@
   border-radius: 5px;
   cursor: pointer;
 }
-  
-  
-  
+
+
+
 
 /* .content-table tbody tr.active-row{
     font-weight: bold;
     color: #009879;
 } */
+
+.activity-positions-container {
+
+}
+
+.activity-positions-table {
+  width: 80%;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+.activity-positions-table th, .activity-positions-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.activity-positions-table th {
+  background-color: #2a2a2a;
+}
+
+.activity-positions-table tr {
+  cursor: pointer;
+}
+
+.activity-positions-table .selected {
+  background-color: #ffe99e;
+  color: black;
+  cursor: pointer;
+}
+
+.save-button {
+  margin: 0 auto;
+  padding: 8px;
+  cursor: pointer;
+}
+

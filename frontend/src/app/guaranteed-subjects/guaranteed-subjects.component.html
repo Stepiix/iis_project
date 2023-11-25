@@ -141,14 +141,34 @@
     </tbody>
   </table>
 
-  <div *ngIf="showSetActivities">
+<div class="activity-positions-container" *ngIf="showSetActivities">
     <p>{{currentActivity.type}}</p>
     <p>{{currentActivity.id}}</p>
     <p>{{currentActivity.length}}</p>
     <p>{{currentActivity.week}}</p>
     <p>{{currentActivity.subject_code}}</p>
-    <select id="user_role" name="user_role" [(ngModel)]="aBlock.teacher" (change)="onTeacherChange(aBlock.teacher)" required>
+    <select id="user_role" name="user_role" [(ngModel)]="aBlock.teacher" (ngModelChange)="onTeacherChange(aBlock.teacher)" required>
       <option *ngFor="let teacher of currentActivityTeachers" [value]="teacher.user_id">{{ teacher.user_firstname + " " + teacher.user_lastname }}</option>
     </select>
     <p>{{aBlock.teacher}}</p>
+
+  <h4>Possible Activity Positions:</h4>
+  <table class="activity-positions-table">
+    <thead>
+    <tr>
+      <th>Time Slot</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let position of possiblePositions" (click)="toggleBlockSelection(position)" [ngClass]="{'selected': isBlockSelected(position)}">
+      <td>
+        {{ position.a_block_day }} {{ position.a_block_begin }}-{{ position.a_block_end }}
+      </td>
+    </tr>
+
+    </tbody>
+  </table>
+
+  <button class="save-button" (click)="saveSelectedBlocks()">Save</button>
+
   </div>

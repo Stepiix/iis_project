@@ -9,6 +9,7 @@ export class UsersService {
   private apiUrlRooms = 'http://localhost/iis_project/backend/api/room';
   private apiUrlSubjects = 'http://localhost/iis_project/backend/api/subject';
   private apiUrlTBlocks = 'http://localhost/iis_project/backend/api/t_block';
+  private apiUrlABlocks = 'http://localhost/iis_project/backend/api/A_block';
   private apiUrlActivity = 'http://localhost/iis_project/backend/api/activity';
   private apiUrlsubjectTeacher = 'http://localhost/iis_project/backend/api/subjectTeacher';
   constructor(private http: HttpClient) { }
@@ -89,6 +90,10 @@ export class UsersService {
   getTBlocks(user_id: number) {
     return this.http.post(`${this.apiUrlTBlocks}/getAllByUser.php`, {"user_id": user_id});
   }
+
+  getABlocks(user_id: number) {
+    return this.http.post(`${this.apiUrlABlocks}/getAllByUser.php`, {"user_id": user_id});
+  }
   getActivities(){
     return this.http.get(`${this.apiUrlActivity}/getAll.php`);
   }
@@ -102,12 +107,12 @@ export class UsersService {
     console.log("----------");
     console.log("subjectcode: " + subject_code + " a user_id je " + teacher_user_id);
     console.log("----------");
-  
+
     const params = {
       subject_code: subject_code,
       user_id: teacher_user_id
     };
-  
+
     return this.http.post(`${this.apiUrlsubjectTeacher}/create.php`, params);
   }
   getTeachersForSubject(subject_code: string){

@@ -2,8 +2,9 @@
 #DROP TABLE IF EXISTS Subject_Student CASCADE;
 #DROP TABLE IF EXISTS Subject CASCADE;
 #DROP TABLE IF EXISTS User CASCADE;
-DROP TABLE IF EXISTS Actitivy CASCADE;
-DROP TABLE IF EXISTS T_Block CASCADE;
+#DROP TABLE IF EXISTS Actitivy CASCADE;
+#DROP TABLE IF EXISTS T_Block CASCADE;
+DROP TABLE IF EXISTS A_Block CASCADE;
 #DROP TABLE IF EXISTS Room CASCADE;
 
 CREATE TABLE User (
@@ -76,7 +77,7 @@ CREATE TABLE A_Block (
     a_block_end INT NOT NULL,
     a_block_activity_id INTEGER NOT NULL,
     a_block_confirmed BOOL NOT NULL,
-    a_block_room_code VARCHAR(32) NOT NULL,
+    a_block_room_code VARCHAR(32),
     a_block_teacher INTEGER NOT NULL,
 
     CONSTRAINT FK_a_block_activity_id
