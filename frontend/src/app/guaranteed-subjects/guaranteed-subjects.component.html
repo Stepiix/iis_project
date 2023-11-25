@@ -14,7 +14,7 @@
         <option>cvičení</option>
       </select>
     </div>
-  
+
     <div class="form-group">
       <label for="user_role">*Délka aktivity v hodinách:</label>
       <select id="user_role" name="user_role" [(ngModel)]="activity.length" required>
@@ -28,7 +28,7 @@
         <option>8</option>
       </select>
     </div>
-  
+
     <div class="form-group">
       <label for="user_role">*Opakování:</label>
       <select id="user_role" name="user_role" [(ngModel)]="activity.week" required>
@@ -38,7 +38,7 @@
         <option>jednorázová</option>
       </select>
     </div>
-  
+
     <div class="form-group">
       <label for="user_role">*Předmět ke kterému aktivita patří:</label>
       <select id="user_role" name="user_role" [(ngModel)]="activity.subject_code" required>
@@ -114,7 +114,7 @@
     <p>{{currentActivity.length}}</p>
     <p>{{currentActivity.week}}</p>
     <p>{{currentActivity.subject_code}}</p>
-    <select id="user_role" name="user_role" [(ngModel)]="aBlock.teacher" required>
+    <select id="user_role" name="user_role" [(ngModel)]="aBlock.teacher" (change)="onTeacherChange()" required>
       <option *ngFor="let teacher of currentActivityTeachers" [value]="teacher.user_id">{{ teacher.user_firstname + " " + teacher.user_lastname }}</option>
     </select>
   </div>

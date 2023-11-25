@@ -41,6 +41,8 @@ export class GuaranteedSubjectsComponent implements OnInit{
     subject_code: '',
   };
   currentActivityTeachers: any[] = [];
+  tblocks: any[] = [];
+  teacher_id: number =  0;
 
   activityInEditMode: boolean[] = [];
   subjectInEditMode: boolean[] = [];
@@ -61,7 +63,7 @@ export class GuaranteedSubjectsComponent implements OnInit{
   showAllActivitiesButtonText: string = "See all activities"
   showSetActivities: boolean = false;
   showAblockButtonText: string = "Set activities"
-  
+
 
   constructor(private authService: AuthorizationService, private router: Router, private usersService: UsersService,private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
@@ -160,7 +162,7 @@ export class GuaranteedSubjectsComponent implements OnInit{
   loadActivities(){
     this.usersService.getMyActivities(this.authService.getID()).subscribe((data: any) => {
       this.activities = data.records;
-      
+
     });
   }
   addToSchedule(activity: any){
@@ -180,6 +182,12 @@ export class GuaranteedSubjectsComponent implements OnInit{
 
 
   }
+
+  onTeacherChange() {
+
+  }
+
+
 
   showAllSubjects(){
     this.showAllSubjectsTable = !this.showAllSubjectsTable;
