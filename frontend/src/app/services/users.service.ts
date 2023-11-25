@@ -136,19 +136,12 @@ export class UsersService {
     return this.http.post(`${this.apiUrlSubjects}/addSubjecttoStudent.php`,requestBody);
   }
   giveMeMySubjects(userid: any) {
-    console.log(userid)
     return this.http.get(`${this.apiUrlSubjects}/getSubjectsthatStudentHave.php?user_id=${userid}`);
   }
   removeSubjectFromStudent(subject_code: string, student_id: string){
-    const requestBody = {
-      subject_code: subject_code,
-      user_id: student_id,
-    };
-  
-    const options = {
-      body: requestBody, // Include the request body in the options
-    };
-  
-    return this.http.delete(`${this.apiUrlSubjects}/deleteSubjectFromStudent.php`, options);
+    return this.http.delete(`${this.apiUrlSubjects}/deleteSubjectFromStudent.php?subject_code=${subject_code}&user_id=${student_id}`);
+  }
+  loadAblocks(){
+    return this.http.get(`${this.apiUrlSubjects}/getAll.php`);//TODO
   }
 }

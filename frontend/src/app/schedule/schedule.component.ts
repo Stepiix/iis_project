@@ -2,6 +2,7 @@ import { AppComponent } from './../app.component';
 import { Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'app-schedule',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 export class ScheduleComponent {
   itIsRozvrhar:boolean=false;
 
-  constructor(private authService: AuthorizationService, private router: Router) {}
+  constructor(private authService: AuthorizationService, private router: Router, private usersService: UsersService) {}
 
   ngOnInit(): void {
     // Use the authService to check authorization
@@ -22,6 +23,7 @@ export class ScheduleComponent {
     if (this.authService.isAuthorized('student') || this.itIsRozvrhar) {
       // Add your initialization logic for authorized students here
       console.log('ScheduleComponent initialized for authorized student.');
+      this.loadAblocks();
     } else {
       // Handle unauthorized access
       this.router.navigate(['/']);
@@ -29,4 +31,10 @@ export class ScheduleComponent {
       // Optionally, you can redirect to another route or show an unauthorized message.
     }
   }
+  loadAblocks(){
+    this.usersService.loadAblocks().subscribe((data: any) => {
+    
+    });
+  }
+
 }
