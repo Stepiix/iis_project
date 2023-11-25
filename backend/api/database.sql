@@ -78,11 +78,11 @@ CREATE TABLE A_Block (
     a_block_confirmed BOOL NOT NULL,
     a_block_room_code VARCHAR(32) NOT NULL,
     a_block_teacher INTEGER NOT NULL,
-    
+
     CONSTRAINT FK_a_block_activity_id
         FOREIGN KEY (a_block_activity_id) REFERENCES Activity(activity_id)
         ON DELETE CASCADE ON UPDATE CASCADE,
-	
+
     CONSTRAINT FK_a_block_teacher
         FOREIGN KEY (a_block_teacher) REFERENCES User(user_id)
         ON DELETE CASCADE ON UPDATE CASCADE,
