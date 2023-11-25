@@ -15,14 +15,15 @@ if (isset($subject)) {
     $sql = "UPDATE Subject
         SET activity_type = ?,
         activity_length = ?,
-        activity_week = ?
-        WHERE activity_subject_code = ?";
+        activity_week = ?,
+        activity_subject_code = ?
+        WHERE activity_id = ?";
 
     $stmt = $db->prepare($sql);
 
-    $stmt->execute([$subject->name, $subject->annotation, $subject->guarantor, $subject->code]);
+    $stmt->execute([$subject->type, $subject->length, $subject->week, $subject->subject_code, $subject->id]);
 }
 
-$response = array("message" => "Predmet upraven");
+$response = array("message" => "aktivita byla upravena");
 http_response_code(200);
 header("Content-Type: application/json");

@@ -55,10 +55,20 @@ export class UsersService {
     const url = `${this.apiUrlActivity}/edit.php`;
     const body = {
       type: activity.activity_type,
-      name: activity.activity_length,
-      annotation: activity.activity_week,
-      guarantor: activity.activity_subject_code
+      length: activity.activity_length,
+      week: activity.activity_week,
+      subject_code: activity.activity_subject_code,
+      id : activity.activity_id
+      
     };
+
+    console.log("=-=-=-=-=-=-=-=-=-=-=")
+    console.log(body.type)
+    console.log(body.length)
+    console.log(body.week)
+    console.log(body.subject_code)
+    console.log(body.id)
+    console.log("=-=-=-=-=-=-=-=-=-=-=")
 
     return this.http.put(url, body);
   }

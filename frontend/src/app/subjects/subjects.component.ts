@@ -29,6 +29,7 @@ export class SubjectsComponent implements OnInit{
   ngOnInit(): void {
     this.loadSubjects();
     this.loadTeachers();
+    console.log(this.authService.getID());
   }
 
 
