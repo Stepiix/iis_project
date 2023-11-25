@@ -11,8 +11,8 @@ import { UsersService } from '../services/users.service';
 })
 export class ScheduleComponent {
   itIsRozvrhar:boolean=false;
-  aBlocks:any[]=[];
-  
+  aBlocks: any[] = [];
+
   constructor(private authService: AuthorizationService, private router: Router, private usersService: UsersService) {}
 
   ngOnInit(): void {
@@ -34,7 +34,7 @@ export class ScheduleComponent {
   }
   loadAblocks(){
     this.usersService.loadAblocks().subscribe((data: any) => {
-    
+      this.aBlocks = data.records;
     });
   }
 
