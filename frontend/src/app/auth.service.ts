@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Injectable({
@@ -6,7 +7,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 })
 export class AuthService {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   private isAuthenticated = false;
 
@@ -17,6 +18,7 @@ export class AuthService {
   logout() {
     this.isAuthenticated = false;
     sessionStorage.removeItem("userSession");
+    this.router.navigate(["/"]);
   }
 
   isLoggedIn() {
