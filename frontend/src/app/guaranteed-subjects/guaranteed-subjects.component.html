@@ -147,8 +147,8 @@
     <p>{{currentActivity.length}}</p>
     <p>{{currentActivity.week}}</p>
     <p>{{currentActivity.subject_code}}</p>
-    <select id="user_role" name="user_role" [(ngModel)]="aBlock.teacher" (change)="onTeacherChange()" required>
+    <select id="user_role" name="user_role" [(ngModel)]="aBlock.teacher" (change)="onTeacherChange(aBlock.teacher)" required>
       <option *ngFor="let teacher of currentActivityTeachers" [value]="teacher.user_id">{{ teacher.user_firstname + " " + teacher.user_lastname }}</option>
     </select>
-    <p>{{currentActivity.subject_code}}</p>
+    <p>{{aBlock.teacher}}</p>
   </div>

@@ -185,8 +185,10 @@ export class GuaranteedSubjectsComponent implements OnInit{
 
   }
 
-  onTeacherChange() {
-
+  onTeacherChange(teacher: any) {
+    console.log("tady je teacher name")
+    console.log(teacher)
+    console.log("tady je teacher name")
   }
 
 
