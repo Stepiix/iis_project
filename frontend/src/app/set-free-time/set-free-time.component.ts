@@ -91,6 +91,8 @@ export class SetFreeTimeComponent {
           // Handle a successful response from the server
           console.log(response);
           this.loadSelectedTimes(); // After user creation, refresh the user list
+          this.showCreatedAlert();
+
         },
         (error) => {
           // Handle errors here
@@ -119,5 +121,26 @@ export class SetFreeTimeComponent {
     const isSelectedInSelectedTimes = this.selectedTimes.some(time => time.key === key);
 
     return isSelectedInTBlocks && isSelectedInSelectedTimes;
+  }
+  showCreatedAlert() {
+    const welcomeAlert = document.createElement('div');
+    welcomeAlert.textContent = 'Nastavil jsi kdy máš čas';
+    welcomeAlert.style.position = 'fixed';
+    welcomeAlert.style.top = '10%';
+    welcomeAlert.style.left = '50%';
+    welcomeAlert.style.transform = 'translate(-50%, -50%)';
+    welcomeAlert.style.padding = '15px';
+    welcomeAlert.style.width = '100%';
+    welcomeAlert.style.background = '#00FF00';
+    welcomeAlert.style.color = 'white';
+    welcomeAlert.style.borderRadius = '5px';
+    welcomeAlert.style.whiteSpace = 'nowrap';
+    welcomeAlert.style.textAlign = 'center';
+    document.body.appendChild(welcomeAlert);
+
+    // Automatické skrytí alertu po 2 sekundách (2000 ms)
+    window.setTimeout(() => {
+      welcomeAlert.style.display = 'none';
+    }, 2000);
   }
 }

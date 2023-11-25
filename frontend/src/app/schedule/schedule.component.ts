@@ -35,6 +35,9 @@ export class ScheduleComponent {
   loadAblocks(){
     this.usersService.loadAblocks().subscribe((data: any) => {
       this.aBlocks = data.records;
+      console.log("---------")
+      console.log(this.aBlocks)
+      console.log("---------")
     });
   }
 
