@@ -51,6 +51,17 @@ export class UsersService {
 
     return this.http.put(url, body);
   }
+  editActivity(activity: any){
+    const url = `${this.apiUrlActivity}/edit.php`;
+    const body = {
+      type: activity.activity_type,
+      name: activity.activity_length,
+      annotation: activity.activity_week,
+      guarantor: activity.activity_subject_code
+    };
+
+    return this.http.put(url, body);
+  }
   getRooms() {
     return this.http.get(`${this.apiUrlRooms}/getAll.php`);
   }

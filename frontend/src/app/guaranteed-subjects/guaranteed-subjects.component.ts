@@ -122,8 +122,8 @@ export class GuaranteedSubjectsComponent implements OnInit{
     this.isFormVisible = !this.isFormVisible;
     this.addButtonText = "Add Activity";
     this.showCreatedAlert();
-    this.showAllSubjectsTable = true;
-    this.showAllSubjectsButtonText = "Cancel";
+    this.showAllActivitiesTable = true;
+    this.showAllActivitiesButtonText = "Cancel";
     console.log("--------------")
     console.log(this.activity)
     console.log("--------------")
@@ -133,6 +133,8 @@ export class GuaranteedSubjectsComponent implements OnInit{
           // Handle a successful response from the server
           console.log(response);
           this.loadMySubjects(); // After user creation, refresh the user list
+          this.loadActivities();
+
         },
         (error) => {
           // Handle errors here

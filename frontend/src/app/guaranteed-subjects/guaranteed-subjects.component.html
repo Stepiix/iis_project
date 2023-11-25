@@ -94,10 +94,43 @@
     </thead>
     <tbody>
       <tr *ngFor="let activity of activities">
-        <td>{{ activity.activity_type }}</td>
-        <td>{{ activity.activity_length }}</td>
-        <td>{{ activity.activity_week }}</td>
-        <td>{{ activity.activity_subject_code }}</td>
+        <td *ngIf="!activityInEditMode[activity.activity_id]">{{ activity.activity_type }}</td>
+        <td *ngIf="!activityInEditMode[activity.activity_id]">{{ activity.activity_length }}</td>
+        <td *ngIf="!activityInEditMode[activity.activity_id]">{{ activity.activity_week }}</td>
+        <td *ngIf="!activityInEditMode[activity.activity_id]">{{ activity.activity_subject_code }}</td>
+        <td *ngIf="activityInEditMode[activity.activity_id]">
+          <select id="user_role" name="user_role" [(ngModel)]="activity.type" required>
+            <option>přednáška</option>
+            <option>cvičení</option>
+          </select>
+        </td>
+        <td *ngIf="activityInEditMode[activity.activity_length]">
+          <select id="user_role" name="user_role" [(ngModel)]="activity.length" required>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+          </select>
+        </td>
+
+        <td *ngIf="activityInEditMode[activity.activity_week]">
+          <select id="user_role" name="user_role" [(ngModel)]="activity.week" required>
+            <option>každý týden</option>
+            <option>sudý</option>
+            <option>lichý</option>
+            <option>jednorázová</option>
+          </select>
+        </td>
+
+        <td *ngIf="activityInEditMode[activity.activity_subject_code]">
+        <select id="user_role" name="user_role" [(ngModel)]="activity.subject_code" required>
+        <option *ngFor="let subject of subjects" [value]="subject.subject_code">{{ subject.subject_code}}</option>
+      </select>
+        </td>
         <td><button (click)="deleteActivity(activity)" class="icon-button">
           <mat-icon>delete</mat-icon></button></td>
         <td><button (click)="activityInEditMode[activity.activity_id] ? endEditActivity(activity) : editActivity(activity)" class="icon-button">
@@ -117,4 +150,5 @@
     <select id="user_role" name="user_role" [(ngModel)]="aBlock.teacher" required>
       <option *ngFor="let teacher of currentActivityTeachers" [value]="teacher.user_id">{{ teacher.user_firstname + " " + teacher.user_lastname }}</option>
     </select>
+    <p>{{currentActivity.subject_code}}</p>
   </div>
