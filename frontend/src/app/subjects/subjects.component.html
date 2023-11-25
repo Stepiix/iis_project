@@ -5,6 +5,7 @@
         <th>name</th>
         <th>annotation</th>
         <th>guarantor</th>
+        <th *ngIf="itIsStudent">add subject</th>
         <th></th>
       </tr>
     </thead>
@@ -14,6 +15,11 @@
         <td>{{ subject.subject_name }}</td>
         <td>{{ subject.subject_annotation }}</td>
         <td>{{ getTeacherName(subject.subject_guarantor) }}</td>
+        <td *ngIf="itIsStudent">
+          <button (click)="addSubject(subject.subject_code)" class="icon-button">
+            <mat-icon>add</mat-icon>
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
