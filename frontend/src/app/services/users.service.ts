@@ -96,7 +96,7 @@ export class UsersService {
   
     return this.http.post(`${this.apiUrlsubjectTeacher}/create.php`, params);
   }
-  getSubjectTeachers(subject_code: string){
+  getTeachersForSubject(subject_code: string){
     console.log("----kokos--");
     console.log(subject_code);
     console.log("------");

@@ -36,12 +36,17 @@ export class GuaranteedSubjectsComponent implements OnInit{
   subjectteachers: any[] = [];
   showSelectColumn: boolean = false;
 
+  teachersMap: { [key: string]: string } = {};
+
   isFormVisible: boolean = false;
   addButtonText: string = "Add Activity";
   showAllSubjectsTable: boolean = false;
   showAllSubjectsButtonText: string = "See all my subjects";
   showAllActivitiesTable: boolean = false;
   showAllActivitiesButtonText: string = "See all activities"
+  showSetActivities: boolean = false;
+  showAblockButtonText: string = "Set activities"
+  
 
   constructor(private authService: AuthorizationService, private router: Router, private usersService: UsersService,private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
@@ -52,10 +57,47 @@ export class GuaranteedSubjectsComponent implements OnInit{
       this.loadTeachers();
       this.loadRooms();
       this.loadActivities();
+      // this.getTeachersForSubjects();
     } else {
       this.router.navigate(['/']);
       this.authService.showUnauthorizedAlert();
     }
+  }
+  helpLoadTeachers(){
+    this.subjects.forEach(subject => {
+      this.loadTeachersbySubject(subject.subject_code);
+    });
+  }
+  loadTeachersbySubject(subjectCode: string): void {
+    this.usersService.getTeachersForSubject(subjectCode)
+      .subscribe((data: any) => {
+        const teacherNames = data.records.map((teacher: any) => `${teacher.user_firstname} ${teacher.user_lastname}`).join(', ');
+        this.teachersMap[subjectCode] = teacherNames;
+      });
+  }
+  getTeacherNames(subjectCode: string): string {
+    return this.teachersMap[subjectCode] || 'No teachers available';
+  }
+  showAblock(){
+    this.showSetActivities = !this.showSetActivities;
+    if(this.isFormVisible){
+      this.isFormVisible = false;
+      this.addButtonText = "Add Activity";
+    }
+    if(this.showAllSubjectsTable){
+      this.showAllSubjectsTable = false;
+      this.showAllSubjectsButtonText = "See all my subjects";
+    }
+    if(this.showAllActivitiesTable){
+      this.showAllActivitiesTable = false;
+      this.showAllActivitiesButtonText = "See all activities";
+    }
+    if(this.showSetActivities){
+      this.showAblockButtonText = "Cancel"
+    } else {
+      this.showAblockButtonText = "Set activities"
+    }
+
   }
   onSubmit() {
     if(!this.activity.length||!this.activity.subject_code||!this.activity.type||!this.activity.week){
@@ -94,8 +136,12 @@ export class GuaranteedSubjectsComponent implements OnInit{
     });
   }
   loadMySubjects() {
+    console.log("tady jsem ja");
     this.usersService.getMySubjects(this.authService.getID()).subscribe((data: any) => {
       this.subjects = data.records;
+      console.log("tady to vypisuju");
+      console.log(this.subjects);
+      this.helpLoadTeachers();
     });
   }
   loadActivities(){
@@ -114,6 +160,10 @@ export class GuaranteedSubjectsComponent implements OnInit{
       this.showAllActivitiesTable = false;
       this.showAllActivitiesButtonText = "See all activities";
     }
+    if(this.showSetActivities){
+      this.showSetActivities = false;
+      this.showAblockButtonText = "Set activities";
+    }
     if(this.showAllSubjectsTable) {
       this.showAllSubjectsButtonText = "Cancel";
     } else {
@@ -130,6 +180,10 @@ export class GuaranteedSubjectsComponent implements OnInit{
       this.showAllActivitiesTable = false;
       this.showAllActivitiesButtonText = "See all activities";
     }
+    if(this.showSetActivities){
+      this.showSetActivities = false;
+      this.showAblockButtonText = "Set activities";
+    }
     if (this.isFormVisible) {
       this.addButtonText = "Cancel";
     } else {
@@ -145,6 +199,10 @@ export class GuaranteedSubjectsComponent implements OnInit{
     if(this.showAllSubjectsTable){
       this.showAllSubjectsTable = false;
       this.showAllSubjectsButtonText = "See all my subjects";
+    }
+    if(this.showSetActivities){
+      this.showSetActivities = false;
+      this.showAblockButtonText = "Set activities";
     }
     if(this.showAllActivitiesTable){
       this.showAllActivitiesButtonText = "Cancel"

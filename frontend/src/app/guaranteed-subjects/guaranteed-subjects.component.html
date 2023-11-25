@@ -2,6 +2,7 @@
   <button class="see-all-users-button" (click)="showAllSubjects()">{{ showAllSubjectsButtonText }}</button>
   <button class="see-all-users-button" (click)="toggleFormVisibility()">{{ addButtonText }}</button>
   <button class="see-all-users-button" (click)="showAllActivities()">{{ showAllActivitiesButtonText }}</button>
+  <button class="see-all-users-button" (click)="showAblock()">{{ showAblockButtonText }}</button>
 </div>
 
 <div class="user-form" *ngIf="isFormVisible">
@@ -65,7 +66,7 @@
         <td>{{ subject.subject_code }}</td>
         <td>{{ subject.subject_name }}</td>
         <td>{{ subject.subject_annotation }}</td>
-        <td>{{ subject.subject_annotation }}</td>
+        <td>{{ getTeacherNames(subject.subject_code) }}</td>
         <td><button (click)="subjectInEditMode[subject.subject_code] ? endEditSubject(subject) : editSubject(subject)" class="icon-button">
           <mat-icon>{{ subjectInEditMode[subject.subject_code] ? 'done' : 'person_add' }}</mat-icon></button></td>
           <!-- New column for select element -->
@@ -103,4 +104,7 @@
       </tr>
     </tbody>
   </table>
-  <!-- adding teacher -->
+
+  <div *ngIf="showSetActivities">
+    <p>ahoj</p>
+  </div>
