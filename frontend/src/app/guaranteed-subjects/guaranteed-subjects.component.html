@@ -89,6 +89,7 @@
         <th>subject_code</th>
         <th>delete</th>
         <th>edit</th>
+        <th>add to schedule</th>
       </tr>
     </thead>
     <tbody>
@@ -101,10 +102,19 @@
           <mat-icon>delete</mat-icon></button></td>
         <td><button (click)="activityInEditMode[activity.activity_id] ? endEditActivity(activity) : editActivity(activity)" class="icon-button">
           <mat-icon>{{ activityInEditMode[activity.activity_id] ? 'done' : 'edit' }}</mat-icon></button></td>
+          <td><button (click)="addToSchedule(activity)" class="icon-button">
+            <mat-icon>{{ 'edit' }}</mat-icon></button></td>
       </tr>
     </tbody>
   </table>
 
   <div *ngIf="showSetActivities">
-    <p>ahoj</p>
+    <p>{{currentActivity.type}}</p>
+    <p>{{currentActivity.id}}</p>
+    <p>{{currentActivity.length}}</p>
+    <p>{{currentActivity.week}}</p>
+    <p>{{currentActivity.subject_code}}</p>
+    <select id="user_role" name="user_role" [(ngModel)]="aBlock.teacher" required>
+      <option *ngFor="let teacher of currentActivityTeachers" [value]="teacher.user_id">{{ teacher.user_firstname + " " + teacher.user_lastname }}</option>
+    </select>
   </div>

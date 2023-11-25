@@ -27,6 +27,21 @@ export class GuaranteedSubjectsComponent implements OnInit{
   } = {
     teacher: '',
   }
+  currentActivity: {
+    id: string;
+    type: string;
+    length: number;
+    week: string;
+    subject_code: string;
+  } = {
+    id: '',
+    type: '',
+    length: 0,
+    week: '',
+    subject_code: '',
+  };
+  currentActivityTeachers: any[] = [];
+
   activityInEditMode: boolean[] = [];
   subjectInEditMode: boolean[] = [];
   rooms: any[] = [];
@@ -147,6 +162,23 @@ export class GuaranteedSubjectsComponent implements OnInit{
       this.activities = data.records;
       
     });
+  }
+  addToSchedule(activity: any){
+    this.usersService.getTeachersForSubject(activity.activity_subject_code).subscribe((data: any) => {
+      this.currentActivityTeachers = data.records;
+    });
+    this.currentActivity.id = activity.activity_id;
+    this.currentActivity.type = activity.activity_type;
+    this.currentActivity.length = activity.activity_length;
+    this.currentActivity.week = activity.activity_week;
+    this.currentActivity.subject_code = activity.activity_subject_code;
+
+    this.showAllActivitiesTable = false;
+    this.showAllActivitiesButtonText = "See all activities";
+    this.showSetActivities = true;
+    this.showAblockButtonText = "Cancel"
+
+
   }
 
   showAllSubjects(){
