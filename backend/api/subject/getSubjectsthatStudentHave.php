@@ -9,7 +9,7 @@ try {
     // Check if 'id' parameter is set in the GET request
     if (isset($_GET['user_id'])) {
         $sbj = $_GET['user_id'];
-        $sql = "SELECT Subject.subject_code, Subject.subject_name, Subject.subject_annotation
+        $sql = "SELECT Subject.subject_code
                 FROM Subject_Student
                 JOIN Subject ON Subject_Student.subject_code = Subject.subject_code
                 WHERE Subject_Student.user_id = ?";

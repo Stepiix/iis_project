@@ -139,4 +139,16 @@ export class UsersService {
     console.log(userid)
     return this.http.get(`${this.apiUrlSubjects}/getSubjectsthatStudentHave.php?user_id=${userid}`);
   }
+  removeSubjectFromStudent(subject_code: string, student_id: string){
+    const requestBody = {
+      subject_code: subject_code,
+      user_id: student_id,
+    };
+  
+    const options = {
+      body: requestBody, // Include the request body in the options
+    };
+  
+    return this.http.delete(`${this.apiUrlSubjects}/deleteSubjectFromStudent.php`, options);
+  }
 }

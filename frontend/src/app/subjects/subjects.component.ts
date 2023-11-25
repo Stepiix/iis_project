@@ -23,6 +23,7 @@ export class SubjectsComponent implements OnInit{
   };
   teachers: any[] = [];
   subjects: any[] = [];
+  subjectsIhave: string[] = [];
   itIsStudent:boolean=false;
 
   constructor(private authService: AuthorizationService, private router: Router, private http: HttpClient, private usersService: UsersService, private cdr: ChangeDetectorRef) {}
@@ -53,12 +54,35 @@ export class SubjectsComponent implements OnInit{
       this.subjects = data.records;
     });
   }
+  toggleSubject(subject: any) {
+    const isSubjectInList = this.subjectsIhave.includes(subject.subject_code);
+  
+    if (isSubjectInList) {
+      this.removeSubject(subject.subject_code);
+    } else {
+      this.addSubject(subject.subject_code);
+    }
+  }
   addSubject(subject: any) {
     const studentId = this.authService.getID();
   
     if (studentId !== null) {
       this.usersService.addSubjectToStudent(subject, studentId).subscribe((data: any) => {
         // Handle the response data if needed
+        this.knowWhatSubjectDoIAlreadyHave(this.authService.getID());
+      });
+    } else {
+      console.error("Student ID is null");
+      // Handle the case when student ID is null, depending on your requirements
+    }
+  }
+  removeSubject(subject: string) {
+    const studentId = this.authService.getID();
+  
+    if (studentId !== null) {
+      this.usersService.removeSubjectFromStudent(subject, studentId).subscribe((data: any) => {
+        // Handle the response data if needed
+        this.knowWhatSubjectDoIAlreadyHave(this.authService.getID());
       });
     } else {
       console.error("Student ID is null");
@@ -67,6 +91,9 @@ export class SubjectsComponent implements OnInit{
   }
   knowWhatSubjectDoIAlreadyHave(id: any){
     this.usersService.giveMeMySubjects(id).subscribe((data: any) => {
+      console.log('Subjects I Have:', data);
+      this.subjectsIhave = data.records.map((item: any) => item.subject_code);
+      this.cdr.detectChanges();
     });
   }
 

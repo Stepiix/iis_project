@@ -9,11 +9,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./schedule.component.css']
 })
 export class ScheduleComponent {
+  itIsRozvrhar:boolean=false;
+
   constructor(private authService: AuthorizationService, private router: Router) {}
 
   ngOnInit(): void {
     // Use the authService to check authorization
-    if (this.authService.isAuthorized('student')) {
+    if(this.authService.getUserRole() === "rozvrhar"){
+      this.itIsRozvrhar = true;
+      console.log("rozvrhar")
+    }
+    if (this.authService.isAuthorized('student') || this.itIsRozvrhar) {
       // Add your initialization logic for authorized students here
       console.log('ScheduleComponent initialized for authorized student.');
     } else {

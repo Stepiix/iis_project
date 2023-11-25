@@ -42,7 +42,9 @@ export class SignInComponent {
         this.startUserSession(userID, 'teacher');
       } else if(userRole === "admin") {
         this.startUserSession(userID, 'admin');
-      }
+      } else if(userRole === "rozvrhar") {
+        this.startUserSession(userID, 'rozvrhar');
+      } 
       console.log("Je to " + userRole);
       this.router.navigate(['/']);
       this.auth.login();
