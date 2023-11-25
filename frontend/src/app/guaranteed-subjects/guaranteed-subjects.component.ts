@@ -411,12 +411,15 @@ export class GuaranteedSubjectsComponent implements OnInit{
   }
   endEditActivity(activity: any) {
     // Ukončit režim editace pro daného uživatele
-    this.usersService.editSubject(activity).subscribe(() => this.loadActivities());
+    console.log("cau kamo")
+    console.log(activity)
+    this.usersService.editActivity(activity).subscribe(() => this.loadActivities());
     this.activityInEditMode[activity.activity_id] = false;
 //    this.cdr.detectChanges();
   }
   editActivity(activity: any) {
     console.log("editujeme ",activity.activity_id)
+    this.activityInEditMode[activity.activity_id] = true;
     // Nastavit režim editace pro daného uživatele
 
     this.activityInEditMode[activity.activity_id] = true;

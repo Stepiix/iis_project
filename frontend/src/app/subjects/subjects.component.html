@@ -5,6 +5,8 @@
         <th>name</th>
         <th>annotation</th>
         <th>guarantor</th>
+        <th *ngIf="itIsStudent">add subject</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -13,6 +15,13 @@
         <td>{{ subject.subject_name }}</td>
         <td>{{ subject.subject_annotation }}</td>
         <td>{{ getTeacherName(subject.subject_guarantor) }}</td>
+        <td *ngIf="itIsStudent">
+          <button (click)="toggleSubject(subject)" class="icon-button">
+            <mat-icon>
+              {{ subjectsIhave.includes(subject.subject_code) ? 'remove' : 'add' }}
+            </mat-icon>
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>

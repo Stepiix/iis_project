@@ -56,10 +56,20 @@ export class UsersService {
     const url = `${this.apiUrlActivity}/edit.php`;
     const body = {
       type: activity.activity_type,
-      name: activity.activity_length,
-      annotation: activity.activity_week,
-      guarantor: activity.activity_subject_code
+      length: activity.activity_length,
+      week: activity.activity_week,
+      subject_code: activity.activity_subject_code,
+      id : activity.activity_id
+      
     };
+
+    console.log("=-=-=-=-=-=-=-=-=-=-=")
+    console.log(body.type)
+    console.log(body.length)
+    console.log(body.week)
+    console.log(body.subject_code)
+    console.log(body.id)
+    console.log("=-=-=-=-=-=-=-=-=-=-=")
 
     return this.http.put(url, body);
   }
@@ -120,5 +130,23 @@ export class UsersService {
     console.log(subject_code);
     console.log("------");
     return this.http.get(`${this.apiUrlsubjectTeacher}/getTeacherBySubject.php?subject_code=${subject_code}`);
+  }
+  addSubjectToStudent(subject_code: string, student_id: string){
+    const requestBody = {
+      subject_code: subject_code,
+      user_id: student_id,
+    };
+    console.log(requestBody.subject_code)
+    console.log(requestBody.user_id)
+    return this.http.post(`${this.apiUrlSubjects}/addSubjecttoStudent.php`,requestBody);
+  }
+  giveMeMySubjects(userid: any) {
+    return this.http.get(`${this.apiUrlSubjects}/getSubjectsthatStudentHave.php?user_id=${userid}`);
+  }
+  removeSubjectFromStudent(subject_code: string, student_id: string){
+    return this.http.delete(`${this.apiUrlSubjects}/deleteSubjectFromStudent.php?subject_code=${subject_code}&user_id=${student_id}`);
+  }
+  loadAblocks(){
+    return this.http.get(`${this.apiUrlSubjects}/getAll.php`);//TODO
   }
 }

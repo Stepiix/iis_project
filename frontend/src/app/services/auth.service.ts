@@ -32,6 +32,19 @@ export class AuthorizationService {
       return null;
     }
   }
+
+  getUserRole() {
+    const sessionData = sessionStorage.getItem('userSession');
+  
+    if (sessionData !== null) {
+      const userData = JSON.parse(sessionData);
+      const userRole = userData.userRole;
+      return userRole;
+    } else {
+      console.error("User session data is not available.");
+      // Handle the case when user session data is not available.
+    }
+  }
   showUnauthorizedAlert() {
     const welcomeAlert = document.createElement('div');
     welcomeAlert.textContent = 'K tomuto nemáš přístup';
