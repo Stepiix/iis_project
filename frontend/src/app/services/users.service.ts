@@ -81,6 +81,9 @@ export class UsersService {
   getActivities(){
     return this.http.get(`${this.apiUrlActivity}/getAll.php`);
   }
+  getMyActivities(user: any){
+    return this.http.get(`${this.apiUrlActivity}/getAllByTeacher.php?id=${user}`);
+  }
   deleteActivity(subjectCode: string) {
     return this.http.delete(`${this.apiUrlActivity}/delete.php?activity_id=${subjectCode}`);
   }

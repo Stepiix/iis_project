@@ -139,14 +139,13 @@ export class GuaranteedSubjectsComponent implements OnInit{
     console.log("tady jsem ja");
     this.usersService.getMySubjects(this.authService.getID()).subscribe((data: any) => {
       this.subjects = data.records;
-      console.log("tady to vypisuju");
-      console.log(this.subjects);
       this.helpLoadTeachers();
     });
   }
   loadActivities(){
-    this.usersService.getActivities().subscribe((data: any) => {
+    this.usersService.getMyActivities(this.authService.getID()).subscribe((data: any) => {
       this.activities = data.records;
+      
     });
   }
 
@@ -233,7 +232,7 @@ export class GuaranteedSubjectsComponent implements OnInit{
   endEditSubject(subject: any) {
     // Ukončit režim editace pro daného uživatele
     console.log("ahoj");
-    this.usersService.addTeacher(subject.subject_code,this.aBlock.teacher).subscribe(() => this.loadMySubjects()); // zmenit aby se pridal teacher
+    this.usersService.addTeacher(subject.subject_code,this.aBlock.teacher).subscribe(() => this.loadMySubjects()); // zmenit aby 1 pridal teacher
     this.subjectInEditMode[subject.subject_code] = false;
   }
   editSubject(subject: any) {
