@@ -6,13 +6,13 @@ include '../database.php';
 
 /** @var PDO $db */
 
-$subject = json_decode(file_get_contents("php://input"));
+$act = json_decode(file_get_contents("php://input"));
 
 
-if (isset($subject)) {
+if (isset($act)) {
 
 
-    $sql = "UPDATE Subject
+    $sql = "UPDATE Activity
         SET activity_type = ?,
         activity_length = ?,
         activity_week = ?,
@@ -21,7 +21,7 @@ if (isset($subject)) {
 
     $stmt = $db->prepare($sql);
 
-    $stmt->execute([$subject->type, $subject->length, $subject->week, $subject->subject_code, $subject->id]);
+    $stmt->execute([$act->type, $act->length, $act->week, $act->subject_code, $act->id]);
 }
 
 $response = array("message" => "aktivita byla upravena");
