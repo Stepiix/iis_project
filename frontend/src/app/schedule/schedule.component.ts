@@ -90,9 +90,54 @@ export class ScheduleComponent {
     block.a_block_room = selectedRoom;
   }
   saveRoom(block: any) {
-    // Zde implementujte akce pro uložení změn v místnosti pro konkrétní blok
-    console.log(`Uložení změn pro blok ${block.a_block_id}, vybraná místnost: ${this.selectedRooms[block.a_block_id]}`);
-    // Toto může zahrnovat volání služby pro uložení dat na serveru nebo jiné potřebné kroky.
+    if (block.a_block_confirmed === 0) {
+      const teacherId = block.a_block_teacher;
+      const beginTime = block.a_block_begin;
+      const endTime = block.a_block_end;
+      console.log(teacherId)
+      console.log(beginTime)
+      console.log(endTime)
+  
+      // Zde můžete provést kontrolu, zda existuje učitel s daným ID, který učí v daném čase
+      const isTeacherAvailable = this.isTeacherAvailable(teacherId,block.a_block_day, beginTime, endTime);
+  
+      if (isTeacherAvailable) {
+        // Pokud je učitel dostupný, můžete provést uložení
+        console.log(`Uložení změn pro blok ${block.a_block_id}, vybraná místnost: ${this.selectedRooms[block.a_block_id]}`);
+        this.usersService.confirmAblock(block.a_block_id, this.selectedRooms[block.a_block_id]).subscribe((data: any) => {
+          this.loadAblocks();
+        });
+      } else {
+        // Pokud učitel není dostupný, můžete zobrazit chybu nebo informaci o nedostupnosti
+        console.log('Učitel není dostupný v tomto čase nebo je překrytý jiným blokem.');
+      }
+    }
+  }
+  isTeacherAvailable(teacherId: number, day: string, beginTime: number, endTime: number): boolean {
+    const teacherBlocks = this.aBlocks.filter(block => 
+      block.a_block_teacher === teacherId &&
+      block.a_block_confirmed === 1 &&
+      block.a_block_day === day
+    );
+  
+    const isAvailable = !teacherBlocks.some(existingBlock =>
+      (beginTime >= existingBlock.a_block_begin && beginTime < existingBlock.a_block_end) ||
+      (endTime > existingBlock.a_block_begin && endTime <= existingBlock.a_block_end) ||
+      (beginTime <= existingBlock.a_block_begin && endTime >= existingBlock.a_block_begin)
+    );
+  
+    return isAvailable;
+  }
+  filterConfirmedBlocks(blocks: any[]): any[] {
+    return blocks.filter(block => block.a_block_confirmed === 1);
+  }
+  removeBlock(block:any){
+    console.log("------");
+    console.log(block.a_block_id);
+    console.log("------");
+    this.usersService.unconfirmAblock(block.a_block_id).subscribe((data: any) => {
+      this.loadAblocks();
+    });
   }
 
 }

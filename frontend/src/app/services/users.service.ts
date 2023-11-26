@@ -149,4 +149,20 @@ export class UsersService {
   loadAblocks(){
     return this.http.get(`${this.apiUrlABlocks}/getAll.php`);
   }
+  confirmAblock(ablockID: any, roomCODE: any){
+    const url = `${this.apiUrlABlocks}/confirmActivity.php`;
+    const data = {
+      a_block_id: ablockID,
+      a_block_room_code: roomCODE
+    };
+    return this.http.put(url, data);
+  }
+  unconfirmAblock(ablockID:any){
+    const url = `${this.apiUrlABlocks}/unconfirmActivity.php`;
+    const data = {
+      a_block_id: ablockID,
+    };
+    return this.http.put(url, data);
+
+  }
 }

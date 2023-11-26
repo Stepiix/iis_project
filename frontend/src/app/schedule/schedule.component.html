@@ -1,17 +1,18 @@
 <div *ngIf="itIsRozvrhar">
-    <p>Jsi rozvrhar</p>
+  <p>Jsi rozvrhar</p>
+
+  <button (click)="sortAblocksByDay()">Seřadit podle času</button>
+
+  <div *ngFor="let block of aBlocks" [ngStyle]="{'color': getColorForBlock(block)}">
+    {{ block.a_block_activity_id }} - {{ block.a_block_day }} - {{ block.a_block_begin }}:00 - {{ block.a_block_end }}:00
   
-    <button (click)="sortAblocksByDay()">Seřadit podle času</button>
+    <!-- Zobrazení informací o učiteli -->
+    <span *ngIf="block.a_block_teacher !== undefined">
+      Učitel: {{ getTeacherName(block.a_block_teacher) }}
+    </span>
   
-    <div *ngFor="let block of aBlocks" [ngStyle]="{'color': getColorForBlock(block)}">
-      {{ block.a_block_activity_id }} - {{ block.a_block_day }} - {{ block.a_block_begin }}:00 - {{ block.a_block_end }}:00
-    
-      <!-- Zobrazení informací o učiteli -->
-      <span *ngIf="block.a_block_teacher !== undefined">
-        Učitel: {{ getTeacherName(block.a_block_teacher) }}
-      </span>
-    
-      <!-- Select pro výběr místnosti -->
+    <!-- Select pro výběr místnosti a tlačítko "Save" pro nepotvrzené bloky -->
+    <ng-container *ngIf="block.a_block_confirmed !== 1">
       <select [(ngModel)]="selectedRooms[block.a_block_id]" (change)="onRoomChange(block, selectedRooms[block.a_block_id])">
         <option *ngFor="let room of rooms" [value]="room.room_code">
           {{ room.room_code }} - Kapacita: {{ room.room_capacity }}
@@ -20,8 +21,13 @@
     
       <!-- Tlačítko "Save" -->
       <button (click)="saveRoom(block)">Save</button>
-    
-      <br>
-    </div>
-  </div>
+    </ng-container>
+
+    <!-- Tlačítko "Remove" pro potvrzené bloky -->
+    <ng-container *ngIf="block.a_block_confirmed === 1">
+      <button (click)="removeBlock(block)">Remove</button>
+    </ng-container>
   
+    <br>
+  </div>
+</div>
