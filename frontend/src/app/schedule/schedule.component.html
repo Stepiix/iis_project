@@ -1,5 +1,4 @@
 <div *ngIf="itIsRozvrhar">
-  <p>Jsi rozvrhar</p>
 
   <button (click)="sortAblocksByDay()">Seřadit podle času</button>
 
@@ -39,5 +38,14 @@
     </ng-container>
 
     <br>
+  </div>
+</div>
+
+<div *ngIf="itIsStudent">
+  <div *ngFor="let block of sortedSchedule" class="block-container">
+    <p class="day-heading">{{ block.a_block_day }}, {{ block.a_block_begin }}:00 - {{ block.a_block_end }}:00</p>
+    <p class="schedule-info">Subject: {{ block.subject_code }} - {{ block.subject_name }}</p>
+    <p class="schedule-info">Type: {{ block.activity_type }}</p>
+    <p class="schedule-info">Room: {{ block.a_block_room_code }}</p>
   </div>
 </div>

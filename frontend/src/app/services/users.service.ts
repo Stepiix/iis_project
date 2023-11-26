@@ -61,7 +61,7 @@ export class UsersService {
       week: activity.activity_week,
       subject_code: activity.activity_subject_code,
       id : activity.activity_id
-      
+
     };
 
     console.log("=-=-=-=-=-=-=-=-=-=-=")
@@ -105,6 +105,11 @@ export class UsersService {
   getABlocks(user_id: number) {
     return this.http.post(`${this.apiUrlABlocks}/getAllByUser.php`, {"user_id": user_id});
   }
+
+  getMySchedule(user: any){
+    return this.http.get(`${this.apiUrlABlocks}/getScheduleById.php?id=${user}`);
+  }
+
   getActivities(){
     return this.http.get(`${this.apiUrlActivity}/getAll.php`);
   }

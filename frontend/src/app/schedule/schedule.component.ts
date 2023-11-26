@@ -5,18 +5,22 @@ import { Router } from '@angular/router';
 import { UsersService } from '../services/users.service';
 import { forkJoin } from 'rxjs';
 @Component({
-  selector: 'app-schedule', 
+  selector: 'app-schedule',
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.css'],
 })
 export class ScheduleComponent {
   itIsRozvrhar:boolean=false;
+  itIsStudent: boolean=false;
   originalAblocks: any[] = [];
   aBlocks: any[] = [];
+  studentABlocks: any[] = [];
   teachers: any[] = [];
   rooms: any[] = [];
   colorMap: { [key: number]: string } = {};
   selectedRooms: { [blockId: number]: string } = {};
+  schedule: any[] = [];
+  sortedSchedule: any[] = [];
 
   constructor(private authService: AuthorizationService, private router: Router, private usersService: UsersService) {}
 
@@ -24,12 +28,20 @@ export class ScheduleComponent {
     if(this.authService.getUserRole() === "rozvrhar"){
       this.itIsRozvrhar = true;
       console.log("rozvrhar")
+    } else if(this.authService.getUserRole() === "student" || this.authService.getUserRole() === "teacher") {
+      this.itIsStudent = true;
+      console.log("student or teacher")
     }
     if (this.authService.isAuthorized('student') || this.itIsRozvrhar) {
       console.log('ScheduleComponent initialized for authorized student.');
-      this.loadAblocks();
-      this.loadTeachers();
-      this.loadRooms();
+      if (this.itIsRozvrhar) {
+        this.loadAblocks();
+        this.loadTeachers();
+        this.loadRooms();
+      }
+      if (this.itIsStudent) {
+        this.loadSchedule();
+      }
     } else {
       this.router.navigate(['/']);
       this.authService.showUnauthorizedAlert();
@@ -52,6 +64,31 @@ export class ScheduleComponent {
       console.log("---------")
     });
   }
+
+  loadSchedule() {
+    this.usersService.getMySchedule(this.authService.getID()).subscribe((data: any) => {
+      this.schedule = data.records;
+      this.sortSchedule();
+    });
+  }
+
+  sortSchedule() {
+    // Define the order of days in a week
+    const daysOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+
+    // Sort the schedule based on the custom order
+    this.sortedSchedule = this.schedule.sort((a, b) => {
+      const dayIndexA = daysOrder.indexOf(a.a_block_day);
+      const dayIndexB = daysOrder.indexOf(b.a_block_day);
+
+      if (dayIndexA !== dayIndexB) {
+        return dayIndexA - dayIndexB;
+      }
+
+      return a.a_block_begin - b.a_block_begin;
+    });
+  }
+
   loadTeachers(){
     this.usersService.getTeachers().subscribe((data: any) => {
       this.teachers = data.records;
@@ -88,10 +125,10 @@ export class ScheduleComponent {
       const beginTime = block.a_block_begin;
       const endTime = block.a_block_end;
       const roomCode = this.selectedRooms[block.a_block_id];
-  
+
       const isTeacherAvailable = this.isTeacherAvailable(teacherId, block.a_block_day, beginTime, endTime);
       const isRoomAvailable = this.isRoomAvailable(block.a_block_day, beginTime, endTime, roomCode);
-  
+
       if (isTeacherAvailable && isRoomAvailable) {
         console.log(`Uložení změn pro blok ${block.a_block_id}, vybraná místnost: ${roomCode}`);
         this.usersService.confirmAblock(block.a_block_id, roomCode).subscribe((data: any) => {
@@ -106,46 +143,46 @@ export class ScheduleComponent {
   return this.aBlocks.some(block => block.a_block_confirmed === 1 && block.a_block_activity_id === activityId);
 }
   canSaveBlock(block: any): boolean {
-  
+
     const teacherId = block.a_block_teacher;
     const beginTime = block.a_block_begin;
     const endTime = block.a_block_end;
     const roomCode = this.selectedRooms[block.a_block_id];
-  
+
     const isTeacherAvailable = this.isTeacherAvailable(teacherId, block.a_block_day, beginTime, endTime);
     const isRoomAvailable = this.isRoomAvailable(block.a_block_day, beginTime, endTime, roomCode);
-  
+
     return isTeacherAvailable && isRoomAvailable;
   }
   isTeacherAvailable(teacherId: number, day: string, beginTime: number, endTime: number): boolean {
-    const teacherBlocks = this.aBlocks.filter(block => 
+    const teacherBlocks = this.aBlocks.filter(block =>
       block.a_block_teacher === teacherId &&
       block.a_block_confirmed === 1 &&
       block.a_block_day === day
     );
-  
+
     const isAvailable = !teacherBlocks.some(existingBlock =>
       (beginTime >= existingBlock.a_block_begin && beginTime < existingBlock.a_block_end) ||
       (endTime > existingBlock.a_block_begin && endTime <= existingBlock.a_block_end) ||
       (beginTime <= existingBlock.a_block_begin && endTime >= existingBlock.a_block_begin)
     );
-  
+
     return isAvailable;
   }
-  
+
   isRoomAvailable(day: string, beginTime: number, endTime: number, roomCode: string): boolean {
-    const roomBlocks = this.aBlocks.filter(block => 
+    const roomBlocks = this.aBlocks.filter(block =>
       block.a_block_confirmed === 1 &&
       block.a_block_day === day &&
       block.a_block_room_code === roomCode
     );
-  
+
     const isAvailable = !roomBlocks.some(existingBlock =>
       (beginTime >= existingBlock.a_block_begin && beginTime < existingBlock.a_block_end) ||
       (endTime > existingBlock.a_block_begin && endTime <= existingBlock.a_block_end) ||
       (beginTime <= existingBlock.a_block_begin && endTime >= existingBlock.a_block_begin)
     );
-  
+
     return isAvailable;
   }
   filterConfirmedBlocks(blocks: any[]): any[] {
@@ -161,7 +198,7 @@ export class ScheduleComponent {
   }
   getOccupiedRooms(day: string, beginTime: number, endTime: number): string[] {
     const occupiedRooms: string[] = [];
-  
+
     this.aBlocks
       .filter(block => block.a_block_confirmed === 1 && block.a_block_day === day)
       .forEach(existingBlock => {
@@ -174,9 +211,9 @@ export class ScheduleComponent {
           occupiedRooms.push(existingBlock.a_block_room_code);
         }
       });
-  
+
     return occupiedRooms;
   }
-  
+
 
 }

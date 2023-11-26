@@ -1,7 +1,26 @@
 .color-2 {
-    background-color: #ffcccb; 
+    background-color: #ffcccb;
   }
-  
+
   .color-3 {
-    background-color: #c2f0c2; 
+    background-color: #c2f0c2;
   }
+
+.block-container {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+.day-heading {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.schedule-info {
+    margin-bottom: 5px;
+}
