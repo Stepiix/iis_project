@@ -2,7 +2,6 @@
   <button class="see-all-users-button" (click)="showAllSubjects()">{{ showAllSubjectsButtonText }}</button>
   <button class="see-all-users-button" (click)="toggleFormVisibility()">{{ addButtonText }}</button>
   <button class="see-all-users-button" (click)="showAllActivities()">{{ showAllActivitiesButtonText }}</button>
-  <button class="see-all-users-button" (click)="showAblock()">{{ showAblockButtonText }}</button>
 </div>
 
 <div class="user-form" *ngIf="isFormVisible">
@@ -135,22 +134,22 @@
           <mat-icon>delete</mat-icon></button></td>
         <td><button (click)="activityInEditMode[activity.activity_id] ? endEditActivity(activity) : editActivity(activity)" class="icon-button">
           <mat-icon>{{ activityInEditMode[activity.activity_id] ? 'done' : 'edit' }}</mat-icon></button></td>
-          <td><button (click)="addToSchedule(activity)" class="icon-button">
-            <mat-icon>{{ 'edit' }}</mat-icon></button></td>
+          <td><button (click)="addToSchedule(activity); onTeacherChange(aBlock.teacher)" class="icon-button">
+            <mat-icon>{{ 'date_range' }}</mat-icon></button></td>
       </tr>
     </tbody>
   </table>
 
 <div class="activity-positions-container" *ngIf="showSetActivities">
-    <p>{{currentActivity.type}}</p>
-    <p>{{currentActivity.id}}</p>
-    <p>{{currentActivity.length}}</p>
-    <p>{{currentActivity.week}}</p>
-    <p>{{currentActivity.subject_code}}</p>
-    <select id="user_role" name="user_role" [(ngModel)]="aBlock.teacher" (ngModelChange)="onTeacherChange(aBlock.teacher)" required>
+    <p>Druh: {{currentActivity.type}}</p>
+    <p>ID: {{currentActivity.id}}</p>
+    <p>Délka: {{currentActivity.length}}</p>
+    <p>Opakování: {{currentActivity.week}}</p>
+    <p>Předmět: {{currentActivity.subject_code}}</p>
+    <select id="techer_select" name="teacher_select" [(ngModel)]="aBlock.teacher" (ngModelChange)="onTeacherChange(aBlock.teacher)" required>
       <option *ngFor="let teacher of currentActivityTeachers" [value]="teacher.user_id">{{ teacher.user_firstname + " " + teacher.user_lastname }}</option>
     </select>
-    <p>{{aBlock.teacher}}</p>
+    <p>ID učitele: {{aBlock.teacher}}</p>
 
   <h4>Possible Activity Positions:</h4>
   <table class="activity-positions-table">

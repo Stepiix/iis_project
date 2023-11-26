@@ -1,11 +1,27 @@
-<div *ngIf="!itIsRozvrhar">
-<p>Nejsi rozvrhar</p>
-</div>
-
-
-
-
 <div *ngIf="itIsRozvrhar">
-<p>Jsi rozvrhar</p>
-
-</div>
+    <p>Jsi rozvrhar</p>
+  
+    <button (click)="sortAblocksByDay()">Seřadit podle času</button>
+  
+    <div *ngFor="let block of aBlocks" [ngStyle]="{'color': getColorForBlock(block)}">
+      {{ block.a_block_activity_id }} - {{ block.a_block_day }} - {{ block.a_block_begin }}:00 - {{ block.a_block_end }}:00
+    
+      <!-- Zobrazení informací o učiteli -->
+      <span *ngIf="block.a_block_teacher !== undefined">
+        Učitel: {{ getTeacherName(block.a_block_teacher) }}
+      </span>
+    
+      <!-- Select pro výběr místnosti -->
+      <select [(ngModel)]="selectedRooms[block.a_block_id]" (change)="onRoomChange(block, selectedRooms[block.a_block_id])">
+        <option *ngFor="let room of rooms" [value]="room.room_code">
+          {{ room.room_code }} - Kapacita: {{ room.room_capacity }}
+        </option>
+      </select>
+    
+      <!-- Tlačítko "Save" -->
+      <button (click)="saveRoom(block)">Save</button>
+    
+      <br>
+    </div>
+  </div>
+  

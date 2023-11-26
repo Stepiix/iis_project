@@ -321,13 +321,16 @@ export class GuaranteedSubjectsComponent implements OnInit{
     console.log(this.selected_a_blocks);
 
     const postData = this.selected_a_blocks.length > 0 ? this.selected_a_blocks : { user_id: this.teacher_id };
-
+    this.showCreatedAlert3();
     this.http.post('http://localhost/iis_project/backend/api/a_block/create-update.php', postData)
         .subscribe(
             (response) => {
               // Handle a successful response from the server
+          
               console.log(response);
               this.loadSelectedABlocks(); // After user creation, refresh the user list
+
+
             },
             (error) => {
               // Handle errors here
@@ -438,9 +441,6 @@ export class GuaranteedSubjectsComponent implements OnInit{
     this.showSelectColumn = true;
     this.cdr.detectChanges();
   }
-  addTeacher(){
-    return;
-  }
   showCreatedAlert() {
     const welcomeAlert = document.createElement('div');
     welcomeAlert.textContent = 'Activita vytvořena';
@@ -472,6 +472,27 @@ export class GuaranteedSubjectsComponent implements OnInit{
     welcomeAlert.style.padding = '15px';
     welcomeAlert.style.width = '100%';
     welcomeAlert.style.background = '#FF0000';
+    welcomeAlert.style.color = 'white';
+    welcomeAlert.style.borderRadius = '5px';
+    welcomeAlert.style.whiteSpace = 'nowrap';
+    welcomeAlert.style.textAlign = 'center';
+    document.body.appendChild(welcomeAlert);
+
+    // Automatické skrytí alertu po 2 sekundách (2000 ms)
+    window.setTimeout(() => {
+      welcomeAlert.style.display = 'none';
+    }, 2000);
+  }
+  showCreatedAlert3() {
+    const welcomeAlert = document.createElement('div');
+    welcomeAlert.textContent = 'Zadal jsi časy pro aktivitu';
+    welcomeAlert.style.position = 'fixed';
+    welcomeAlert.style.top = '10%';
+    welcomeAlert.style.left = '50%';
+    welcomeAlert.style.transform = 'translate(-50%, -50%)';
+    welcomeAlert.style.padding = '15px';
+    welcomeAlert.style.width = '100%';
+    welcomeAlert.style.background = '#00FF00';
     welcomeAlert.style.color = 'white';
     welcomeAlert.style.borderRadius = '5px';
     welcomeAlert.style.whiteSpace = 'nowrap';
