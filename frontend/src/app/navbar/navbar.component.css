@@ -34,8 +34,7 @@ header {
 
 .menu-toggler {
   color: white;
-  /* Add this line to set the text color to white */
-}
+ }
 
 .menu-toggler:hover {
   color: orange;

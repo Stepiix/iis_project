@@ -12,8 +12,7 @@ export class NavbarComponent {
   isMenuOpened2: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {
-    // Check user's login status when the component is created
-  }
+   }
 
   scheduleClick(): void {
     const sessionData = sessionStorage.getItem('userSession');
@@ -75,8 +74,7 @@ export class NavbarComponent {
     if (this.authService.isLoggedIn()) {
       this.authService.logout();
     } else {
-      // You can navigate to the login page or perform a login action here
-      this.router.navigate(['/sign_in']);
+       this.router.navigate(['/sign_in']);
     }
   }
 
@@ -96,7 +94,6 @@ export class NavbarComponent {
     welcomeAlert.style.textAlign = 'center';
     document.body.appendChild(welcomeAlert);
 
-    // Automatické skrytí alertu po 2 sekundách (2000 ms)
     window.setTimeout(() => {
       welcomeAlert.style.display = 'none';
     }, 2000);

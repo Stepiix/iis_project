@@ -21,22 +21,18 @@ export class ScheduleComponent {
   constructor(private authService: AuthorizationService, private router: Router, private usersService: UsersService) {}
 
   ngOnInit(): void {
-    // Use the authService to check authorization
     if(this.authService.getUserRole() === "rozvrhar"){
       this.itIsRozvrhar = true;
       console.log("rozvrhar")
     }
     if (this.authService.isAuthorized('student') || this.itIsRozvrhar) {
-      // Add your initialization logic for authorized students here
       console.log('ScheduleComponent initialized for authorized student.');
       this.loadAblocks();
       this.loadTeachers();
       this.loadRooms();
     } else {
-      // Handle unauthorized access
       this.router.navigate(['/']);
       this.authService.showUnauthorizedAlert();
-      // Optionally, you can redirect to another route or show an unauthorized message.
     }
   }
   loadRooms(){
@@ -87,17 +83,14 @@ export class ScheduleComponent {
   }
   getColorForBlock(block: any): string {
     if (!this.colorMap[block.a_block_activity_id]) {
-      // Pokud pro toto ID ještě není přiřazena barva, přiřaďte novou barvu
       this.colorMap[block.a_block_activity_id] = this.getRandomColor();
     }
     return this.colorMap[block.a_block_activity_id];
   }
   getRandomColor(): string {
-    // Generování náhodné barvy, můžete to nahradit vlastní logikou
     return '#' + Math.floor(Math.random()*16777215).toString(16);
   }
   onRoomChange(block: any, selectedRoom: string) {
-    // Aktualizujte místnost v bloku podle výběru
     block.a_block_room = selectedRoom;
   }
   saveRoom(block: any) {

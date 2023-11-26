@@ -68,12 +68,10 @@ export class SubjectsComponent implements OnInit{
   
     if (studentId !== null) {
       this.usersService.addSubjectToStudent(subject, studentId).subscribe((data: any) => {
-        // Handle the response data if needed
         this.knowWhatSubjectDoIAlreadyHave(this.authService.getID());
       });
     } else {
       console.error("Student ID is null");
-      // Handle the case when student ID is null, depending on your requirements
     }
   }
   removeSubject(subject: string) {
@@ -81,12 +79,10 @@ export class SubjectsComponent implements OnInit{
   
     if (studentId !== null) {
       this.usersService.removeSubjectFromStudent(subject, studentId).subscribe((data: any) => {
-        // Handle the response data if needed
         this.knowWhatSubjectDoIAlreadyHave(this.authService.getID());
       });
     } else {
       console.error("Student ID is null");
-      // Handle the case when student ID is null, depending on your requirements
     }
   }
   knowWhatSubjectDoIAlreadyHave(id: any){
@@ -101,7 +97,3 @@ export class SubjectsComponent implements OnInit{
 
 
 }
-
-
-
-

@@ -4,7 +4,7 @@ declare(strict_types=1);
 include '../database.php';
 
 try {
-    $sql = "SELECT user_id, user_firstname, user_lastname, user_email, user_role FROM User"; // Přidáno user_id do SQL dotazu
+    $sql = "SELECT user_id, user_firstname, user_lastname, user_email, user_role FROM User";
     $stmt = $db->prepare($sql);
     $stmt->execute();
 
