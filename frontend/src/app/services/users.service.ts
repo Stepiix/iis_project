@@ -9,7 +9,7 @@ export class UsersService {
   private apiUrlRooms = 'http://localhost/iis_project/backend/api/room';
   private apiUrlSubjects = 'http://localhost/iis_project/backend/api/subject';
   private apiUrlTBlocks = 'http://localhost/iis_project/backend/api/t_block';
-  private apiUrlABlocks = 'http://localhost/iis_project/backend/api/A_block';
+  private apiUrlABlocks = 'http://localhost/iis_project/backend/api/a_block';
   private apiUrlActivity = 'http://localhost/iis_project/backend/api/activity';
   private apiUrlsubjectTeacher = 'http://localhost/iis_project/backend/api/subjectTeacher';
   constructor(private http: HttpClient) { }
