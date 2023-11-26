@@ -43,24 +43,13 @@ export class ScheduleComponent {
       console.log("=========")
     });
   }
-  loadAblocks() {
+  loadAblocks(){
     this.usersService.loadAblocks().subscribe((data: any) => {
       this.originalAblocks = data.records;
-
-      // For each block, make a separate request to get activity_week
-      forkJoin(
-        this.originalAblocks.map(block => this.usersService.getBlockWeekInfo(block.a_block_id))
-      ).subscribe((weekInfos: any[]) => {
-        // Combine the activity_week with the original blocks
-        this.aBlocks = this.originalAblocks.map((block, index) => ({
-          ...block,
-          weekInfo: weekInfos[index]
-        }));
-
-        console.log("---------");
-        console.log(this.aBlocks);
-        console.log("---------");
-      });
+      this.aBlocks = [...this.originalAblocks];  // Zkopírujte neseřazené ablocky do aktuálního pole
+      console.log("---------")
+      console.log(this.aBlocks)
+      console.log("---------")
     });
   }
   loadTeachers(){
