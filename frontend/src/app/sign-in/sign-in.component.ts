@@ -30,7 +30,6 @@ export class SignInComponent {
     this.http.post('http://localhost/iis_project/backend/api/user/login.php', this.user)
   .subscribe({
     next: (response: any) => {
-      // Handle a successful response from the server
       console.log("Úspěšné přihlášení:", response);
       const message = response.message;
       const userRole = response.userRole;
@@ -52,7 +51,6 @@ export class SignInComponent {
 
     },
     error: (error: any) => {
-      // Handle errors here
       console.log("Chyba při přihlášení:", error);
       alert("Zadal jste špatné jméno nebo heslo");
     }
@@ -60,16 +58,14 @@ export class SignInComponent {
   }
 
   startUserSession(userID: string, userRole: string) {
-    // Uložení informací o relaci do localStorage nebo jiného úložiště
-    const sessionData = {
+     const sessionData = {
       userID: userID,
       userRole: userRole,
-      expirationTime: new Date().getTime() + 10 * 60 * 1000 // 10 minut
+      expirationTime: new Date().getTime() + 10 * 60 * 1000 
     };
   
     sessionStorage.setItem('userSession', JSON.stringify(sessionData));
   
-    // Další kroky, jako přesměrování na stránku po přihlášení atd.
   }
 
   showWelcomeAlert() {
@@ -85,7 +81,7 @@ export class SignInComponent {
     welcomeAlert.style.borderRadius = '5px';
     document.body.appendChild(welcomeAlert);
   
-    // Automatické skrytí alertu po 2 sekundách (2000 ms)
+
     window.setTimeout(() => {
       welcomeAlert.style.display = 'none';
     }, 2000);

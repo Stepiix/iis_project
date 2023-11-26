@@ -19,10 +19,8 @@ export class SetFreeTimeComponent {
   constructor(private http: HttpClient, private usersService: UsersService, private authService: AuthorizationService, private router: Router, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    // Use the authService to check authorization
-    if (this.authService.isAuthorized('teacher')) {
-      // Add your initialization logic for authorized students here
-      console.log('ScheduleComponent initialized for authorized student.');
+     if (this.authService.isAuthorized('teacher')) {
+       console.log('ScheduleComponent initialized for authorized student.');
       const sessionData = sessionStorage.getItem('userSession');
       if (sessionData) {
         const userData = JSON.parse(sessionData);
@@ -32,8 +30,7 @@ export class SetFreeTimeComponent {
       this.usersService.getTBlocks(this.user_id).subscribe((data: any) => {
         this.tblocks = data.records;
 
-        // Now, you can safely proceed with the rest of the initialization logic
-        this.loadSelectedTimes();
+         this.loadSelectedTimes();
 
         this.selectedTimes = this.tblocks.map(time => {
           return {
@@ -49,11 +46,9 @@ export class SetFreeTimeComponent {
       });
 
     } else {
-      // Handle unauthorized access
-      this.router.navigate(['/']);
+       this.router.navigate(['/']);
       this.authService.showUnauthorizedAlert();
-      // Optionally, you can redirect to another route or show an unauthorized message.
-    }
+     }
   }
 
   daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -64,11 +59,9 @@ export class SetFreeTimeComponent {
     const existingIndex = this.selectedTimes.findIndex(time => time.key === key);
 
     if (existingIndex !== -1) {
-      // If the time exists, remove it from the array
-      this.selectedTimes.splice(existingIndex, 1);
+       this.selectedTimes.splice(existingIndex, 1);
     } else {
-      // If the time doesn't exist, add it to the array with a unique key
-      this.selectedTimes.push({ key, day: this.daysOfWeek[dayIndex], start: hour, end: hour + 1, user_id: this.user_id });
+       this.selectedTimes.push({ key, day: this.daysOfWeek[dayIndex], start: hour, end: hour + 1, user_id: this.user_id });
     }
 
     this.cdr.detectChanges();
@@ -88,21 +81,18 @@ export class SetFreeTimeComponent {
     this.http.post('http://localhost/iis_project/backend/api/t_block/create-update.php', postData)
       .subscribe(
         (response) => {
-          // Handle a successful response from the server
-          console.log(response);
-          this.loadSelectedTimes(); // After user creation, refresh the user list
+           console.log(response);
+          this.loadSelectedTimes(); 
           this.showCreatedAlert();
 
         },
         (error) => {
-          // Handle errors here
           console.error(error);
         }
       );
   }
 
   getSelectableHours(): number[] {
-    // Vrací pole hodin od 7 do 20
     return Array.from({ length: 14 }).map((_, index) => index + 7);
   }
 
@@ -137,8 +127,6 @@ export class SetFreeTimeComponent {
     welcomeAlert.style.whiteSpace = 'nowrap';
     welcomeAlert.style.textAlign = 'center';
     document.body.appendChild(welcomeAlert);
-
-    // Automatické skrytí alertu po 2 sekundách (2000 ms)
     window.setTimeout(() => {
       welcomeAlert.style.display = 'none';
     }, 2000);

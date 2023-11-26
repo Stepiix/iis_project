@@ -95,11 +95,9 @@ export class SubjectsAdminComponent implements OnInit{
     this.http.post('http://localhost/iis_project/backend/api/subject/create.php', this.subject)
       .subscribe(
         (response) => {
-          // Handle a successful response from the server
-          this.loadSubjects(); // After user creation, refresh the user list
+          this.loadSubjects();
         },
         (error) => {
-          // Handle errors here
           console.error(error);
         }
       );
@@ -111,14 +109,11 @@ export class SubjectsAdminComponent implements OnInit{
     }
   }
   endEditSubject(subject: any) {
-    // Ukončit režim editace pro daného uživatele
     this.usersService.editSubject(subject).subscribe(() => this.loadSubjects());
     this.subjectInEditMode[subject.subject_code] = false;
-//    this.cdr.detectChanges();
   }
   editSubject(room: any) {
     console.log("editujeme ",room.subject_code)
-    // Nastavit režim editace pro daného uživatele
     this.subjectInEditMode[room.subject_code] = true;
     this.cdr.detectChanges();
   }
@@ -138,7 +133,6 @@ export class SubjectsAdminComponent implements OnInit{
     welcomeAlert.style.textAlign = 'center';
     document.body.appendChild(welcomeAlert);
 
-    // Automatické skrytí alertu po 2 sekundách (2000 ms)
     window.setTimeout(() => {
       welcomeAlert.style.display = 'none';
     }, 2000);
@@ -159,7 +153,6 @@ export class SubjectsAdminComponent implements OnInit{
     welcomeAlert.style.textAlign = 'center';
     document.body.appendChild(welcomeAlert);
 
-    // Automatické skrytí alertu po 2 sekundách (2000 ms)
     window.setTimeout(() => {
       welcomeAlert.style.display = 'none';
     }, 2000);

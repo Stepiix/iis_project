@@ -55,12 +55,10 @@ export class RoomsComponent implements OnInit{
     this.http.post('http://localhost/iis_project/backend/api/room/create.php', this.room)
       .subscribe(
         (response) => {
-          // Handle a successful response from the server
           console.log(response);
-          this.loadRooms(); // After user creation, refresh the user list
+          this.loadRooms();
         },
         (error) => {
-          // Handle errors here
           console.error(error);
         }
       );
@@ -96,13 +94,11 @@ export class RoomsComponent implements OnInit{
     }
   }
   endEditRoom(room: any) {
-    // Ukončit režim editace pro daného uživatele
     this.usersService.editRoom(room).subscribe(() => this.loadRooms());
     this.roomInEditMode[room.room_code] = false;
   }
   editRoom(room: any) {
     console.log("editujeme ",room.room_code)
-    // Nastavit režim editace pro daného uživatele
     this.roomInEditMode[room.room_code] = true;
   }
   showCreatedAlert() {
@@ -121,7 +117,6 @@ export class RoomsComponent implements OnInit{
     welcomeAlert.style.textAlign = 'center';
     document.body.appendChild(welcomeAlert);
 
-    // Automatické skrytí alertu po 2 sekundách (2000 ms)
     window.setTimeout(() => {
       welcomeAlert.style.display = 'none';
     }, 2000);
@@ -142,7 +137,6 @@ export class RoomsComponent implements OnInit{
     welcomeAlert.style.textAlign = 'center';
     document.body.appendChild(welcomeAlert);
 
-    // Automatické skrytí alertu po 2 sekundách (2000 ms)
     window.setTimeout(() => {
       welcomeAlert.style.display = 'none';
     }, 2000);

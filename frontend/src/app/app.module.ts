@@ -13,7 +13,7 @@ import { UsersComponent } from './users/users.component';
 import { RoomsComponent } from './rooms/rooms.component';
 import { SubjectsAdminComponent } from './subjects-admin/subjects-admin.component';
 import { SignInComponent } from './sign-in/sign-in.component';
-import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UsersService } from './services/users.service';
 import {MatIconModule} from '@angular/material/icon';
@@ -41,7 +41,7 @@ import { environment } from '../environments/environment';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule, // Add FormsModule here,
+    FormsModule, 
     HttpClientModule,
     MatIconModule,
     BrowserAnimationsModule,

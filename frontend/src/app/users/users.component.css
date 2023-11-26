@@ -37,14 +37,13 @@
     color: white;
   }
 
-  /* tady zacina styl tlacitka */
 
   .add-user-button-container { 
-    text-align: center; /* Zarovnání tlačítek na střed */
+    text-align: center; 
     margin: 70px auto;
     display: flex;
-    justify-content: space-between; /* Rozestup mezi tlačítky na šířku */
-    max-width: 400px; /* Maximální šířka kontejneru */
+    justify-content: space-between;
+    max-width: 400px;
   }
   
   .add-user-button {
@@ -55,14 +54,13 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s; /* Plynulá změna barvy pozadí */
+    transition: background-color 0.3s; 
   }
   
   .add-user-button:hover {
     background-color: #004638;
   }
   
-  /* Druhé tlačítko nemění velikost, má pevnou šířku a větší odstup od prvního tlačítka */
   .see-all-users-button {
     background-color: #009879;
     color: #fff;
@@ -71,9 +69,9 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s; /* Plynulá změna barvy pozadí */
-    margin-left: 10px; /* Odstup od prvního tlačítka */
-    width: 140px; /* Pevná šířka tlačítka */
+    transition: background-color 0.3s; 
+    margin-left: 10px;
+    width: 140px;
   }
   
   .see-all-users-button:hover {
@@ -148,11 +146,3 @@
   border-radius: 5px;
   cursor: pointer;
 }
-  
-  
-  
-
-/* .content-table tbody tr.active-row{
-    font-weight: bold;
-    color: #009879;
-} */

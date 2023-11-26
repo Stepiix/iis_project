@@ -42,7 +42,6 @@ export class AuthorizationService {
       return userRole;
     } else {
       console.error("User session data is not available.");
-      // Handle the case when user session data is not available.
     }
   }
   showUnauthorizedAlert() {
@@ -61,7 +60,6 @@ export class AuthorizationService {
     welcomeAlert.style.textAlign = 'center';
     document.body.appendChild(welcomeAlert);
 
-    // Automatické skrytí alertu po 2 sekundách (2000 ms)
     window.setTimeout(() => {
       welcomeAlert.style.display = 'none';
     }, 2000);

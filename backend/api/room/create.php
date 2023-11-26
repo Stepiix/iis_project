@@ -22,5 +22,3 @@ $response = array("message" => "Místnost vytvořena");
 
 http_response_code(200);
 header("Content-Type: application/json");
-
-//echo json_encode($response);

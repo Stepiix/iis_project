@@ -8,22 +8,5 @@ import { AuthorizationService } from './services/auth.service';
 })
 export class AppComponent {
   constructor(private authService: AuthorizationService) {}
-  // isauthorized(role: string) {
-  //   const sessionData = sessionStorage.getItem('userSession');
-  //   if (sessionData) {
-  //     const userData = JSON.parse(sessionData);
-  //     const userRole = userData.userRole;
-  //     if (role === "student" && (userRole === "student" || userRole === "teacher" || userRole === "admin")) {
-  //       return true;
-  //     } else if (role === "teacher" && (userRole === "teacher" || userRole === "admin")) {
-  //       return true;
-  //     } else if (role === "admin" && userRole === "admin") {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   } else {
-  //     return false;
-  //   }
-  // }
+
 }

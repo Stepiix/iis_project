@@ -14,7 +14,7 @@ if (isset($act)) {
 
     $sql = "UPDATE A_Block
         SET a_block_confirmed = 1,
-        a_block_room_code = ?,
+        a_block_room_code = ?
         WHERE a_block_id = ?";
 
     $stmt = $db->prepare($sql);

@@ -6,7 +6,6 @@ include '../database.php';
 /** @var PDO $db */
 
 try {
-    // Check if 'id' parameter is set in the GET request
     if (isset($_GET['user_id'])) {
         $sbj = $_GET['user_id'];
         $sql = "SELECT Subject.subject_code
@@ -21,7 +20,6 @@ try {
       
         echo json_encode(array("records" => $students));
     } else {
-        // If 'id' parameter is not set, return a response indicating the issue
         http_response_code(400);
         echo json_encode(array("message" => "Missing 'id' parameter in the request."));
     }

@@ -77,7 +77,6 @@ export class GuaranteedSubjectsComponent implements OnInit{
       this.loadTeachers();
       this.loadRooms();
       this.loadActivities();
-      // this.getTeachersForSubjects();
     } else {
       this.router.navigate(['/']);
       this.authService.showUnauthorizedAlert();
@@ -135,14 +134,12 @@ export class GuaranteedSubjectsComponent implements OnInit{
     this.http.post('http://localhost/iis_project/backend/api/activity/create.php', this.activity)
       .subscribe(
         (response) => {
-          // Handle a successful response from the server
           console.log(response);
-          this.loadMySubjects(); // After user creation, refresh the user list
+          this.loadMySubjects(); 
           this.loadActivities();
 
         },
         (error) => {
-          // Handle errors here
           console.error(error);
         }
       );
@@ -202,25 +199,20 @@ export class GuaranteedSubjectsComponent implements OnInit{
         this.ablocks = adata.records;
         console.log(this.ablocks);
 
-        // Pre-populate selected_a_blocks based on ablocks
         this.selected_a_blocks = this.ablocks.map((ablock) => {
           return {
             a_block_day: ablock.a_block_day,
             a_block_begin: ablock.a_block_begin,
             a_block_end: ablock.a_block_end,
-            a_block_user_id: ablock.a_block_teacher, // Adjust this based on your data
+            a_block_user_id: ablock.a_block_teacher,
             a_block_activity_id: ablock.a_block_activity_id,
           };
         });
       });
 
-      // Calculate possible activity positions
-      const activityLength = this.currentActivity.length; // Replace with your actual activity length
+      const activityLength = this.currentActivity.length;
       this.possiblePositions = this.calculatePossiblePositions(this.tblocks, activityLength);
 
-
-
-      // Now `possiblePositions` contains an array of objects representing the possible activity positions
       console.log("Possible Positions:", this.possiblePositions);
 
       this.cdr.detectChanges();
@@ -230,26 +222,21 @@ export class GuaranteedSubjectsComponent implements OnInit{
   calculatePossiblePositions(tBlocks: any[], activityLength: number): any[] {
     const possiblePositions: any[] = [];
 
-    // Sort time blocks by day and begin time
     tBlocks.sort((a, b) => a.t_block_day.localeCompare(b.t_block_day) || a.t_block_begin - b.t_block_begin);
 
-    // Iterate through time blocks to find possible positions for the activity
     for (let i = 0; i < tBlocks.length; i++) {
       let totalLength = 0;
       let endIndex = i;
 
-      // Keep extending the length until it's greater than or equal to the activity length
       while (totalLength < activityLength && endIndex < tBlocks.length) {
         totalLength += tBlocks[endIndex].t_block_end - tBlocks[endIndex].t_block_begin;
         endIndex++;
       }
 
-      // Check if the activity can fit within the calculated position
       if (totalLength >= activityLength) {
         const block1 = tBlocks[i];
         const block2 = tBlocks[endIndex - 1];
 
-        // Calculate the possible position for the activity between block1 and block2
         const possiblePosition = {
           a_block_day: block1.t_block_day,
           a_block_begin: block1.t_block_begin,
@@ -258,25 +245,20 @@ export class GuaranteedSubjectsComponent implements OnInit{
           a_block_activity_id: this.currentActivity.id,
         };
 
-        // Check if the activity fits exactly within the calculated position
         if (possiblePosition.a_block_end - possiblePosition.a_block_begin == activityLength) {
-          // Add the activity position to the result array
           possiblePositions.push(possiblePosition);
         }
       }
     }
 
-    // Sort the result array by day (Monday to Friday) and then by start time
     possiblePositions.sort((a, b) => {
       const daysOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
       const dayComparison = daysOrder.indexOf(a.a_block_day) - daysOrder.indexOf(b.a_block_day);
 
-      // If days are different, use the day comparison result
       if (dayComparison !== 0) {
         return dayComparison;
       }
 
-      // If days are the same, compare by start time
       return a.a_block_begin - b.a_block_begin;
     });
 
@@ -294,16 +276,13 @@ export class GuaranteedSubjectsComponent implements OnInit{
     );
 
     if (index === -1) {
-      // Block is not selected, add it to the array
       this.selected_a_blocks.push(position);
     } else {
-      // Block is selected, remove it from the array
       this.selected_a_blocks.splice(index, 1);
     }
   }
 
 
-// Method to check if a block is selected
   isBlockSelected(position: any): boolean {
     const index = this.selected_a_blocks.findIndex(
         (selectedBlock) =>
@@ -325,15 +304,11 @@ export class GuaranteedSubjectsComponent implements OnInit{
     this.http.post('http://localhost/iis_project/backend/api/a_block/create-update.php', postData)
         .subscribe(
             (response) => {
-              // Handle a successful response from the server
           
               console.log(response);
-              this.loadSelectedABlocks(); // After user creation, refresh the user list
-
-
+              this.loadSelectedABlocks(); 
             },
             (error) => {
-              // Handle errors here
               console.error(error);
             }
         );
@@ -413,30 +388,24 @@ export class GuaranteedSubjectsComponent implements OnInit{
     }
   }
   endEditActivity(activity: any) {
-    // Ukončit režim editace pro daného uživatele
     console.log("cau kamo")
     console.log(activity)
     this.usersService.editActivity(activity).subscribe(() => this.loadActivities());
     this.activityInEditMode[activity.activity_id] = false;
-//    this.cdr.detectChanges();
   }
   editActivity(activity: any) {
     console.log("editujeme ",activity.activity_id)
     this.activityInEditMode[activity.activity_id] = true;
-    // Nastavit režim editace pro daného uživatele
-
     this.activityInEditMode[activity.activity_id] = true;
     this.cdr.detectChanges();
   }
   endEditSubject(subject: any) {
-    // Ukončit režim editace pro daného uživatele
     console.log("ahoj");
     this.usersService.addTeacher(subject.subject_code,this.aBlock.teacher).subscribe(() => this.loadMySubjects()); // zmenit aby 1 pridal teacher
     this.subjectInEditMode[subject.subject_code] = false;
   }
   editSubject(subject: any) {
     console.log("editujeme ",subject.subject_code)
-    // Nastavit režim editace pro daného uživatele
     this.subjectInEditMode[subject.subject_code] = true;
     this.showSelectColumn = true;
     this.cdr.detectChanges();
@@ -457,7 +426,6 @@ export class GuaranteedSubjectsComponent implements OnInit{
     welcomeAlert.style.textAlign = 'center';
     document.body.appendChild(welcomeAlert);
 
-    // Automatické skrytí alertu po 2 sekundách (2000 ms)
     window.setTimeout(() => {
       welcomeAlert.style.display = 'none';
     }, 2000);
@@ -478,7 +446,6 @@ export class GuaranteedSubjectsComponent implements OnInit{
     welcomeAlert.style.textAlign = 'center';
     document.body.appendChild(welcomeAlert);
 
-    // Automatické skrytí alertu po 2 sekundách (2000 ms)
     window.setTimeout(() => {
       welcomeAlert.style.display = 'none';
     }, 2000);
@@ -499,7 +466,6 @@ export class GuaranteedSubjectsComponent implements OnInit{
     welcomeAlert.style.textAlign = 'center';
     document.body.appendChild(welcomeAlert);
 
-    // Automatické skrytí alertu po 2 sekundách (2000 ms)
     window.setTimeout(() => {
       welcomeAlert.style.display = 'none';
     }, 2000);

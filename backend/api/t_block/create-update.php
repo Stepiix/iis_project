@@ -10,28 +10,24 @@ $blocks = json_decode(file_get_contents("php://input"));
 
 if (isset($blocks->user_id)) {
     $stmtDelete = $db->prepare("DELETE FROM T_Block WHERE t_block_user_id = ?");
-    $stmtDelete->execute([$blocks->user_id]); // Předpokládám, že user_id bude stejné pro všechny bloky
+    $stmtDelete->execute([$blocks->user_id]); 
     $response = array("message" => "T_Block upraven.");
     http_response_code(200);
     header("Content-Type: application/json");
     echo json_encode($response);
 } else {
     try {
-        // Začni transakci
         $db->beginTransaction();
 
-        // Smazat všechny záznamy s daným t_block_user_id
         $stmtDelete = $db->prepare("DELETE FROM T_Block WHERE t_block_user_id = ?");
-        $stmtDelete->execute([$blocks[0]->user_id]); // Předpokládám, že user_id bude stejné pro všechny bloky
+        $stmtDelete->execute([$blocks[0]->user_id]); 
 
-        // Vložit nové bloky
         $stmtInsert = $db->prepare("INSERT INTO T_Block (t_block_day, t_block_begin, t_block_end, t_block_user_id) VALUES (?, ?, ?, ?)");
 
         foreach ($blocks as $block) {
             $stmtInsert->execute([$block->day, $block->start, $block->end, $block->user_id]);
         }
 
-        // Commit transakce
         $db->commit();
 
         $response = array("message" => "T_Block upraven.");
@@ -40,7 +36,6 @@ if (isset($blocks->user_id)) {
         echo json_encode($response);
 
     } catch (Exception $e) {
-        // Pokud dojde k chybě, provedeme rollback transakce
         $db->rollBack();
 
         $response = array("message" => "Chyba při úpravě T_Block: " . $e->getMessage());

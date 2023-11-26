@@ -85,11 +85,9 @@ export class UsersComponent implements OnInit{
 
   editUser(user: any) {
     console.log("editujeme ",user.user_id)
-    // Nastavit režim editace pro daného uživatele
     this.userInEditMode[user.user_id] = true;
   }
   endEditUser(user: any) {
-    // Ukončit režim editace pro daného uživatele
     this.usersService.editUser(user).subscribe(() => this.loadUsers());
     this.userInEditMode[user.user_id] = false;
   }
@@ -132,8 +130,6 @@ export class UsersComponent implements OnInit{
     welcomeAlert.style.whiteSpace = 'nowrap';
     welcomeAlert.style.textAlign = 'center';
     document.body.appendChild(welcomeAlert);
-
-    // Automatické skrytí alertu po 2 sekundách (2000 ms)
     window.setTimeout(() => {
       welcomeAlert.style.display = 'none';
     }, 2000);
@@ -154,7 +150,6 @@ export class UsersComponent implements OnInit{
     welcomeAlert.style.textAlign = 'center';
     document.body.appendChild(welcomeAlert);
 
-    // Automatické skrytí alertu po 2 sekundách (2000 ms)
     window.setTimeout(() => {
       welcomeAlert.style.display = 'none';
     }, 2000);

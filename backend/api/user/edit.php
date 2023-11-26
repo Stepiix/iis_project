@@ -12,8 +12,6 @@ $user = json_decode(file_get_contents("php://input"));
 if (isset($user)) {
 
 
-    // $sql = "INSERT INTO User (user_firstname, user_lastname, user_email, user_role)
-    //         VALUES (?, ?, ?, ?, ?)";
     $sql = "UPDATE User
         SET user_firstname = ?,
             user_lastname = ?,

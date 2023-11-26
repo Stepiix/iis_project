@@ -4,11 +4,9 @@ include '../database.php';
 
 /** @var PDO $db */
 
-// Assuming user_id is sent in the request body as JSON
 $requestBody = json_decode(file_get_contents("php://input"));
 $user_id = $requestBody->user_id;
 
-//var_dump($user_id);
 
 try {
     $sql = "SELECT * FROM A_Block WHERE a_block_teacher = ?";
