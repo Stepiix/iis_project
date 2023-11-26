@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { UsersService } from '../services/users.service';
-
+import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-schedule', 
   templateUrl: './schedule.component.html',
@@ -47,13 +47,24 @@ export class ScheduleComponent {
       console.log("=========")
     });
   }
-  loadAblocks(){
+  loadAblocks() {
     this.usersService.loadAblocks().subscribe((data: any) => {
       this.originalAblocks = data.records;
-      this.aBlocks = [...this.originalAblocks];  // Zkopírujte neseřazené ablocky do aktuálního pole
-      console.log("---------")
-      console.log(this.aBlocks)
-      console.log("---------")
+
+      // For each block, make a separate request to get activity_week
+      forkJoin(
+        this.originalAblocks.map(block => this.usersService.getBlockWeekInfo(block.a_block_id))
+      ).subscribe((weekInfos: any[]) => {
+        // Combine the activity_week with the original blocks
+        this.aBlocks = this.originalAblocks.map((block, index) => ({
+          ...block,
+          weekInfo: weekInfos[index]
+        }));
+
+        console.log("---------");
+        console.log(this.aBlocks);
+        console.log("---------");
+      });
     });
   }
   loadTeachers(){
@@ -94,24 +105,35 @@ export class ScheduleComponent {
       const teacherId = block.a_block_teacher;
       const beginTime = block.a_block_begin;
       const endTime = block.a_block_end;
-      console.log(teacherId)
-      console.log(beginTime)
-      console.log(endTime)
+      const roomCode = this.selectedRooms[block.a_block_id];
   
-      // Zde můžete provést kontrolu, zda existuje učitel s daným ID, který učí v daném čase
-      const isTeacherAvailable = this.isTeacherAvailable(teacherId,block.a_block_day, beginTime, endTime);
+      const isTeacherAvailable = this.isTeacherAvailable(teacherId, block.a_block_day, beginTime, endTime);
+      const isRoomAvailable = this.isRoomAvailable(block.a_block_day, beginTime, endTime, roomCode);
   
-      if (isTeacherAvailable) {
-        // Pokud je učitel dostupný, můžete provést uložení
-        console.log(`Uložení změn pro blok ${block.a_block_id}, vybraná místnost: ${this.selectedRooms[block.a_block_id]}`);
-        this.usersService.confirmAblock(block.a_block_id, this.selectedRooms[block.a_block_id]).subscribe((data: any) => {
+      if (isTeacherAvailable && isRoomAvailable) {
+        console.log(`Uložení změn pro blok ${block.a_block_id}, vybraná místnost: ${roomCode}`);
+        this.usersService.confirmAblock(block.a_block_id, roomCode).subscribe((data: any) => {
           this.loadAblocks();
         });
       } else {
-        // Pokud učitel není dostupný, můžete zobrazit chybu nebo informaci o nedostupnosti
-        console.log('Učitel není dostupný v tomto čase nebo je překrytý jiným blokem.');
+        console.log('Učitel nebo místnost není dostupný v tomto čase nebo je překrytý jiným blokem.');
       }
     }
+  }
+  hasConfirmedBlockWithActivityId(activityId: number): boolean {
+  return this.aBlocks.some(block => block.a_block_confirmed === 1 && block.a_block_activity_id === activityId);
+}
+  canSaveBlock(block: any): boolean {
+  
+    const teacherId = block.a_block_teacher;
+    const beginTime = block.a_block_begin;
+    const endTime = block.a_block_end;
+    const roomCode = this.selectedRooms[block.a_block_id];
+  
+    const isTeacherAvailable = this.isTeacherAvailable(teacherId, block.a_block_day, beginTime, endTime);
+    const isRoomAvailable = this.isRoomAvailable(block.a_block_day, beginTime, endTime, roomCode);
+  
+    return isTeacherAvailable && isRoomAvailable;
   }
   isTeacherAvailable(teacherId: number, day: string, beginTime: number, endTime: number): boolean {
     const teacherBlocks = this.aBlocks.filter(block => 
@@ -121,6 +143,22 @@ export class ScheduleComponent {
     );
   
     const isAvailable = !teacherBlocks.some(existingBlock =>
+      (beginTime >= existingBlock.a_block_begin && beginTime < existingBlock.a_block_end) ||
+      (endTime > existingBlock.a_block_begin && endTime <= existingBlock.a_block_end) ||
+      (beginTime <= existingBlock.a_block_begin && endTime >= existingBlock.a_block_begin)
+    );
+  
+    return isAvailable;
+  }
+  
+  isRoomAvailable(day: string, beginTime: number, endTime: number, roomCode: string): boolean {
+    const roomBlocks = this.aBlocks.filter(block => 
+      block.a_block_confirmed === 1 &&
+      block.a_block_day === day &&
+      block.a_block_room_code === roomCode
+    );
+  
+    const isAvailable = !roomBlocks.some(existingBlock =>
       (beginTime >= existingBlock.a_block_begin && beginTime < existingBlock.a_block_end) ||
       (endTime > existingBlock.a_block_begin && endTime <= existingBlock.a_block_end) ||
       (beginTime <= existingBlock.a_block_begin && endTime >= existingBlock.a_block_begin)
@@ -139,5 +177,24 @@ export class ScheduleComponent {
       this.loadAblocks();
     });
   }
+  getOccupiedRooms(day: string, beginTime: number, endTime: number): string[] {
+    const occupiedRooms: string[] = [];
+  
+    this.aBlocks
+      .filter(block => block.a_block_confirmed === 1 && block.a_block_day === day)
+      .forEach(existingBlock => {
+        // Přidání místnosti do seznamu, pokud je obsazená v daný čas
+        if (
+          (beginTime >= existingBlock.a_block_begin && beginTime < existingBlock.a_block_end) ||
+          (endTime > existingBlock.a_block_begin && endTime <= existingBlock.a_block_end) ||
+          (beginTime <= existingBlock.a_block_begin && endTime >= existingBlock.a_block_begin)
+        ) {
+          occupiedRooms.push(existingBlock.a_block_room_code);
+        }
+      });
+  
+    return occupiedRooms;
+  }
+  
 
 }

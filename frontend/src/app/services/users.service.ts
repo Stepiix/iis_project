@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -165,4 +166,8 @@ export class UsersService {
     return this.http.put(url, data);
 
   }
+  getBlockWeekInfo(aBlockId: any){
+    return this.http.get(`${this.apiUrlABlocks}/getWeekOfActivity.php?a_block_id=${aBlockId}`);
+  }
+
 }

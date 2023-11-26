@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0067)https://www.fit.vutbr.cz/study/courses/IIS/private/projekt/doc.html -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Projekt IIS</title>
+    <style type="text/css">
+        table { border-collapse: collapse; }
+        td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
+        dt { font-weight: bold; margin-top: 0.5em; }
+    </style>
+</head>
+<body>
+
+<!-- Zkontrolujte prosím nastavení kódování v hlavičce dokumentu 
+     podle použitého editoru -->
+
+<h1>IS Plánování rozvrhů</h1> 
+
+<dl>
+    <dt>Autoři</dt>
+    <dd>Štěpán Bárta
+        <a href="mailto:xautor01@stud.fit.vutbr.cz">xbarta50@stud.fit.vutbr.cz</a> -
+        Design, frontend
+    </dd>
+    <dd>Kryštof Paulík 
+        <a href="mailto:xautor02@stud.fit.vutbr.cz">xpauli00@stud.fit.vutbr.cz</a> - 
+        Tvorba a návrh databáze, implementace volení času pro učitele
+    </dd>
+    <dd>Tomáš Valík 
+        <a href="mailto:xautor03@stud.fit.vutbr.cz">xvalik04@stud.fit.vutbr.cz</a> - 
+        Tvorba a návrh databáze, backend
+    </dd>
+    <dt>URL aplikace</dt>
+    <dd><a href="http://www.stud.fit.vutbr.cz/~xautor01/IIS">http://www.stud.fit.vutbr.cz/~xautor01/IIS</a></dd>
+    <dd>VLOZIT URL !</dd>
+</dl>
+
+<h2>Uživatelé systému pro testování</h2>
+<p>Uveďte prosím existující zástupce <strong>všech rolí uživatelů</strong>.</p>
+<table>
+<tbody>
+    <tr><th>s</th><th>s</th><th>Student</th></tr>
+    <tr><td>a</td><td>a</td><td>Administrátor</td></tr>
+    <tr><td>t</td><td>t</td><td>Garant</td></tr>
+	<tr><td>rostaml@cisco.cz</td><td>aaa</td><td>Učitel</td></tr>
+    <tr><td>r</td><td>r</td><td>Rozvrhář</td></tr>
+</tbody>
+</table>
+
+<h3>Video</h3>
+
+<p>Přiložte odkaz na komentované video demonstrující použití informačního systému. Zaměřte se na případy užití definované zadáním (např. registrace uživatele, správa uživatelů a činnosti jednotlivých rolí). Video nahrajte například na VUT Google Drive, kde ho bude možné přímo spustit z odkazu.</p> 
+
+<h2>Implementace</h2>
+<p>Stručná dokumentace k implementaci, která popisuje, které části projektu (např. PHP skripty) implementují jednotlivé případy užití.</p>
+<p>V projektu byl využit frontendový framework Angular, na backendovou část bylo využito čisté php.
+	Struktura projektu je dělena do dvou složek a využito návrhového vzoru MVC:  adresář frontend - view, adresář backend- controller.
+	Každou tabulku tabulku databáze obsluhuje množina php skriptů v příslušném adresáři backendu. 
+	Například adresář backend/user obsahuje create.php - vytvoření uživatele, deleteuser.php - smazání uživatele, edit.php - upravení uživatele,
+	getallusers.php - vrací záznamy všech uživatelů v databázi, login.php - přihlášení uživatele .
+
+</p>
+<h3>Databáze</h3>
+
+<img src="dbScheme.png" alt="Database Schema" style="max-width: 40%; display: block; margin: 0 auto;">
+
+<h2>Instalace</h2>
+
+Stručně popište: 
+<ul>
+    <li>postup instalace na server,</li>
+    <li>softwarové požadavky (verze PHP apod.),</li>
+    <li>jak rozbalit, konfigurovat, inicializovat databázi, ...</li>
+</ul>
+
+<h2>Známé problémy</h2>
+<p>Nelze odebírat učitele od předmětu, pokud už byl jednou přídán. 
+	Přihlášený uživatel nevidí svoje jméno.
+	Z časové náročnosti, rozvrhář neumisťuje předměty do rozvrhu graficky, ale pouze vybírá ze seznamu.
+</p>
+
+</body>
+</html>
