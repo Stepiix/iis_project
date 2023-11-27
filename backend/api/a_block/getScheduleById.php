@@ -24,7 +24,7 @@ try {
         $userRole = $userData['user_role'];
 
         // Adjust the SQL query based on the user's role
-        if ($userRole === 'student') {
+        if ($userRole == 'student') {
             $sql = "SELECT
                         a_block.*,
                         Subject.*,
@@ -39,8 +39,8 @@ try {
                         Subject ON Activity.activity_subject_code = Subject.subject_code
                     WHERE
                             a_block.a_block_confirmed = TRUE
-                      AND a_block.a_block_teacher = ?;";
-        } elseif ($userRole === 'teacher') {
+                      AND Subject_Student.user_id = ?;";
+        } elseif ($userRole == 'teacher') {
             $sql = "SELECT
                         a_block.*,
                         Subject.*,
