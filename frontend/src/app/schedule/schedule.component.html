@@ -1,9 +1,16 @@
-<div *ngIf="itIsRozvrhar">
+<div *ngIf="itIsRozvrhar" class="center-container">
 
   <button (click)="sortAblocksByDay()">Seřadit podle času</button>
+  <button (click)="sortAblocksByActivityId()">Seřadit podle id aktivity</button>
 
   <div *ngFor="let block of aBlocks" [ngStyle]="{'color': getColorForBlock(block)}">
     {{ block.a_block_activity_id }} - {{ block.a_block_day }} - {{ block.a_block_begin }}:00 - {{ block.a_block_end }}:00
+
+
+    <span *ngIf="block.a_block_activity_id !== undefined">
+      Předmět: {{ getActivitySubjectCode(block.a_block_activity_id) }} - Typ: {{ getActivityType(block.a_block_activity_id) }}
+    </span>
+
 
     <!-- Zobrazení informací o učiteli -->
     <span *ngIf="block.a_block_teacher !== undefined">

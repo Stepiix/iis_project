@@ -4,6 +4,8 @@ import { AuthorizationService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { UsersService } from '../services/users.service';
 import { forkJoin } from 'rxjs';
+import { Observable } from 'rxjs';
+
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.component.html',
@@ -17,6 +19,7 @@ export class ScheduleComponent {
   studentABlocks: any[] = [];
   teachers: any[] = [];
   rooms: any[] = [];
+  activities: any[] = [];
   colorMap: { [key: number]: string } = {};
   selectedRooms: { [blockId: number]: string } = {};
   schedule: any[] = [];
@@ -38,6 +41,7 @@ export class ScheduleComponent {
         this.loadAblocks();
         this.loadTeachers();
         this.loadRooms();
+        this.loadActivity();
       }
       if (this.itIsStudent) {
         this.loadSchedule();
@@ -46,6 +50,22 @@ export class ScheduleComponent {
       this.router.navigate(['/']);
       this.authService.showUnauthorizedAlert();
     }
+  }
+  loadActivity() {
+    this.callGetActivities().subscribe(
+      (data: any) => {
+        this.activities = data.records;
+        console.log("=====activities====");
+        console.log(this.activities);
+        console.log("=========");
+      },
+      (error) => {
+        console.error('Error loading activities:', error);
+      }
+    );
+  }
+  private callGetActivities(): Observable<any> {
+    return this.usersService.getActivities();
   }
   loadRooms(){
     this.usersService.getRooms().subscribe((data: any) => {
@@ -59,7 +79,7 @@ export class ScheduleComponent {
     this.usersService.loadAblocks().subscribe((data: any) => {
       this.originalAblocks = data.records;
       this.aBlocks = [...this.originalAblocks];  // Zkopírujte neseřazené ablocky do aktuálního pole
-      console.log("---------")
+      console.log("----ablocks-----")
       console.log(this.aBlocks)
       console.log("---------")
     });
@@ -104,15 +124,32 @@ export class ScheduleComponent {
   sortAblocksByDay() {
     const daysOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
     this.aBlocks.sort((a, b) => {
-      return daysOrder.indexOf(a.a_block_day) - daysOrder.indexOf(b.a_block_day);
+      const dayComparison = daysOrder.indexOf(a.a_block_day) - daysOrder.indexOf(b.a_block_day);
+  
+      if (dayComparison === 0) {
+        // Pokud jsou bloky ve stejný den, porovnejte podle začátku bloku
+        return a.a_block_begin - b.a_block_begin;
+      }
+  
+      return dayComparison;
     });
   }
-  getColorForBlock(block: any): string {
-    if (!this.colorMap[block.a_block_activity_id]) {
-      this.colorMap[block.a_block_activity_id] = this.getRandomColor();
-    }
-    return this.colorMap[block.a_block_activity_id];
+  sortAblocksByActivityId() {
+    this.aBlocks.sort((a, b) => a.a_block_activity_id - b.a_block_activity_id);
   }
+  
+  getColorForBlock(block: any): string {
+  // Seznam předem definovaných barev
+  const predefinedColors = ['#FF5733', '#3498db', '#FFC300', '#2ecc71', '#FF3366', '#1abc9c', '#FF6347', '#8e44ad', '#FF4500', '#27ae60'];
+
+
+  if (!this.colorMap[block.a_block_activity_id]) {
+    // Pokud blok nemá přidělenou barvu, použijte barvu z předem definovaného seznamu
+    const colorIndex = block.a_block_activity_id % predefinedColors.length;
+    this.colorMap[block.a_block_activity_id] = predefinedColors[colorIndex];
+  }
+  return this.colorMap[block.a_block_activity_id];
+}
   getRandomColor(): string {
     return '#' + Math.floor(Math.random()*16777215).toString(16);
   }
@@ -179,8 +216,8 @@ export class ScheduleComponent {
 
     const isAvailable = !roomBlocks.some(existingBlock =>
       (beginTime >= existingBlock.a_block_begin && beginTime < existingBlock.a_block_end) ||
-      (endTime > existingBlock.a_block_begin && endTime <= existingBlock.a_block_end) ||
-      (beginTime <= existingBlock.a_block_begin && endTime >= existingBlock.a_block_begin)
+          (endTime > existingBlock.a_block_begin && endTime <= existingBlock.a_block_end) ||
+          (beginTime <= existingBlock.a_block_begin && endTime >= existingBlock.a_block_end)
     );
 
     return isAvailable;
@@ -206,13 +243,21 @@ export class ScheduleComponent {
         if (
           (beginTime >= existingBlock.a_block_begin && beginTime < existingBlock.a_block_end) ||
           (endTime > existingBlock.a_block_begin && endTime <= existingBlock.a_block_end) ||
-          (beginTime <= existingBlock.a_block_begin && endTime >= existingBlock.a_block_begin)
+          (beginTime <= existingBlock.a_block_begin && endTime >= existingBlock.a_block_end)
         ) {
           occupiedRooms.push(existingBlock.a_block_room_code);
         }
       });
 
     return occupiedRooms;
+  }
+  getActivitySubjectCode(activityId: number): string {
+    const matchingActivity = this.activities.find(activity => activity.activity_id === activityId);
+    return matchingActivity ? matchingActivity.activity_subject_code : 'Neznámý předmět';
+  }
+  getActivityType(activityId: number): string {
+    const matchingActivity = this.activities.find(activity => activity.activity_id === activityId);
+    return matchingActivity ? matchingActivity.activity_type : 'Neznámý typ';
   }
 
 
