@@ -33,7 +33,6 @@ export class SubjectsComponent implements OnInit{
     this.loadTeachers();
     if(this.authService.getUserRole() === "student"){
       this.itIsStudent = true;
-      console.log("Student")
     }
     this.knowWhatSubjectDoIAlreadyHave(this.authService.getID());
   }
@@ -56,7 +55,7 @@ export class SubjectsComponent implements OnInit{
   }
   toggleSubject(subject: any) {
     const isSubjectInList = this.subjectsIhave.includes(subject.subject_code);
-  
+
     if (isSubjectInList) {
       this.removeSubject(subject.subject_code);
     } else {
@@ -65,7 +64,7 @@ export class SubjectsComponent implements OnInit{
   }
   addSubject(subject: any) {
     const studentId = this.authService.getID();
-  
+
     if (studentId !== null) {
       this.usersService.addSubjectToStudent(subject, studentId).subscribe((data: any) => {
         this.knowWhatSubjectDoIAlreadyHave(this.authService.getID());
@@ -76,7 +75,7 @@ export class SubjectsComponent implements OnInit{
   }
   removeSubject(subject: string) {
     const studentId = this.authService.getID();
-  
+
     if (studentId !== null) {
       this.usersService.removeSubjectFromStudent(subject, studentId).subscribe((data: any) => {
         this.knowWhatSubjectDoIAlreadyHave(this.authService.getID());
@@ -87,7 +86,6 @@ export class SubjectsComponent implements OnInit{
   }
   knowWhatSubjectDoIAlreadyHave(id: any){
     this.usersService.giveMeMySubjects(id).subscribe((data: any) => {
-      console.log('Subjects I Have:', data);
       this.subjectsIhave = data.records.map((item: any) => item.subject_code);
       this.cdr.detectChanges();
     });

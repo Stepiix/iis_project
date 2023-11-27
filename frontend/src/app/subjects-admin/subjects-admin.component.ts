@@ -33,7 +33,6 @@ export class SubjectsAdminComponent implements OnInit{
   ngOnInit(): void {
     this.loadSubjects();
     if (this.authService.isAuthorized('admin')) {
-      console.log('ScheduleComponent initialized for authorized student.');
       this.loadTeachers();
     } else {
       this.router.navigate(['/']);
@@ -89,9 +88,6 @@ export class SubjectsAdminComponent implements OnInit{
     this.showCreatedAlert();
     this.showAllSubjectsTable = true;
     this.showAllSubjectsButtonText = "Cancel";
-    console.log("----------");
-    console.log(this.subject);
-    console.log("----------");
     this.http.post('http://localhost/iis_project/backend/api/subject/create.php', this.subject)
       .subscribe(
         (response) => {
@@ -113,7 +109,6 @@ export class SubjectsAdminComponent implements OnInit{
     this.subjectInEditMode[subject.subject_code] = false;
   }
   editSubject(room: any) {
-    console.log("editujeme ",room.subject_code)
     this.subjectInEditMode[room.subject_code] = true;
     this.cdr.detectChanges();
   }

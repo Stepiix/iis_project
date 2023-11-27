@@ -33,7 +33,6 @@ export class SignInComponent {
     this.http.post(this.loginUrl.concat('/login.php'), this.user)
   .subscribe({
     next: (response: any) => {
-      console.log("Úspěšné přihlášení:", response);
       const message = response.message;
       const userRole = response.userRole;
       const userID = response.userID;
@@ -47,14 +46,12 @@ export class SignInComponent {
       } else if(userRole === "rozvrhar") {
         this.startUserSession(userID, 'rozvrhar');
       }
-      console.log("Je to " + userRole);
       this.router.navigate(['/']);
       this.auth.login();
       this.showWelcomeAlert();
 
     },
     error: (error: any) => {
-      console.log("Chyba při přihlášení:", error);
       alert("Zadal jste špatné jméno nebo heslo");
     }
   });

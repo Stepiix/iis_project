@@ -73,7 +73,6 @@ export class GuaranteedSubjectsComponent implements OnInit{
   ngOnInit(): void {
     this.loadMySubjects();
     if (this.authService.isAuthorized('teacher')) {
-      console.log('ScheduleComponent initialized for authorized student.');
       this.loadTeachers();
       this.loadRooms();
       this.loadActivities();
@@ -128,14 +127,10 @@ export class GuaranteedSubjectsComponent implements OnInit{
     this.showCreatedAlert();
     this.showAllActivitiesTable = true;
     this.showAllActivitiesButtonText = "Cancel";
-    console.log("--------------")
-    console.log(this.activity)
-    console.log("--------------")
     this.http.post('http://localhost/iis_project/backend/api/activity/create.php', this.activity)
       .subscribe(
         (response) => {
-          console.log(response);
-          this.loadMySubjects(); 
+          this.loadMySubjects();
           this.loadActivities();
 
         },
@@ -155,7 +150,6 @@ export class GuaranteedSubjectsComponent implements OnInit{
     });
   }
   loadMySubjects() {
-    console.log("tady jsem ja");
     this.usersService.getMySubjects(this.authService.getID()).subscribe((data: any) => {
       this.subjects = data.records;
       this.helpLoadTeachers();
@@ -187,17 +181,12 @@ export class GuaranteedSubjectsComponent implements OnInit{
 
   onTeacherChange(teacher: any) {
     this.teacher_id = teacher;
-    console.log(this.teacher_id);
-
-
 
     this.usersService.getTBlocks(this.teacher_id).subscribe((tdata: any) => {
       this.tblocks = tdata.records;
-      console.log(this.tblocks);
 
       this.usersService.getABlocks(this.teacher_id).subscribe((adata: any) => {
         this.ablocks = adata.records;
-        console.log(this.ablocks);
 
         this.selected_a_blocks = this.ablocks.map((ablock) => {
           return {
@@ -212,8 +201,6 @@ export class GuaranteedSubjectsComponent implements OnInit{
 
       const activityLength = this.currentActivity.length;
       this.possiblePositions = this.calculatePossiblePositions(this.tblocks, activityLength);
-
-      console.log("Possible Positions:", this.possiblePositions);
 
       this.cdr.detectChanges();
     });
@@ -297,16 +284,13 @@ export class GuaranteedSubjectsComponent implements OnInit{
   }
 
   saveSelectedBlocks() {
-    console.log(this.selected_a_blocks);
-
     const postData = this.selected_a_blocks.length > 0 ? this.selected_a_blocks : { user_id: this.teacher_id };
     this.showCreatedAlert3();
     this.http.post('http://localhost/iis_project/backend/api/a_block/create-update.php', postData)
         .subscribe(
             (response) => {
-          
-              console.log(response);
-              this.loadSelectedABlocks(); 
+
+              this.loadSelectedABlocks();
             },
             (error) => {
               console.error(error);
@@ -388,24 +372,19 @@ export class GuaranteedSubjectsComponent implements OnInit{
     }
   }
   endEditActivity(activity: any) {
-    console.log("cau kamo")
-    console.log(activity)
     this.usersService.editActivity(activity).subscribe(() => this.loadActivities());
     this.activityInEditMode[activity.activity_id] = false;
   }
   editActivity(activity: any) {
-    console.log("editujeme ",activity.activity_id)
     this.activityInEditMode[activity.activity_id] = true;
     this.activityInEditMode[activity.activity_id] = true;
     this.cdr.detectChanges();
   }
   endEditSubject(subject: any) {
-    console.log("ahoj");
     this.usersService.addTeacher(subject.subject_code,this.aBlock.teacher).subscribe(() => this.loadMySubjects()); // zmenit aby 1 pridal teacher
     this.subjectInEditMode[subject.subject_code] = false;
   }
   editSubject(subject: any) {
-    console.log("editujeme ",subject.subject_code)
     this.subjectInEditMode[subject.subject_code] = true;
     this.showSelectColumn = true;
     this.cdr.detectChanges();

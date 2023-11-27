@@ -30,13 +30,10 @@ export class ScheduleComponent {
   ngOnInit(): void {
     if(this.authService.getUserRole() === "rozvrhar"){
       this.itIsRozvrhar = true;
-      console.log("rozvrhar")
     } else if(this.authService.getUserRole() === "student" || this.authService.getUserRole() === "teacher") {
       this.itIsStudent = true;
-      console.log("student or teacher")
     }
     if (this.authService.isAuthorized('student') || this.itIsRozvrhar) {
-      console.log('ScheduleComponent initialized for authorized student.');
       if (this.itIsRozvrhar) {
         this.loadAblocks();
         this.loadTeachers();
@@ -55,9 +52,6 @@ export class ScheduleComponent {
     this.callGetActivities().subscribe(
       (data: any) => {
         this.activities = data.records;
-        console.log("=====activities====");
-        console.log(this.activities);
-        console.log("=========");
       },
       (error) => {
         console.error('Error loading activities:', error);
@@ -70,18 +64,12 @@ export class ScheduleComponent {
   loadRooms(){
     this.usersService.getRooms().subscribe((data: any) => {
       this.rooms = data.records;
-      console.log("=========")
-      console.log(this.rooms)
-      console.log("=========")
     });
   }
   loadAblocks(){
     this.usersService.loadAblocks().subscribe((data: any) => {
       this.originalAblocks = data.records;
       this.aBlocks = [...this.originalAblocks];  // Zkopírujte neseřazené ablocky do aktuálního pole
-      console.log("----ablocks-----")
-      console.log(this.aBlocks)
-      console.log("---------")
     });
   }
 
@@ -112,9 +100,6 @@ export class ScheduleComponent {
   loadTeachers(){
     this.usersService.getTeachers().subscribe((data: any) => {
       this.teachers = data.records;
-      console.log("---------")
-      console.log(this.teachers)
-      console.log("---------")
     });
   }
   getTeacherName(teacherId: number): string {
@@ -167,12 +152,10 @@ export class ScheduleComponent {
       const isRoomAvailable = this.isRoomAvailable(block.a_block_day, beginTime, endTime, roomCode);
 
       if (isTeacherAvailable && isRoomAvailable) {
-        console.log(`Uložení změn pro blok ${block.a_block_id}, vybraná místnost: ${roomCode}`);
         this.usersService.confirmAblock(block.a_block_id, roomCode).subscribe((data: any) => {
           this.loadAblocks();
         });
       } else {
-        console.log('Učitel nebo místnost není dostupný v tomto čase nebo je překrytý jiným blokem.');
       }
     }
   }
@@ -226,9 +209,6 @@ export class ScheduleComponent {
     return blocks.filter(block => block.a_block_confirmed == 1);
   }
   removeBlock(block:any){
-    console.log("------");
-    console.log(block.a_block_id);
-    console.log("------");
     this.usersService.unconfirmAblock(block.a_block_id).subscribe((data: any) => {
       this.loadAblocks();
     });

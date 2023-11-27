@@ -20,7 +20,6 @@ export class SetFreeTimeComponent {
 
   ngOnInit(): void {
      if (this.authService.isAuthorized('teacher')) {
-       console.log('ScheduleComponent initialized for authorized student.');
       const sessionData = sessionStorage.getItem('userSession');
       if (sessionData) {
         const userData = JSON.parse(sessionData);
@@ -74,15 +73,13 @@ export class SetFreeTimeComponent {
   }
 
   onSave() {
-    console.log(this.selectedTimes);
 
     const postData = this.selectedTimes.length > 0 ? this.selectedTimes : { user_id: this.user_id };
 
     this.http.post('http://localhost/iis_project/backend/api/t_block/create-update.php', postData)
       .subscribe(
         (response) => {
-           console.log(response);
-          this.loadSelectedTimes(); 
+          this.loadSelectedTimes();
           this.showCreatedAlert();
 
         },

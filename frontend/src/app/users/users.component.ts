@@ -17,7 +17,7 @@ export class UsersComponent implements OnInit{
     email: string;
     password: string;
     role: string;
-  } = { 
+  } = {
     firstname: '',
     lastname: '',
     email: '',
@@ -37,7 +37,6 @@ export class UsersComponent implements OnInit{
   ngOnInit(): void {
     this.loadUsers(); // Call a function to load users when the component initializes
     if (this.authService.isAuthorized('admin')) {
-      console.log('ScheduleComponent initialized for authorized student.');
     } else {
       this.router.navigate(['/']);
       this.authService.showUnauthorizedAlert();
@@ -65,7 +64,6 @@ export class UsersComponent implements OnInit{
       .subscribe(
         (response) => {
           // Handle a successful response from the server
-          console.log(response);
           this.loadUsers(); // After user creation, refresh the user list
         },
         (error) => {
@@ -78,13 +76,11 @@ export class UsersComponent implements OnInit{
   deleteUser(user: any) {
     const confirmation = confirm(`Are you sure you want to delete ${user.user_firstname} ${user.user_lastname}?`);
     if (confirmation) {
-      console.log(user.user_id);
       this.usersService.deleteUser(user.user_id).subscribe(() => this.loadUsers());
     }
   }
 
   editUser(user: any) {
-    console.log("editujeme ",user.user_id)
     this.userInEditMode[user.user_id] = true;
   }
   endEditUser(user: any) {

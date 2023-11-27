@@ -25,7 +25,6 @@ export class UsersService {
     return this.http.get(`${this.apiUrlUsers}/getallusers.php`);
   }
   deleteUser(userId: number) {
-    console.log("user id is ", userId);
     return this.http.delete(`${this.apiUrlUsers}/deleteuser.php?id=${userId}`);
   }
   editUser(user: any) {
@@ -71,21 +70,12 @@ export class UsersService {
 
     };
 
-    console.log("=-=-=-=-=-=-=-=-=-=-=")
-    console.log(body.type)
-    console.log(body.length)
-    console.log(body.week)
-    console.log(body.subject_code)
-    console.log(body.id)
-    console.log("=-=-=-=-=-=-=-=-=-=-=")
-
     return this.http.put(url, body);
   }
   getRooms() {
     return this.http.get(`${this.apiUrlRooms}/getAll.php`);
   }
   deleteRoom(roomCode: string) {
-    console.log("room code je " + roomCode);
     return this.http.delete(`${this.apiUrlRooms}/delete.php?room_code=${roomCode}`);
   }
   getSubjects() {
@@ -99,9 +89,6 @@ export class UsersService {
     return this.http.get(`${this.apiUrlSubjects}/getTeachers.php`);
   }
   getMySubjects(user: any){
-    console.log("-------");
-    console.log(user);
-    console.log("-------");
     return this.http.get(`${this.apiUrlSubjects}/getGuarantedSubjectsFromID.php?id=${user}`);
   }
 
@@ -127,9 +114,6 @@ export class UsersService {
     return this.http.delete(`${this.apiUrlActivity}/delete.php?activity_id=${subjectCode}`);
   }
   addTeacher(subject_code: string, teacher_user_id: string) {
-    console.log("----------");
-    console.log("subjectcode: " + subject_code + " a user_id je " + teacher_user_id);
-    console.log("----------");
 
     const params = {
       subject_code: subject_code,
@@ -139,9 +123,6 @@ export class UsersService {
     return this.http.post(`${this.apiUrlsubjectTeacher}/create.php`, params);
   }
   getTeachersForSubject(subject_code: string){
-    console.log("----kokos--");
-    console.log(subject_code);
-    console.log("------");
     return this.http.get(`${this.apiUrlsubjectTeacher}/getTeacherBySubject.php?subject_code=${subject_code}`);
   }
   addSubjectToStudent(subject_code: string, student_id: string){
@@ -149,8 +130,6 @@ export class UsersService {
       subject_code: subject_code,
       user_id: student_id,
     };
-    console.log(requestBody.subject_code)
-    console.log(requestBody.user_id)
     return this.http.post(`${this.apiUrlSubjects}/addSubjecttoStudent.php`,requestBody);
   }
   giveMeMySubjects(userid: any) {

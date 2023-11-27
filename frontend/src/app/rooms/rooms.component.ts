@@ -12,7 +12,7 @@ export class RoomsComponent implements OnInit{
   room: {
     code: string;
     capacity: number;
-  } = { 
+  } = {
     code: '',
     capacity: 0,
   };
@@ -29,7 +29,6 @@ export class RoomsComponent implements OnInit{
   ngOnInit(): void {
     this.loadRooms();
     if (this.authService.isAuthorized('admin')) {
-      console.log('ScheduleComponent initialized for authorized student.');
     } else {
       this.router.navigate(['/']);
       this.authService.showUnauthorizedAlert();
@@ -37,7 +36,6 @@ export class RoomsComponent implements OnInit{
   }
   loadRooms() {
     this.usersService.getRooms().subscribe((data: any) => {
-      console.log(data.records);
       this.rooms = data.records;
     });
   }
@@ -55,7 +53,6 @@ export class RoomsComponent implements OnInit{
     this.http.post('http://localhost/iis_project/backend/api/room/create.php', this.room)
       .subscribe(
         (response) => {
-          console.log(response);
           this.loadRooms();
         },
         (error) => {
@@ -98,7 +95,6 @@ export class RoomsComponent implements OnInit{
     this.roomInEditMode[room.room_code] = false;
   }
   editRoom(room: any) {
-    console.log("editujeme ",room.room_code)
     this.roomInEditMode[room.room_code] = true;
   }
   showCreatedAlert() {
