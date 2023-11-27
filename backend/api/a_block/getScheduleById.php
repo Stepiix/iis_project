@@ -39,7 +39,7 @@ try {
                         Subject ON Activity.activity_subject_code = Subject.subject_code
                     WHERE
                             a_block.a_block_confirmed = TRUE
-                      AND Subject_Student.user_id = ?;";
+                      AND a_block.a_block_teacher = ?;";
         } elseif ($userRole === 'teacher') {
             $sql = "SELECT
                         a_block.*,
@@ -55,7 +55,7 @@ try {
                         Subject ON Activity.activity_subject_code = Subject.subject_code
                     WHERE
                             a_block.a_block_confirmed = TRUE
-                      AND Subject_Teacher.user_id = ?;";
+                      AND a_block.a_block_teacher = ?;";
         } else {
             http_response_code(400);
             echo json_encode(array("message" => "Invalid role for the user."));

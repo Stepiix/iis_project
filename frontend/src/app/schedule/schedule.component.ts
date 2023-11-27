@@ -142,7 +142,7 @@ export class ScheduleComponent {
     block.a_block_room = selectedRoom;
   }
   saveRoom(block: any) {
-    if (block.a_block_confirmed === 0) {
+    if (block.a_block_confirmed == 0) {
       const teacherId = block.a_block_teacher;
       const beginTime = block.a_block_begin;
       const endTime = block.a_block_end;
