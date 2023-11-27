@@ -125,19 +125,19 @@ export class ScheduleComponent {
     const daysOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
     this.aBlocks.sort((a, b) => {
       const dayComparison = daysOrder.indexOf(a.a_block_day) - daysOrder.indexOf(b.a_block_day);
-  
+
       if (dayComparison === 0) {
         // Pokud jsou bloky ve stejný den, porovnejte podle začátku bloku
         return a.a_block_begin - b.a_block_begin;
       }
-  
+
       return dayComparison;
     });
   }
   sortAblocksByActivityId() {
     this.aBlocks.sort((a, b) => a.a_block_activity_id - b.a_block_activity_id);
   }
-  
+
   getColorForBlock(block: any): string {
   // Seznam předem definovaných barev
   const predefinedColors = ['#FF5733', '#3498db', '#FFC300', '#2ecc71', '#FF3366', '#1abc9c', '#FF6347', '#8e44ad', '#FF4500', '#27ae60'];
@@ -177,7 +177,7 @@ export class ScheduleComponent {
     }
   }
   hasConfirmedBlockWithActivityId(activityId: number): boolean {
-  return this.aBlocks.some(block => block.a_block_confirmed === 1 && block.a_block_activity_id === activityId);
+  return this.aBlocks.some(block => block.a_block_confirmed == 1 && block.a_block_activity_id === activityId);
 }
   canSaveBlock(block: any): boolean {
 
@@ -194,7 +194,7 @@ export class ScheduleComponent {
   isTeacherAvailable(teacherId: number, day: string, beginTime: number, endTime: number): boolean {
     const teacherBlocks = this.aBlocks.filter(block =>
       block.a_block_teacher === teacherId &&
-      block.a_block_confirmed === 1 &&
+      block.a_block_confirmed == 1 &&
       block.a_block_day === day
     );
 
@@ -209,7 +209,7 @@ export class ScheduleComponent {
 
   isRoomAvailable(day: string, beginTime: number, endTime: number, roomCode: string): boolean {
     const roomBlocks = this.aBlocks.filter(block =>
-      block.a_block_confirmed === 1 &&
+      block.a_block_confirmed == 1 &&
       block.a_block_day === day &&
       block.a_block_room_code === roomCode
     );
@@ -223,7 +223,7 @@ export class ScheduleComponent {
     return isAvailable;
   }
   filterConfirmedBlocks(blocks: any[]): any[] {
-    return blocks.filter(block => block.a_block_confirmed === 1);
+    return blocks.filter(block => block.a_block_confirmed == 1);
   }
   removeBlock(block:any){
     console.log("------");
@@ -237,7 +237,7 @@ export class ScheduleComponent {
     const occupiedRooms: string[] = [];
 
     this.aBlocks
-      .filter(block => block.a_block_confirmed === 1 && block.a_block_day === day)
+      .filter(block => block.a_block_confirmed == 1 && block.a_block_day === day)
       .forEach(existingBlock => {
         // Přidání místnosti do seznamu, pokud je obsazená v daný čas
         if (

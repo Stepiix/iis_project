@@ -72,7 +72,7 @@ export class SubjectsAdminComponent implements OnInit{
   }
   getTeacherName(id: string) {
     let teacher = this.teachers.find(t => t.user_id == id);
-    return teacher ? teacher.user_id + " " + teacher.user_firstname + " " + teacher.user_lastname : 'undefined';
+    return teacher ? teacher.user_firstname + " " + teacher.user_lastname : 'undefined';
   }
   loadSubjects() {
     this.usersService.getSubjects().subscribe((data: any) => {

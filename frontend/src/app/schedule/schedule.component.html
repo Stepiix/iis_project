@@ -3,52 +3,72 @@
   <button (click)="sortAblocksByDay()">Seřadit podle času</button>
   <button (click)="sortAblocksByActivityId()">Seřadit podle id aktivity</button>
 
-  <div *ngFor="let block of aBlocks" [ngStyle]="{'color': getColorForBlock(block)}">
-    {{ block.a_block_activity_id }} - {{ block.a_block_day }} - {{ block.a_block_begin }}:00 - {{ block.a_block_end }}:00
+  <!-- NICE TABLE -->
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Day</th>
+      <th>Time</th>
+      <th>Subject</th>
+      <th>Type</th>
+      <th>Teacher</th>
+      <th>Room</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let block of aBlocks" [ngStyle]="{'color': getColorForBlock(block)}">
+      <td>{{ block.a_block_activity_id }}</td>
+      <td>{{ block.a_block_day }}</td>
+      <td>{{ block.a_block_begin }}:00 - {{ block.a_block_end }}:00</td>
 
+      <td *ngIf="block.a_block_activity_id !== undefined">
+        {{ getActivitySubjectCode(block.a_block_activity_id) }}
+      </td>
+      <td *ngIf="block.a_block_activity_id !== undefined">
+        {{ getActivityType(block.a_block_activity_id) }}
+      </td>
 
-    <span *ngIf="block.a_block_activity_id !== undefined">
-      Předmět: {{ getActivitySubjectCode(block.a_block_activity_id) }} - Typ: {{ getActivityType(block.a_block_activity_id) }}
-    </span>
+      <td *ngIf="block.a_block_teacher !== undefined">
+        {{ getTeacherName(block.a_block_teacher) }}
+      </td>
 
+      <td *ngIf="block.weekInfo && block.weekInfo.records && block.weekInfo.records.length > 0">
+        {{ block.weekInfo.records[0].activity_week }}
+      </td>
 
-    <!-- Zobrazení informací o učiteli -->
-    <span *ngIf="block.a_block_teacher !== undefined">
-      Učitel: {{ getTeacherName(block.a_block_teacher) }}
-    </span>
-
-    <!-- Zobrazení informací o týdnu -->
-    <span *ngIf="block.weekInfo && block.weekInfo.records && block.weekInfo.records.length > 0">
-      Týden: {{ block.weekInfo.records[0].activity_week }}
-    </span>
-
-    <!-- Select pro výběr místnosti a tlačítko "Save" pro nepotvrzené bloky -->
-    <ng-container *ngIf="block.a_block_confirmed !== 1 && canSaveBlock(block) && !hasConfirmedBlockWithActivityId(block.a_block_activity_id)">
-      <select [(ngModel)]="selectedRooms[block.a_block_id]" (change)="onRoomChange(block, selectedRooms[block.a_block_id])">
-        <ng-container *ngFor="let room of rooms">
-          <ng-container *ngIf="!getOccupiedRooms(block.a_block_day, block.a_block_begin, block.a_block_end).includes(room.room_code)">
-            <option [value]="room.room_code">
-              {{ room.room_code }} - Kapacita: {{ room.room_capacity }}
-            </option>
+      <td *ngIf="block.a_block_confirmed != 1 && canSaveBlock(block) && !hasConfirmedBlockWithActivityId(block.a_block_activity_id)">
+        <select [(ngModel)]="selectedRooms[block.a_block_id]" (change)="onRoomChange(block, selectedRooms[block.a_block_id])">
+          <ng-container *ngFor="let room of rooms">
+            <ng-container *ngIf="!getOccupiedRooms(block.a_block_day, block.a_block_begin, block.a_block_end).includes(room.room_code)">
+              <option [value]="room.room_code">
+                {{ room.room_code }} - Kapacita: {{ room.room_capacity }}
+              </option>
+            </ng-container>
           </ng-container>
-        </ng-container>
-      </select>
+        </select>
+      </td>
 
-      <!-- Tlačítko "Save" -->
-      <button (click)="saveRoom(block)">Save</button>
-    </ng-container>
+      <td *ngIf="block.a_block_confirmed != 1 && canSaveBlock(block) && !hasConfirmedBlockWithActivityId(block.a_block_activity_id)">
+        <button (click)="saveRoom(block)">Save</button>
+      </td>
 
-    <!-- Tlačítko "Remove" pro potvrzené bloky -->
-    <ng-container *ngIf="block.a_block_confirmed === 1">
-      <span>Místnost: {{ block.a_block_room_code }} </span>
-      <button (click)="removeBlock(block)">Remove</button>
-    </ng-container>
+      <td *ngIf="block.a_block_confirmed == 1">
+        <span>Místnost: {{ block.a_block_room_code }} </span>
+      </td>
+      <td *ngIf="block.a_block_confirmed == 1">
+        <button (click)="removeBlock(block)">Remove</button>
+      </td>
 
-    <br>
-  </div>
+    </tr>
+    </tbody>
+  </table>
+
 </div>
 
-<div *ngIf="itIsStudent">
+
+<div *ngIf="itIsStudent" class="student-container">
   <div *ngFor="let block of sortedSchedule" class="block-container">
     <p class="day-heading">{{ block.a_block_day }}, {{ block.a_block_begin }}:00 - {{ block.a_block_end }}:00</p>
     <p class="schedule-info">Subject: {{ block.subject_code }} - {{ block.subject_name }}</p>

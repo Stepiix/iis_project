@@ -19,6 +19,7 @@ $conn .= ";sslmode=verify-ca;sslrootcert=ca.pem";
 
 try {
     $db = new PDO($conn, $fields["user"], $fields["pass"]);
+    $db->exec("set names utf8mb4");
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage();
 }

@@ -38,6 +38,10 @@ button[aria-label="remove-button"] {
   border-radius: 5px;
 }
 
+.student-container {
+  padding-top: 80px;
+}
+
 /* Styl pro blok */
 .block-container {
   border: 1px solid #ddd;
