@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./sign-in.component.css']
 })
 export class SignInComponent {
-  
+
 
   user: {
     email: string;
@@ -21,13 +21,16 @@ export class SignInComponent {
     };
 
   users: any[] = [];
-  snackBar: any;
-  constructor(private http: HttpClient, private router: Router, private auth: AuthService) { }
+  loginUrl: string = "";
+  constructor(private http: HttpClient, private router: Router, private auth: AuthService, private usersService: UsersService) { }
 
 
 
   onSubmit() {
-    this.http.post('http://localhost/iis_project/backend/api/user/login.php', this.user)
+
+    this.loginUrl = this.usersService.getUrlUsers();
+
+    this.http.post(this.loginUrl.concat('/login.php'), this.user)
   .subscribe({
     next: (response: any) => {
       console.log("Úspěšné přihlášení:", response);
@@ -43,7 +46,7 @@ export class SignInComponent {
         this.startUserSession(userID, 'admin');
       } else if(userRole === "rozvrhar") {
         this.startUserSession(userID, 'rozvrhar');
-      } 
+      }
       console.log("Je to " + userRole);
       this.router.navigate(['/']);
       this.auth.login();
@@ -61,11 +64,11 @@ export class SignInComponent {
      const sessionData = {
       userID: userID,
       userRole: userRole,
-      expirationTime: new Date().getTime() + 10 * 60 * 1000 
+      expirationTime: new Date().getTime() + 10 * 60 * 1000
     };
-  
+
     sessionStorage.setItem('userSession', JSON.stringify(sessionData));
-  
+
   }
 
   showWelcomeAlert() {
@@ -80,7 +83,7 @@ export class SignInComponent {
     welcomeAlert.style.color = 'white';
     welcomeAlert.style.borderRadius = '5px';
     document.body.appendChild(welcomeAlert);
-  
+
 
     window.setTimeout(() => {
       welcomeAlert.style.display = 'none';

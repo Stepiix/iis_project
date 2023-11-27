@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+
     <title>Projekt IIS</title>
     <style type="text/css">
         table { border-collapse: collapse; }
@@ -13,28 +13,28 @@
 </head>
 <body>
 
-<!-- Zkontrolujte prosím nastavení kódování v hlavičce dokumentu 
+<!-- Zkontrolujte prosím nastavení kódování v hlavičce dokumentu
      podle použitého editoru -->
 
-<h1>IS Plánování rozvrhů</h1> 
+<h1>IS Plánování rozvrhů</h1>
 
 <dl>
     <dt>Autoři</dt>
     <dd>Štěpán Bárta
         <a href="mailto:xautor01@stud.fit.vutbr.cz">xbarta50@stud.fit.vutbr.cz</a> -
-        Design, frontend
+        Design, frontend, implementace pohledu rozvrháře, implementace výpisů předmětů, místností, uživatelů
     </dd>
-    <dd>Kryštof Paulík 
-        <a href="mailto:xautor02@stud.fit.vutbr.cz">xpauli00@stud.fit.vutbr.cz</a> - 
-        Tvorba a návrh databáze, implementace volení času pro učitele
+    <dd>Kryštof Paulík
+        <a href="mailto:xautor02@stud.fit.vutbr.cz">xpauli08@stud.fit.vutbr.cz</a> -
+        Tvorba a návrh databáze, implementace rozvrhu učitele a studenta, implementace volení času učitele
     </dd>
-    <dd>Tomáš Valík 
-        <a href="mailto:xautor03@stud.fit.vutbr.cz">xvalik04@stud.fit.vutbr.cz</a> - 
-        Tvorba a návrh databáze, backend
+    <dd>Tomáš Valík
+        <a href="mailto:xautor03@stud.fit.vutbr.cz">xvalik04@stud.fit.vutbr.cz</a> -
+        Tvorba a návrh databáze, backend, implementace přihlašování uživatelů
     </dd>
     <dt>URL aplikace</dt>
-    <dd><a href="http://www.stud.fit.vutbr.cz/~xautor01/IIS">http://www.stud.fit.vutbr.cz/~xautor01/IIS</a></dd>
-    <dd>VLOZIT URL !</dd>
+    <dd><a href="https://krystof-paulik.github.io/">https://krystof-paulik.github.io/</a></dd>
+<!--    <dd>VLOZIT URL !</dd>-->
 </dl>
 
 <h2>Uživatelé systému pro testování</h2>
@@ -44,22 +44,22 @@
     <tr><th>s</th><th>s</th><th>Student</th></tr>
     <tr><td>a</td><td>a</td><td>Administrátor</td></tr>
     <tr><td>t</td><td>t</td><td>Garant</td></tr>
-	<tr><td>rostaml@cisco.cz</td><td>aaa</td><td>Učitel</td></tr>
+	  <tr><td>t2</td><td>t2</td><td>Učitel</td></tr>
     <tr><td>r</td><td>r</td><td>Rozvrhář</td></tr>
 </tbody>
 </table>
 
 <h3>Video</h3>
 
-<p>Přiložte odkaz na komentované video demonstrující použití informačního systému. Zaměřte se na případy užití definované zadáním (např. registrace uživatele, správa uživatelů a činnosti jednotlivých rolí). Video nahrajte například na VUT Google Drive, kde ho bude možné přímo spustit z odkazu.</p> 
+<p>Přiložte odkaz na komentované video demonstrující použití informačního systému. Zaměřte se na případy užití definované zadáním (např. registrace uživatele, správa uživatelů a činnosti jednotlivých rolí). Video nahrajte například na VUT Google Drive, kde ho bude možné přímo spustit z odkazu.</p>
 
 <h2>Implementace</h2>
 <p>Stručná dokumentace k implementaci, která popisuje, které části projektu (např. PHP skripty) implementují jednotlivé případy užití.</p>
 <p>V projektu byl využit frontendový framework Angular, na backendovou část bylo využito čisté php.
 	Struktura projektu je dělena do dvou složek a využito návrhového vzoru MVC:  adresář frontend - view, adresář backend- controller.
-	Každou tabulku tabulku databáze obsluhuje množina php skriptů v příslušném adresáři backendu. 
+	Každou tabulku databáze obsluhuje množina php skriptů v příslušném adresáři backendu.
 	Například adresář backend/user obsahuje create.php - vytvoření uživatele, deleteuser.php - smazání uživatele, edit.php - upravení uživatele,
-	getallusers.php - vrací záznamy všech uživatelů v databázi, login.php - přihlášení uživatele .
+	getallusers.php - vrací záznamy všech uživatelů v databázi, login.php - přihlášení uživatele.
 
 </p>
 <h3>Databáze</h3>
@@ -68,16 +68,44 @@
 
 <h2>Instalace</h2>
 
-Stručně popište: 
-<ul>
-    <li>postup instalace na server,</li>
-    <li>softwarové požadavky (verze PHP apod.),</li>
-    <li>jak rozbalit, konfigurovat, inicializovat databázi, ...</li>
-</ul>
+<ol>
+    <h3>Spuštění aplikace</h3>
+    <li>Ujistěte se, že máte nainstalovaný <b>Node.js</b> a <b>npm</b>.</li>
+    <li>Stáhněte si archiv se zdrojovými soubory a rozbalte jej.</li>
+    <li>V terminálu přejděte do adresáře <b>frontend</b>.</li>
+    <li>Spusťte příkaz <b>npm install</b> pro instalaci všech závislostí projektu.</li>
+    <li>Ve složce frontend spusťte příkaz <b>ng serve</b> pro spuštění vývojového serveru.</li>
+    <li>Otevřete webový prohlížeč a přejděte na adresu <b>'http://localhost:4200/'</b> kde bude tato aplikace spuštěna.</li>
+    <br>
+    Pozor! Tímto zprovozníte lokálně pouze frontend část. Ta komunikuje s backendem na školním serveru, který komunikuje se vzdálenou databází.
+    <br>
+    Pro zprovoznění backend části projektu lokálně pokračujte ve čtení.
+</ol>
+<ol>
+    <h3>Zprovoznění backend části</h3>
+    <p>Po rozbalení je v souboru <b>frontend\src\app\services\users.service.ts</b> nakonfigurována url na školní stránku jednoho z nás.<br>
+    Na této stránce jsou ty samé PHP skripty, jako ve složce <b>backend\api.</b>
+    Také v souboru <b>backend\database.php</b> nakonfigurováno připojení ke vzdálené databázi, kterou využívá i naše nasazená aplikace.
+    <br>
+    Pokud chcete použít spouštět skripty lokálně, můžete použít například XAMPP a postupovat následovně:</p>
+    <li>Stáhněte si aplikaci XAMPP, nainstalujte a spusťte modul <b>Apache</b> stiskem tlačítka start.</li>
+    <li>V souboru <b>frontend\src\app\services\users.service.ts</b> zakomentujte řádek č. 9 a odkomentujte řádek č. 10, případně upravte příslušnou url dle potřeby tak, aby odkazovala na složku <b>backend\api</b>.
+    <li>Nyní jsou volány lokální stažené skripty.</li>
+</ol>
+<ol>
+    Pokud chcete použít i lokální databázi, můžete postupovat následovně:
+    <li>V již nainstalované aplikaci XAMPP spustťte modul MySQL.</li>
+    <li>Otevřete webový prohlížeč a přejděte na adresu <b>http://localhost/phpmyadmin/</b></li>
+    <li>Zde spustťe skript <b>database.sql</b> dostupný ze složky <b>backend\api</b></li>
+    <li>Ručně přidejte uživatele s rolí admin.</li>
+    <li>V souboru <b>backend\database.php</b> změňte údaje k databázi na vámi požadované údaje.</li>
+</ol>
 
 <h2>Známé problémy</h2>
-<p>Nelze odebírat učitele od předmětu, pokud už byl jednou přídán. 
+<p>Nelze odebírat učitele od předmětu, pokud už byl jednou přídán.
+  <br>
 	Přihlášený uživatel nevidí svoje jméno.
+  <br>
 	Z časové náročnosti, rozvrhář neumisťuje předměty do rozvrhu graficky, ale pouze vybírá ze seznamu.
 </p>
 
