@@ -1,26 +1,86 @@
-.color-2 {
-    background-color: #ffcccb;
-  }
 
-  .color-3 {
-    background-color: #c2f0c2;
-  }
+/* Styl pro tlačítko "Seřadit podle času" */
+button {
+  background-color: #009879;
+  color: #fff;
+  padding: 10px;
+  margin-bottom: 5px; /* Snížení mezery */
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
 
+/* Styl pro výběr místnosti */
+select {
+  padding: 5px;
+  margin-right: 10px;
+}
+
+/* Styl pro tlačítko "Save" */
+button[aria-label="save-button"] {
+  background-color: #2ecc71;
+  color: #fff;
+  padding: 5px 10px;
+  margin-bottom: 5px; /* Snížení mezery */
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+/* Styl pro tlačítko "Remove" */
+button[aria-label="remove-button"] {
+  background-color: #e74c3c;
+  color: #fff;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+/* Styl pro blok */
 .block-container {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    width: 80%;
-    margin: 0 auto;
-    margin-bottom: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 5px; /* Snížení mezery */
 }
 
+/* Styl pro barvy podle tříd */
+.color-2 {
+  background-color: #ffcccb;
+}
+
+.color-3 {
+  background-color: #c2f0c2;
+}
+
+/* Styl pro den v týdnu v rozvrhu */
 .day-heading {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 3px; /* Snížení mezery */
 }
 
+/* Styl pro informace o rozvrhu */
 .schedule-info {
-    margin-bottom: 5px;
+  margin-bottom: 3px; /* Snížení mezery */
+}
+
+/* Styl pro potvrzené bloky s tlačítkem "Remove" */
+.confirm-block {
+  border: 1px solid #27ae60;
+}
+
+.confirm-block button[aria-label="remove-button"] {
+  background-color: #e74c3c;
+}
+.center-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
