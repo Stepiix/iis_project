@@ -25,7 +25,7 @@ try {
 
         // Adjust the SQL query based on the user's role
         if ($userRole == 'student') {
-            $sql = "SELECT
+            $sql = "SELECT DISTINCT
                         a_block.*,
                         Subject.*,
                         Activity.*
@@ -41,7 +41,7 @@ try {
                             a_block.a_block_confirmed = TRUE
                       AND Subject_Student.user_id = ?;";
         } elseif ($userRole == 'teacher') {
-            $sql = "SELECT
+            $sql = "SELECT DISTINCT
                         a_block.*,
                         Subject.*,
                         Activity.*
