@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UsersService {
+  private apiUrl = 'https://www.stud.fit.vutbr.cz/~xpauli08/backend/api'
   private apiUrlUsers = 'http://localhost/iis_project/backend/api/user';
   private apiUrlRooms = 'http://localhost/iis_project/backend/api/room';
   private apiUrlSubjects = 'http://localhost/iis_project/backend/api/subject';
@@ -13,6 +14,14 @@ export class UsersService {
   private apiUrlABlocks = 'http://localhost/iis_project/backend/api/a_block';
   private apiUrlActivity = 'http://localhost/iis_project/backend/api/activity';
   private apiUrlsubjectTeacher = 'http://localhost/iis_project/backend/api/subjectTeacher';
+  // private apiUrlUsers = this.apiUrl.concat('/user');
+  // private apiUrlRooms = this.apiUrl.concat('/room');
+  // private apiUrlSubjects = this.apiUrl.concat('/subject');
+  // private apiUrlTBlocks = this.apiUrl.concat('/t_block');
+  // private apiUrlABlocks = this.apiUrl.concat('/a_block');
+  // private apiUrlActivity = this.apiUrl.concat('/activity');
+  // private apiUrlsubjectTeacher = this.apiUrl.concat('/subjectTeacher');
+
   constructor(private http: HttpClient) { }
   getUsers() {
     return this.http.get(`${this.apiUrlUsers}/getallusers.php`);
