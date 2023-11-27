@@ -127,7 +127,7 @@ export class GuaranteedSubjectsComponent implements OnInit{
     this.showCreatedAlert();
     this.showAllActivitiesTable = true;
     this.showAllActivitiesButtonText = "Cancel";
-    this.http.post('http://localhost/iis_project/backend/api/activity/create.php', this.activity)
+    this.http.post(this.usersService.getUrlActivities().concat('/create.php'), this.activity)
       .subscribe(
         (response) => {
           this.loadMySubjects();
@@ -286,7 +286,7 @@ export class GuaranteedSubjectsComponent implements OnInit{
   saveSelectedBlocks() {
     const postData = this.selected_a_blocks.length > 0 ? this.selected_a_blocks : { user_id: this.teacher_id };
     this.showCreatedAlert3();
-    this.http.post('http://localhost/iis_project/backend/api/a_block/create-update.php', postData)
+    this.http.post(this.usersService.getUrlABlocks().concat('/create-update.php'), postData)
         .subscribe(
             (response) => {
 

@@ -60,7 +60,7 @@ export class UsersComponent implements OnInit{
     this.showCreatedAlert();
     this.showAllUsersTable = true;
     this.showAllUsersButtonText = "Cancel";
-    this.http.post('http://localhost/iis_project/backend/api/user/create.php', this.user)
+    this.http.post(this.usersService.getUrlUsers().concat('/create.php'), this.user)
       .subscribe(
         (response) => {
           // Handle a successful response from the server

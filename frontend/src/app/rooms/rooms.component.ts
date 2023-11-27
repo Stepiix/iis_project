@@ -50,7 +50,7 @@ export class RoomsComponent implements OnInit{
     this.showCreatedAlert();
     this.showAllRoomsTable = true;
     this.showAllRoomsButtonText = "Cancel";
-    this.http.post('http://localhost/iis_project/backend/api/room/create.php', this.room)
+    this.http.post(this.usersService.getUrlRooms().concat('/create.php'), this.room)
       .subscribe(
         (response) => {
           this.loadRooms();

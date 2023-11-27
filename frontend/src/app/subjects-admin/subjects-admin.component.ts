@@ -88,7 +88,7 @@ export class SubjectsAdminComponent implements OnInit{
     this.showCreatedAlert();
     this.showAllSubjectsTable = true;
     this.showAllSubjectsButtonText = "Cancel";
-    this.http.post('http://localhost/iis_project/backend/api/subject/create.php', this.subject)
+    this.http.post(this.usersService.getUrlSubjects().concat('/create.php'), this.subject)
       .subscribe(
         (response) => {
           this.loadSubjects();

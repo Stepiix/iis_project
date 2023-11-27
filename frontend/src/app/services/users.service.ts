@@ -21,6 +21,31 @@ export class UsersService {
   getUrlUsers() {
     return this.apiUrlUsers;
   }
+
+  getUrlRooms() {
+    return this.apiUrlRooms;
+  }
+
+  getUrlSubjects() {
+    return this.apiUrlSubjects;
+  }
+
+  getUrlTBlocks() {
+    return this.apiUrlTBlocks;
+  }
+
+  getUrlABlocks() {
+    return this.apiUrlABlocks;
+  }
+
+  getUrlActivities() {
+    return this.apiUrlActivity;
+  }
+
+  getUrlSubjectTeacher() {
+    return this.apiUrlsubjectTeacher;
+  }
+
   getUsers() {
     return this.http.get(`${this.apiUrlUsers}/getallusers.php`);
   }

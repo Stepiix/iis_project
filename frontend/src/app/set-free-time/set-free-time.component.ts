@@ -76,7 +76,7 @@ export class SetFreeTimeComponent {
 
     const postData = this.selectedTimes.length > 0 ? this.selectedTimes : { user_id: this.user_id };
 
-    this.http.post('http://localhost/iis_project/backend/api/t_block/create-update.php', postData)
+    this.http.post(this.usersService.getUrlTBlocks().concat('/create-update.php'), postData)
       .subscribe(
         (response) => {
           this.loadSelectedTimes();
